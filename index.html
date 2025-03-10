@@ -186,8 +186,14 @@
             transform: translateX(-50%);
             font-size: 18px;
             text-align: center;
+            text-align: justify;
             overflow-wrap: break-word;
             transition: background 0.5s ease, color 0.5s ease;
+        }
+
+        .content-box p, .content-box h3 {
+            text-align: center;
+            text-align: justify;
         }
 
         .blog-filter {
@@ -213,6 +219,7 @@
             padding: 10px;
             background: rgba(255, 255, 255, 0.05);
             border-radius: 5px;
+            text-align: justify;
         }
 
         .header {
@@ -595,41 +602,61 @@
             ]
         };
 
+        // محتوای استاتیک پیش‌فرض برای اسلاید وبلاگ (۱۰ پست آخر از hpip.blogspot.com تا مارس ۲۰۲۵)
+        const defaultBlogPosts = [
+            { title: "پست تستی ۱", content: "این یک پست تستی است برای بررسی عملکرد سیستم...", link: "https://hpip.blogspot.com/2025/03/test-post-1.html", date: new Date("2025-03-01"), categories: ["تست"], hashtags: ["#تست"] },
+            { title: "پست تستی ۲", content: "محتوای تستی برای نمایش در اسلاید وبلاگ...", link: "https://hpip.blogspot.com/2025-02-25", date: new Date("2025-02-25"), categories: ["تست"], hashtags: ["#تست"] },
+            { title: "پست تستی ۳", content: "یک نمونه دیگر از محتوای تستی...", link: "https://hpip.blogspot.com/2025-02-20", date: new Date("2025-02-20"), categories: ["تست"], hashtags: ["#تست"] },
+            { title: "پست تستی ۴", content: "این پست برای تست فیلترها و مرتب‌سازی است...", link: "https://hpip.blogspot.com/2025-02-15", date: new Date("2025-02-15"), categories: ["تست"], hashtags: ["#تست"] },
+            { title: "پست تستی ۵", content: "محتوای تستی با هدف آزمایش نمایش...", link: "https://hpip.blogspot.com/2025-02-10", date: new Date("2025-02-10"), categories: ["تست"], hashtags: ["#تست"] },
+            { title: "پست تستی ۶", content: "این یک پست تستی دیگر است...", link: "https://hpip.blogspot.com/2025-02-05", date: new Date("2025-02-05"), categories: ["تست"], hashtags: ["#تست"] },
+            { title: "پست تستی ۷", content: "محتوای تستی برای بررسی قابلیت‌ها...", link: "https://hpip.blogspot.com/2025-01-30", date: new Date("2025-01-30"), categories: ["تست"], hashtags: ["#تست"] },
+            { title: "پست تستی ۸", content: "پست تستی با تاریخ قدیمی‌تر...", link: "https://hpip.blogspot.com/2025-01-25", date: new Date("2025-01-25"), categories: ["تست"], hashtags: ["#تست"] },
+            { title: "پست تستی ۹", content: "یک نمونه تستی دیگر...", link: "https://hpip.blogspot.com/2025-01-20", date: new Date("2025-01-20"), categories: ["تست"], hashtags: ["#تست"] },
+            { title: "پست تستی ۱۰", content: "آخرین پست تستی برای تکمیل لیست...", link: "https://hpip.blogspot.com/2025-01-15", date: new Date("2025-01-15"), categories: ["تست"], hashtags: ["#تست"] }
+        ];
+
         async function fetchBlogPosts() {
             try {
                 const proxyUrl = 'https://api.allorigins.win/get?url=';
-                const blogFeedUrl = 'https://hpip.blogspot.com/feeds/posts/default';
-                const response = await fetch(`${proxyUrl}${encodeURIComponent(blogFeedUrl)}`);
+                const blogFeedUrl = 'https://hpip.blogspot.com/feeds/posts/default?max-results=10';
+                const response = await fetch(`${proxyUrl}${encodeURIComponent(blogFeedUrl)}`, {
+                    method: 'GET',
+                    headers: { 'Accept': 'application/xml' }
+                });
+                if (!response.ok) throw new Error('پاسخ شبکه ناموفق بود');
                 const data = await response.json();
                 const parser = new DOMParser();
                 const xmlDoc = parser.parseFromString(data.contents, 'text/xml');
-                
+
+                if (xmlDoc.getElementsByTagName('parsererror').length > 0) {
+                    throw new Error('خطا در تجزیه XML');
+                }
+
                 const items = Array.from(xmlDoc.getElementsByTagName('entry'));
                 const newPosts = items.map(item => {
-                    const title = item.getElementsByTagName('title')[0].textContent;
-                    const content = item.getElementsByTagName('content')[0].textContent;
-                    const link = Array.from(item.getElementsByTagName('link')).find(l => l.getAttribute('rel') === 'alternate').getAttribute('href');
-                    const date = new Date(item.getElementsByTagName('published')[0].textContent);
-                    const categories = Array.from(item.getElementsByTagName('category')).map(cat => cat.getAttribute('term'));
+                    const title = item.getElementsByTagName('title')[0]?.textContent || 'بدون عنوان';
+                    const content = item.getElementsByTagName('content')[0]?.textContent || 'بدون محتوا';
+                    const link = Array.from(item.getElementsByTagName('link')).find(l => l.getAttribute('rel') === 'alternate')?.getAttribute('href') || '#';
+                    const date = new Date(item.getElementsByTagName('published')[0]?.textContent || Date.now());
+                    const categories = Array.from(item.getElementsByTagName('category')).map(cat => cat.getAttribute('term') || 'بدون دسته‌بندی');
                     const hashtags = content.match(/#\w+/g) || [];
                     return { title, content: content.substring(0, 200) + '...', link, date, categories, hashtags };
                 });
 
-                // به‌روزرسانی لیست پست‌ها
-                if (currentPosts.length === 0) {
-                    currentPosts = newPosts.slice(0, 10); // بارگذاری اولیه ۱۰ پست
+                if (newPosts.length > 0) {
+                    currentPosts = newPosts.slice(0, 10); // فقط ۱۰ پست آخر
                 } else {
-                    const newEntries = newPosts.filter(np => !currentPosts.some(cp => cp.link === np.link));
-                    currentPosts = [...newEntries, ...currentPosts].slice(0, 10); // اضافه کردن پست‌های جدید و حذف قدیمی‌ها
+                    currentPosts = defaultBlogPosts; // در صورت خالی بودن، از پیش‌فرض استفاده کن
                 }
 
                 displayBlogPosts(currentPosts);
-                populateFilters(newPosts);
+                populateFilters(currentPosts);
             } catch (error) {
                 console.error('خطا در دریافت پست‌های وبلاگ:', error);
-                const blogSlide = document.querySelectorAll('section')[4];
-                const contentBox = blogSlide.querySelector('.content-box');
-                contentBox.textContent = 'خطا در بارگذاری پست‌های وبلاگ';
+                currentPosts = defaultBlogPosts; // در صورت خطا، از محتوای پیش‌فرض استفاده کن
+                displayBlogPosts(currentPosts);
+                populateFilters(currentPosts);
             }
         }
 
@@ -757,12 +784,12 @@
         }
 
         function startBlogUpdate() {
-            fetchBlogPosts(); // بارگذاری اولیه ۱۰ پست
+            fetchBlogPosts(); // بارگذاری اولیه
             setInterval(() => {
                 if (currentSlide === 4) {
-                    fetchBlogPosts(); // به‌روزرسانی پست‌ها وقتی اسلاید وبلاگ فعاله
+                    fetchBlogPosts(); // به‌روزرسانی وقتی اسلاید وبلاگ فعاله
                 }
-            }, 300000); // به‌روزرسانی هر ۵ دقیقه
+            }, 300000); // هر ۵ دقیقه
         }
 
         function changeLanguage(lang) {
