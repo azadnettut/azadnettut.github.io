@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vazir-font@latest/dist/font-face.css">
     <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/aparat">
     <style>
+        /* استایل‌ها بدون تغییر باقی موندن */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -155,25 +156,12 @@
         }
 
         .iframe-slide {
+            width: 90%;
+            height: 70vh;
             border: none;
+            border-radius: 10px;
+            margin: 15px auto;
             display: block;
-        }
-
-        /* استایل خاص برای اسلاید وبلاگ */
-        section:nth-child(5) {
-            position: absolute;
-            top: 100px;
-            left: 0;
-            width: 100%;
-            height: calc(100vh - 100px);
-            margin-top: 0;
-        }
-
-        section:nth-child(5) .iframe-slide {
-            width: 100%;
-            height: 100%;
-            margin: 0;
-            border-radius: 0;
             background: rgba(255, 255, 255, 0.1);
             overflow: auto;
         }
@@ -411,10 +399,7 @@
             .header-nav a { font-size: 14px; }
             .slides-container { margin-top: 80px; height: calc(100vh - 80px); }
             .content-box { max-width: 85%; font-size: 16px; top: 10%; }
-            section:nth-child(5) {
-                top: 80px;
-                height: calc(100vh - 80px);
-            }
+            .iframe-slide { width: 85%; height: 60vh; }
             .timer-circle { width: 35px; height: 35px; font-size: 14px; }
             .matrix-char { font-size: 2vw; }
             .circle { width: 150px; height: 150px; }
@@ -429,10 +414,7 @@
             .header-nav a { font-size: 12px; padding: 2px 5px; }
             .slides-container { margin-top: 70px; height: calc(100vh - 70px); }
             .content-box { max-width: 90%; font-size: 14px; top: 5%; padding: 10px; }
-            section:nth-child(5) {
-                top: 70px;
-                height: calc(100vh - 70px);
-            }
+            .iframe-slide { width: 90%; height: 50vh; }
             .timer-circle { width: 30px; height: 30px; font-size: 12px; bottom: 5px; left: 5px; }
             .language-selector .lang-btn, .theme-selector .theme-btn { font-size: 12px; padding: 4px 8px; }
             .language-selector .dropdown span, .theme-selector .dropdown span { font-size: 10px; }
@@ -499,7 +481,7 @@
                 </div>
             </section>
             <section class="pattern-slide">
-                <iframe src="https://alefkey.freeamoozesh63.workers.dev/" class="iframe-slide" title="وبلاگ آزادنت" loading="eager"></iframe>
+                <iframe src="https://alefkey.freeamoozesh63.workers.dev/" class="iframe-slide" title="وبلاگ آزادنت"></iframe>
             </section>
         </div>
 
@@ -621,14 +603,6 @@
             if (slideIndex === 0) {
                 startCountdown();
                 timerElement.classList.add('active');
-            }
-
-            // اطمینان از لود iframe در اسلاید وبلاگ
-            if (slideIndex === 4) {
-                const iframe = sections[4].querySelector('.iframe-slide');
-                if (iframe && !iframe.src.includes('reloaded')) {
-                    iframe.src = iframe.src + '?reloaded';
-                }
             }
         }
 
