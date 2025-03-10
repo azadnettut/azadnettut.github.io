@@ -154,6 +154,18 @@
             background-color: var(--slide-bg-color, transparent);
         }
 
+        /* استایل برای iframe در اسلاید وبلاگ */
+        .blog-iframe {
+            width: 90%;
+            height: 70vh;
+            border: none;
+            border-radius: 10px;
+            margin: 15px auto;
+            display: block;
+            background: rgba(255, 255, 255, 0.1);
+            overflow: auto; /* قابلیت اسکرول */
+        }
+
         .timer-circle {
             position: fixed;
             bottom: 10px;
@@ -189,37 +201,6 @@
             text-align: justify;
             overflow-wrap: break-word;
             transition: background 0.5s ease, color 0.5s ease;
-        }
-
-        .content-box p, .content-box h3 {
-            text-align: center;
-            text-align: justify;
-        }
-
-        .blog-filter {
-            margin-bottom: 15px;
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .blog-filter select {
-            padding: 5px;
-            background: rgba(255, 255, 255, 0.1);
-            color: gold;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 5px;
-            font-family: 'Vazir', sans-serif;
-            cursor: pointer;
-        }
-
-        .blog-post {
-            margin-bottom: 15px;
-            padding: 10px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 5px;
-            text-align: justify;
         }
 
         .header {
@@ -418,6 +399,7 @@
             .header-nav a { font-size: 14px; }
             .slides-container { margin-top: 80px; height: calc(100vh - 80px); }
             .content-box { max-width: 85%; font-size: 16px; top: 10%; }
+            .blog-iframe { width: 85%; height: 60vh; }
             .timer-circle { width: 35px; height: 35px; font-size: 14px; }
             .matrix-char { font-size: 2vw; }
             .circle { width: 150px; height: 150px; }
@@ -432,6 +414,7 @@
             .header-nav a { font-size: 12px; padding: 2px 5px; }
             .slides-container { margin-top: 70px; height: calc(100vh - 70px); }
             .content-box { max-width: 90%; font-size: 14px; top: 5%; padding: 10px; }
+            .blog-iframe { width: 90%; height: 50vh; }
             .timer-circle { width: 30px; height: 30px; font-size: 12px; bottom: 5px; left: 5px; }
             .language-selector .lang-btn, .theme-selector .theme-btn { font-size: 12px; padding: 4px 8px; }
             .language-selector .dropdown span, .theme-selector .dropdown span { font-size: 10px; }
@@ -486,10 +469,18 @@
                     <span class="slide-text"></span>
                 </div>
             </section>
-            <section class="pattern-slide"><div class="content-box" data-lang="fa"></div></section>
-            <section class="pattern-slide"><div class="content-box" data-lang="fa"></div></section>
-            <section class="pattern-slide"><div class="content-box" data-lang="fa"></div></section>
-            <section class="pattern-slide"><div class="content-box" data-lang="fa"></div></section>
+            <section class="pattern-slide">
+                <div class="content-box" data-lang="fa"></div>
+            </section>
+            <section class="pattern-slide">
+                <div class="content-box" data-lang="fa"></div>
+            </section>
+            <section class="pattern-slide">
+                <div class="content-box" data-lang="fa"></div>
+            </section>
+            <section class="pattern-slide">
+                <iframe src="https://hpip.blogspot.com" class="blog-iframe" title="وبلاگ آزادنت"></iframe>
+            </section>
         </div>
 
         <div class="timer-circle" id="timer">30</div>
@@ -555,7 +546,6 @@
                 mainPage.classList.add('visible');
                 showSlide(0);
                 startSlideTimer();
-                startBlogUpdate();
                 changeLanguage('fa');
             }, 500);
         }
@@ -567,7 +557,6 @@
         let currentSlide = 0;
         let slideInterval, timerInterval;
         let timeLeft = 30;
-        let currentPosts = [];
 
         const translations = {
             header: { fa: "آزادنت", en: "Azadnet", ar: "آزادنت", zh: "自由网", ru: "Азаднет" },
@@ -602,145 +591,6 @@
             ]
         };
 
-        // محتوای استاتیک پیش‌فرض برای اسلاید وبلاگ (۱۰ پست آخر از hpip.blogspot.com تا مارس ۲۰۲۵)
-        const defaultBlogPosts = [
-            { title: "پست تستی ۱", content: "این یک پست تستی است برای بررسی عملکرد سیستم...", link: "https://hpip.blogspot.com/2025/03/test-post-1.html", date: new Date("2025-03-01"), categories: ["تست"], hashtags: ["#تست"] },
-            { title: "پست تستی ۲", content: "محتوای تستی برای نمایش در اسلاید وبلاگ...", link: "https://hpip.blogspot.com/2025-02-25", date: new Date("2025-02-25"), categories: ["تست"], hashtags: ["#تست"] },
-            { title: "پست تستی ۳", content: "یک نمونه دیگر از محتوای تستی...", link: "https://hpip.blogspot.com/2025-02-20", date: new Date("2025-02-20"), categories: ["تست"], hashtags: ["#تست"] },
-            { title: "پست تستی ۴", content: "این پست برای تست فیلترها و مرتب‌سازی است...", link: "https://hpip.blogspot.com/2025-02-15", date: new Date("2025-02-15"), categories: ["تست"], hashtags: ["#تست"] },
-            { title: "پست تستی ۵", content: "محتوای تستی با هدف آزمایش نمایش...", link: "https://hpip.blogspot.com/2025-02-10", date: new Date("2025-02-10"), categories: ["تست"], hashtags: ["#تست"] },
-            { title: "پست تستی ۶", content: "این یک پست تستی دیگر است...", link: "https://hpip.blogspot.com/2025-02-05", date: new Date("2025-02-05"), categories: ["تست"], hashtags: ["#تست"] },
-            { title: "پست تستی ۷", content: "محتوای تستی برای بررسی قابلیت‌ها...", link: "https://hpip.blogspot.com/2025-01-30", date: new Date("2025-01-30"), categories: ["تست"], hashtags: ["#تست"] },
-            { title: "پست تستی ۸", content: "پست تستی با تاریخ قدیمی‌تر...", link: "https://hpip.blogspot.com/2025-01-25", date: new Date("2025-01-25"), categories: ["تست"], hashtags: ["#تست"] },
-            { title: "پست تستی ۹", content: "یک نمونه تستی دیگر...", link: "https://hpip.blogspot.com/2025-01-20", date: new Date("2025-01-20"), categories: ["تست"], hashtags: ["#تست"] },
-            { title: "پست تستی ۱۰", content: "آخرین پست تستی برای تکمیل لیست...", link: "https://hpip.blogspot.com/2025-01-15", date: new Date("2025-01-15"), categories: ["تست"], hashtags: ["#تست"] }
-        ];
-
-        async function fetchBlogPosts() {
-            try {
-                const proxyUrl = 'https://api.allorigins.win/get?url=';
-                const blogFeedUrl = 'https://hpip.blogspot.com/feeds/posts/default?max-results=10';
-                const response = await fetch(`${proxyUrl}${encodeURIComponent(blogFeedUrl)}`, {
-                    method: 'GET',
-                    headers: { 'Accept': 'application/xml' }
-                });
-                if (!response.ok) throw new Error('پاسخ شبکه ناموفق بود');
-                const data = await response.json();
-                const parser = new DOMParser();
-                const xmlDoc = parser.parseFromString(data.contents, 'text/xml');
-
-                if (xmlDoc.getElementsByTagName('parsererror').length > 0) {
-                    throw new Error('خطا در تجزیه XML');
-                }
-
-                const items = Array.from(xmlDoc.getElementsByTagName('entry'));
-                const newPosts = items.map(item => {
-                    const title = item.getElementsByTagName('title')[0]?.textContent || 'بدون عنوان';
-                    const content = item.getElementsByTagName('content')[0]?.textContent || 'بدون محتوا';
-                    const link = Array.from(item.getElementsByTagName('link')).find(l => l.getAttribute('rel') === 'alternate')?.getAttribute('href') || '#';
-                    const date = new Date(item.getElementsByTagName('published')[0]?.textContent || Date.now());
-                    const categories = Array.from(item.getElementsByTagName('category')).map(cat => cat.getAttribute('term') || 'بدون دسته‌بندی');
-                    const hashtags = content.match(/#\w+/g) || [];
-                    return { title, content: content.substring(0, 200) + '...', link, date, categories, hashtags };
-                });
-
-                if (newPosts.length > 0) {
-                    currentPosts = newPosts.slice(0, 10); // فقط ۱۰ پست آخر
-                } else {
-                    currentPosts = defaultBlogPosts; // در صورت خالی بودن، از پیش‌فرض استفاده کن
-                }
-
-                displayBlogPosts(currentPosts);
-                populateFilters(currentPosts);
-            } catch (error) {
-                console.error('خطا در دریافت پست‌های وبلاگ:', error);
-                currentPosts = defaultBlogPosts; // در صورت خطا، از محتوای پیش‌فرض استفاده کن
-                displayBlogPosts(currentPosts);
-                populateFilters(currentPosts);
-            }
-        }
-
-        function displayBlogPosts(posts) {
-            const blogSlide = document.querySelectorAll('section')[4];
-            const contentBox = blogSlide.querySelector('.content-box');
-            contentBox.innerHTML = `
-                <div class="blog-filter">
-                    <select id="sort-time" onchange="sortPostsByTime(this.value)">
-                        <option value="desc">جدید به قدیم</option>
-                        <option value="asc">قدیم به جدید</option>
-                    </select>
-                    <select id="filter-hashtag" onchange="filterPostsByHashtag(this.value)">
-                        <option value="">همه هشتگ‌ها</option>
-                    </select>
-                    <select id="filter-category" onchange="filterPostsByCategory(this.value)">
-                        <option value="">همه دسته‌بندی‌ها</option>
-                    </select>
-                </div>
-            `;
-
-            const postsContainer = document.createElement('div');
-            posts.forEach(post => {
-                const postElement = document.createElement('div');
-                postElement.classList.add('blog-post');
-                postElement.innerHTML = `
-                    <h3 style="color: gold;">${post.title}</h3>
-                    <p>${post.content}</p>
-                    <p style="font-size: 12px; color: #ccc;">تاریخ: ${post.date.toLocaleDateString('fa-IR')}</p>
-                    <p style="font-size: 12px; color: #ccc;">هشتگ‌ها: ${post.hashtags.join(', ') || 'بدون هشتگ'}</p>
-                    <p style="font-size: 12px; color: #ccc;">دسته‌بندی: ${post.categories.join(', ') || 'بدون دسته‌بندی'}</p>
-                    <a href="${post.link}" target="_blank" class="glass-button">ادامه مطلب</a>
-                `;
-                postsContainer.appendChild(postElement);
-            });
-            contentBox.appendChild(postsContainer);
-        }
-
-        function populateFilters(posts) {
-            const hashtagSelect = document.getElementById('filter-hashtag');
-            const categorySelect = document.getElementById('filter-category');
-
-            const allHashtags = [...new Set(posts.flatMap(post => post.hashtags))];
-            const allCategories = [...new Set(posts.flatMap(post => post.categories))];
-
-            allHashtags.forEach(hashtag => {
-                const option = document.createElement('option');
-                option.value = hashtag;
-                option.textContent = hashtag;
-                hashtagSelect.appendChild(option);
-            });
-
-            allCategories.forEach(category => {
-                const option = document.createElement('option');
-                option.value = category;
-                option.textContent = category;
-                categorySelect.appendChild(option);
-            });
-        }
-
-        function sortPostsByTime(order) {
-            const sortedPosts = [...currentPosts];
-            sortedPosts.sort((a, b) => order === 'desc' ? b.date - a.date : a.date - b.date);
-            displayBlogPosts(sortedPosts);
-        }
-
-        function filterPostsByHashtag(hashtag) {
-            if (!hashtag) {
-                displayBlogPosts(currentPosts);
-            } else {
-                const filteredPosts = currentPosts.filter(post => post.hashtags.includes(hashtag));
-                displayBlogPosts(filteredPosts);
-            }
-        }
-
-        function filterPostsByCategory(category) {
-            if (!category) {
-                displayBlogPosts(currentPosts);
-            } else {
-                const filteredPosts = currentPosts.filter(post => post.categories.includes(category));
-                displayBlogPosts(filteredPosts);
-            }
-        }
-
         function showSlide(slideIndex) {
             sections[currentSlide].classList.remove('active');
             if (navLinks[currentSlide]) {
@@ -752,10 +602,6 @@
                 navLinks[currentSlide].classList.add('active');
             }
             resetTimer();
-
-            if (slideIndex === 4) {
-                fetchBlogPosts();
-            }
         }
 
         function startSlideTimer() {
@@ -781,15 +627,6 @@
 
         function resetTimer() {
             startCountdown();
-        }
-
-        function startBlogUpdate() {
-            fetchBlogPosts(); // بارگذاری اولیه
-            setInterval(() => {
-                if (currentSlide === 4) {
-                    fetchBlogPosts(); // به‌روزرسانی وقتی اسلاید وبلاگ فعاله
-                }
-            }, 300000); // هر ۵ دقیقه
         }
 
         function changeLanguage(lang) {
