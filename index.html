@@ -154,8 +154,8 @@
             background-color: var(--slide-bg-color, transparent);
         }
 
-        /* استایل برای iframe در اسلاید وبلاگ */
-        .blog-iframe {
+        /* استایل برای iframe */
+        .iframe-slide {
             width: 90%;
             height: 70vh;
             border: none;
@@ -174,7 +174,7 @@
             height: 40px;
             background-color: gold;
             border-radius: 50%;
-            display: flex;
+            display: none; /* به‌طور پیش‌فرض مخفی */
             align-items: center;
             justify-content: center;
             color: black;
@@ -182,6 +182,8 @@
             font-weight: bold;
             z-index: 1000;
         }
+
+        .timer-circle.active { display: flex; } /* فقط در اسلاید خانه فعال بشه */
 
         .content-box {
             position: absolute;
@@ -252,9 +254,7 @@
 
         .header-nav a:hover { color: #fff; }
 
-        .header-nav a.active {
-            color: #b8860b;
-        }
+        .header-nav a.active { color: #b8860b; }
 
         .dna-structure {
             position: absolute;
@@ -270,7 +270,7 @@
             position: absolute;
             width: 4px;
             height: 20px;
-            background: rgba(255, 215, 0, 0.7);
+            background: rgba(255, 215, 0, 0.3); /* opacity به 30% کاهش یافت */
             border-radius: 2px;
             transition: transform 0.2s ease-out, background 0.5s ease;
         }
@@ -399,7 +399,7 @@
             .header-nav a { font-size: 14px; }
             .slides-container { margin-top: 80px; height: calc(100vh - 80px); }
             .content-box { max-width: 85%; font-size: 16px; top: 10%; }
-            .blog-iframe { width: 85%; height: 60vh; }
+            .iframe-slide { width: 85%; height: 60vh; }
             .timer-circle { width: 35px; height: 35px; font-size: 14px; }
             .matrix-char { font-size: 2vw; }
             .circle { width: 150px; height: 150px; }
@@ -414,7 +414,7 @@
             .header-nav a { font-size: 12px; padding: 2px 5px; }
             .slides-container { margin-top: 70px; height: calc(100vh - 70px); }
             .content-box { max-width: 90%; font-size: 14px; top: 5%; padding: 10px; }
-            .blog-iframe { width: 90%; height: 50vh; }
+            .iframe-slide { width: 90%; height: 50vh; }
             .timer-circle { width: 30px; height: 30px; font-size: 12px; bottom: 5px; left: 5px; }
             .language-selector .lang-btn, .theme-selector .theme-btn { font-size: 12px; padding: 4px 8px; }
             .language-selector .dropdown span, .theme-selector .dropdown span { font-size: 10px; }
@@ -476,10 +476,10 @@
                 <div class="content-box" data-lang="fa"></div>
             </section>
             <section class="pattern-slide">
-                <div class="content-box" data-lang="fa"></div>
+                <iframe src="https://mail.google.com" class="iframe-slide" title="ایمیل آزادنت"></iframe>
             </section>
             <section class="pattern-slide">
-                <iframe src="https://hpip.blogspot.com" class="blog-iframe" title="وبلاگ آزادنت"></iframe>
+                <iframe src="https://hpip.blogspot.com" class="iframe-slide" title="وبلاگ آزادنت"></iframe>
             </section>
         </div>
 
@@ -545,7 +545,6 @@
                 introContainer.style.display = 'none';
                 mainPage.classList.add('visible');
                 showSlide(0);
-                startSlideTimer();
                 changeLanguage('fa');
             }, 500);
         }
@@ -555,7 +554,7 @@
         const navLinks = document.querySelectorAll('.header-nav a');
         const timerElement = document.getElementById('timer');
         let currentSlide = 0;
-        let slideInterval, timerInterval;
+        let timerInterval;
         let timeLeft = 30;
 
         const translations = {
@@ -582,12 +581,7 @@
                   en: "By upgrading and optimizing semi-free tools, we provide you with a better and more complete experience.", 
                   ar: "من خلال ترقية وتحسين الأدوات شبه المجانية، نوفر لكم تجربة أفضل وأكمل.", 
                   zh: "通过升级和优化半免费工具，我们为您提供更好、更完整的体验。", 
-                  ru: "Обновляя и оптимизируя полу-бесплатные инструменты, мы предоставляем вам лучший и более полный опыт." },
-                { fa: "ما مجموعه‌ای از وب‌گاه‌های مفید و کارآمد را به شما معرفی می‌کنیم که در امور روزمره به شما کمک می‌کنند.", 
-                  en: "We introduce you to a collection of useful and efficient websites that assist you in daily tasks.", 
-                  ar: "نقدم لكم مجموعة من المواقع الإلكترونية المفيدة والفعالة التي تساعدكم في المهام اليومية.", 
-                  zh: "我们向您介绍一系列实用且高效的网站，帮助您完成日常任务。", 
-                  ru: "Мы представляем вам набор полезных и эффективных веб-сайтов, которые помогают в повседневных задачах." }
+                  ru: "Обновляя и оптимизируя полу-бесплатные инструменты, мы предоставляем вам лучший и более полный опыт." }
             ]
         };
 
@@ -601,19 +595,17 @@
             if (navLinks[currentSlide]) {
                 navLinks[currentSlide].classList.add('active');
             }
-            resetTimer();
-        }
 
-        function startSlideTimer() {
-            clearInterval(slideInterval);
-            slideInterval = setInterval(() => {
-                let nextSlide = (currentSlide + 1) % sections.length;
-                showSlide(nextSlide);
-            }, 30000);
+            // مدیریت تایمر فقط برای اسلاید خانه
+            clearInterval(timerInterval);
+            timerElement.classList.remove('active');
+            if (slideIndex === 0) {
+                startCountdown();
+                timerElement.classList.add('active');
+            }
         }
 
         function startCountdown() {
-            clearInterval(timerInterval);
             timeLeft = 30;
             timerElement.textContent = timeLeft;
             timerInterval = setInterval(() => {
@@ -621,12 +613,9 @@
                 timerElement.textContent = timeLeft < 10 ? '0' + timeLeft : timeLeft;
                 if (timeLeft <= 0) {
                     clearInterval(timerInterval);
+                    showSlide(1); // انتقال به اسلاید تلگرام
                 }
             }, 1000);
-        }
-
-        function resetTimer() {
-            startCountdown();
         }
 
         function changeLanguage(lang) {
@@ -699,7 +688,7 @@
                     btn.style.border = '1px solid rgba(255, 255, 255, 0.2)';
                     btn.style.color = 'gold';
                 });
-                dnaStrands.forEach(strand => strand.style.background = 'rgba(255, 215, 0, 0.7)');
+                dnaStrands.forEach(strand => strand.style.background = 'rgba(255, 215, 0, 0.3)');
                 footer.style.background = 'rgba(0, 0, 0, 0.5)';
                 footer.style.color = 'white';
                 patternSlides.forEach(slide => {
@@ -774,7 +763,6 @@
                 const slideIndex = parseInt(link.getAttribute('data-slide'));
                 if (slideIndex !== currentSlide) {
                     showSlide(slideIndex);
-                    startSlideTimer();
                 }
             });
         });
