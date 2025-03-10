@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vazir-font@latest/dist/font-face.css">
     <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/aparat">
     <style>
+        /* استایل‌ها بدون تغییر باقی موندن */
         * {
             box-sizing: border-box;
             margin: 0;
@@ -154,7 +155,6 @@
             background-color: var(--slide-bg-color, transparent);
         }
 
-        /* استایل برای iframe */
         .iframe-slide {
             width: 90%;
             height: 70vh;
@@ -163,7 +163,7 @@
             margin: 15px auto;
             display: block;
             background: rgba(255, 255, 255, 0.1);
-            overflow: auto; /* قابلیت اسکرول */
+            overflow: auto;
         }
 
         .timer-circle {
@@ -174,7 +174,7 @@
             height: 40px;
             background-color: gold;
             border-radius: 50%;
-            display: none; /* به‌طور پیش‌فرض مخفی */
+            display: none;
             align-items: center;
             justify-content: center;
             color: black;
@@ -183,7 +183,7 @@
             z-index: 1000;
         }
 
-        .timer-circle.active { display: flex; } /* فقط در اسلاید خانه فعال بشه */
+        .timer-circle.active { display: flex; }
 
         .content-box {
             position: absolute;
@@ -270,7 +270,7 @@
             position: absolute;
             width: 4px;
             height: 20px;
-            background: rgba(255, 215, 0, 0.3); /* opacity به 30% کاهش یافت */
+            background: rgba(255, 215, 0, 0.3);
             border-radius: 2px;
             transition: transform 0.2s ease-out, background 0.5s ease;
         }
@@ -308,6 +308,8 @@
             transition: background 0.5s ease;
         }
 
+        .language-selector:hover .dropdown, .theme-selector:hover .dropdown { display: flex; }
+
         .language-selector .dropdown, .theme-selector .dropdown {
             background: rgba(255, 255, 255, 0.5);
             display: none;
@@ -318,8 +320,6 @@
             padding: 5px;
             flex-direction: column;
         }
-
-        .language-selector:hover .dropdown, .theme-selector:hover .dropdown { display: flex; }
 
         .language-selector .dropdown span, .theme-selector .dropdown span {
             padding: 5px;
@@ -455,7 +455,7 @@
                 <a data-slide="0">خانه</a>
                 <a data-slide="1">تلگرام</a>
                 <a data-slide="2">گیت‌هاب</a>
-                <a data-slide="3">ایمیل</a>
+                <a data-slide="3">پکیج نجات</a>
                 <a data-slide="4">وبلاگ</a>
             </div>
         </div>
@@ -476,7 +476,9 @@
                 <div class="content-box" data-lang="fa"></div>
             </section>
             <section class="pattern-slide">
-                <iframe src="https://mail.google.com" class="iframe-slide" title="ایمیل آزادنت"></iframe>
+                <div class="content-box" data-lang="fa">
+                    محتوای پکیج نجات در حال آماده‌سازی است. لطفاً بعداً مراجعه کنید یا برای ویرایش این بخش اقدام کنید.
+                </div>
             </section>
             <section class="pattern-slide">
                 <iframe src="https://alefkey.freeamoozesh63.workers.dev/" class="iframe-slide" title="وبلاگ آزادنت"></iframe>
@@ -564,7 +566,7 @@
             home: { fa: "خانه", en: "Home", ar: "الصفحة الرئيسية", zh: "主页", ru: "Главная" },
             telegram: { fa: "تلگرام", en: "Telegram", ar: "تليجرام", zh: "Telegram", ru: "Telegram" },
             github: { fa: "گیت‌هاب", en: "GitHub", ar: "جيت هاب", zh: "GitHub", ru: "GitHub" },
-            email: { fa: "ایمیل", en: "Email", ar: "البريد الإلكتروني", zh: "电子邮件", ru: "Электронная почта" },
+            email: { fa: "پکیج نجات", en: "Rescue Package", ar: "حزمة الإنقاذ", zh: "救援包", ru: "Спасательный пакет" },
             blog: { fa: "وبلاگ", en: "Blog", ar: "مدونة", zh: "博客", ru: "Блог" },
             slides: [
                 { fa: "ما جمعی هستیم که تحت نام \"آزادنت\" گرد هم آمده‌ایم، با هدف ارائه خدمات رایگان و بدون محدودیت برای دسترسی به اطلاعات آزاد. ما خود را تابع قوانین ستمگرانه نمی‌دانیم و در راستای آزادی و سربلندی گام برمی‌داریم.", 
@@ -596,7 +598,6 @@
                 navLinks[currentSlide].classList.add('active');
             }
 
-            // مدیریت تایمر فقط برای اسلاید خانه
             clearInterval(timerInterval);
             timerElement.classList.remove('active');
             if (slideIndex === 0) {
@@ -613,7 +614,7 @@
                 timerElement.textContent = timeLeft < 10 ? '0' + timeLeft : timeLeft;
                 if (timeLeft <= 0) {
                     clearInterval(timerInterval);
-                    showSlide(1); // انتقال به اسلاید تلگرام
+                    showSlide(1);
                 }
             }, 1000);
         }
