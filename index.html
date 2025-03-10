@@ -8,29 +8,119 @@
     <meta name="keywords" content="آزادنت, ابزارهای رایگان, عبور از فیلتر, ربات کاربردی, اطلاعات آزاد">
     <meta name="author" content="تیم آزادنت">
     <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#000000">
     <title>وب سایت آزادنت</title>
     <link rel="icon" type="image/x-icon" href="ficon.png">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/vazir-font@latest/dist/Vazir.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vazir-font@latest/dist/font-face.css">
     <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/aparat">
     <style>
         * {
             box-sizing: border-box;
-        }
-
-        body, html {
             margin: 0;
             padding: 0;
-            height: 100%;
-            overflow-x: hidden; /* جلوگیری از اسکرول افقی */
-            background-color: #000;
+        }
+
+        body {
+            height: 100vh;
+            overflow: hidden;
+            background: black;
             font-family: 'Vazir', sans-serif;
+            transition: background 0.5s ease, color 0.5s ease;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            body { background: #000; color: #fff; }
+            .header { background: rgba(255, 255, 255, 0.1); }
+        }
+
+        @media (prefers-color-scheme: light) {
+            body { background: #fff; color: #000; }
+            .header { background: rgba(0, 0, 0, 0.1); }
+            .content-box { background: rgba(255, 255, 255, 0.5); color: #000; }
+            .glass-button { color: #000; border-color: rgba(0, 0, 0, 0.2); }
+        }
+
+        .matrix {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .matrix-char {
+            position: absolute;
+            color: #0f0;
+            font-family: monospace;
+            font-size: 1.5vw;
+            animation: fall linear infinite;
+            white-space: nowrap;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-10vh); opacity: 1; }
+            100% { transform: translateY(110vh); opacity: 0.3; }
+        }
+
+        .intro-container {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+            perspective: 1000px;
+        }
+
+        .circle {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background-color: #3498db;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+            transform-style: preserve-3d;
+            transition: opacity 0.5s ease;
+        }
+
+        .circle.spin {
+            animation: spinAndZoom3D 0.5s ease-in-out forwards;
+        }
+
+        @keyframes spinAndZoom3D {
+            0% { transform: rotateY(0deg) rotateX(0deg) scale(1); }
+            50% { transform: rotateY(360deg) rotateX(180deg) scale(2); }
+            100% { transform: rotateY(720deg) rotateX(360deg) scale(20); opacity: 0; }
+        }
+
+        .main-page {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            display: none;
+            z-index: 2;
             direction: rtl;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .main-page.visible {
+            display: block;
+            opacity: 1;
         }
 
         .slides-container {
             position: relative;
             width: 100%;
-            height: calc(100vh - 100px); /* تنظیم ارتفاع با توجه به هدر */
+            height: calc(100vh - 100px);
             margin-top: 100px;
         }
 
@@ -40,51 +130,29 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-size: cover;
-            background-position: center;
             opacity: 0;
             transition: opacity 0.25s ease;
-            background-repeat: no-repeat;
         }
 
         section.active { opacity: 1; }
 
-        section:nth-child(1) { background: none; }
+        section:nth-child(1) {
+            background: none;
+        }
+
         section:nth-child(1) video {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-        section:nth-child(2) { background-image: url('11.jpg'); }
-        section:nth-child(3) { background-image: url('12.jpg'); }
-        section:nth-child(4) { background-image: url('13.jpg'); }
-        section:nth-child(5) { background-image: url('14.jpg'); }
-        section:nth-child(6) { background-image: url('15.jpg'); }
-        section:nth-child(7) { background-image: url('16.jpg'); }
-        section:nth-child(8) { background-image: url('17.jpg'); }
 
-        .nav-dots {
-            position: fixed;
-            left: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            z-index: 1000;
+        .pattern-slide {
+            background-image: url('pattern.png');
+            background-repeat: repeat;
+            background-size: auto;
+            background-position: center;
+            background-color: var(--slide-bg-color, transparent);
         }
-
-        .nav-dot {
-            width: 6px;
-            height: 6px;
-            background-color: gold;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .nav-dot.active { background-color: #fff; }
-        .nav-dot:hover { background-color: #ccc; }
 
         .timer-circle {
             position: fixed;
@@ -111,11 +179,40 @@
             background: rgba(0, 0, 0, 0.5);
             border-radius: 10px;
             max-width: 90%;
+            max-height: 70vh;
+            overflow-y: auto;
             left: 50%;
             top: 15%;
             transform: translateX(-50%);
             font-size: 18px;
             text-align: center;
+            overflow-wrap: break-word;
+            transition: background 0.5s ease, color 0.5s ease;
+        }
+
+        .blog-filter {
+            margin-bottom: 15px;
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .blog-filter select {
+            padding: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            color: gold;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            font-family: 'Vazir', sans-serif;
+            cursor: pointer;
+        }
+
+        .blog-post {
+            margin-bottom: 15px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
         }
 
         .header {
@@ -124,7 +221,6 @@
             left: 0;
             width: 100%;
             height: 100px;
-            background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             display: flex;
             flex-direction: column;
@@ -132,14 +228,18 @@
             justify-content: center;
             z-index: 2000;
             border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            transition: background 0.5s ease, border-bottom 0.5s ease;
         }
 
         .header h1 {
             margin: 5px 0;
             font-size: 32px;
             color: gold;
-            font-family: 'Aparat', 'Vazir', sans-serif; /* فونت جایگزین */
+            font-family: 'Aparat', 'Vazir', sans-serif;
             text-align: center;
+            transition: color 0.5s ease;
+            pointer-events: none;
+            user-select: none;
         }
 
         .header-nav {
@@ -148,6 +248,9 @@
             gap: 15px;
             margin-top: 5px;
             justify-content: center;
+            max-width: 100%;
+            overflow-x: auto;
+            white-space: nowrap;
         }
 
         .header-nav a {
@@ -156,9 +259,14 @@
             font-size: 16px;
             text-decoration: none;
             transition: color 0.3s ease;
+            cursor: pointer;
         }
 
         .header-nav a:hover { color: #fff; }
+
+        .header-nav a.active {
+            color: #b8860b;
+        }
 
         .dna-structure {
             position: absolute;
@@ -176,53 +284,72 @@
             height: 20px;
             background: rgba(255, 215, 0, 0.7);
             border-radius: 2px;
-            transition: transform 0.2s ease-out;
+            transition: transform 0.2s ease-out, background 0.5s ease;
         }
 
-        .dna-strand:nth-child(1) { top: 10%; left: 20%; }
-        .dna-strand:nth-child(2) { top: 30%; left: 40%; }
-        .dna-strand:nth-child(3) { top: 50%; left: 60%; }
-        .dna-strand:nth-child(4) { top: 70%; left: 80%; }
+        .dna-strand:nth-child(1) { top: 10%; left: 10%; }
+        .dna-strand:nth-child(2) { top: 10%; left: 30%; }
+        .dna-strand:nth-child(3) { top: 10%; left: 50%; }
+        .dna-strand:nth-child(4) { top: 10%; left: 70%; }
+        .dna-strand:nth-child(5) { top: 30%; left: 10%; }
+        .dna-strand:nth-child(6) { top: 30%; left: 30%; }
+        .dna-strand:nth-child(7) { top: 30%; left: 50%; }
+        .dna-strand:nth-child(8) { top: 30%; left: 70%; }
+        .dna-strand:nth-child(9) { top: 50%; left: 10%; }
+        .dna-strand:nth-child(10) { top: 50%; left: 30%; }
+        .dna-strand:nth-child(11) { top: 50%; left: 50%; }
+        .dna-strand:nth-child(12) { top: 50%; left: 70%; }
 
-        .language-selector {
+        .language-selector, .theme-selector {
             position: fixed;
             top: 10px;
-            right: 10px;
             z-index: 3000;
         }
 
-        .language-selector .lang-btn {
-            background: rgba(255, 255, 255, 0.8);
+        .language-selector { right: 10px; }
+        .theme-selector { right: 100px; }
+
+        .language-selector .lang-btn, .theme-selector .theme-btn {
+            background: rgba(255, 255, 255, 0.5);
+            color: gold;
             padding: 5px 10px;
             border-radius: 5px;
             cursor: pointer;
             font-family: 'Vazir', sans-serif;
             font-size: 14px;
+            transition: background 0.5s ease;
         }
 
-        .language-selector .dropdown {
+        .language-selector .dropdown, .theme-selector .dropdown {
+            background: rgba(255, 255, 255, 0.5);
             display: none;
             position: absolute;
             top: 100%;
             right: 0;
-            background: rgba(255, 255, 255, 0.9);
             border-radius: 5px;
             padding: 5px;
             flex-direction: column;
         }
 
-        .language-selector:hover .dropdown { display: flex; }
+        .language-selector:hover .dropdown, .theme-selector:hover .dropdown { display: flex; }
 
-        .language-selector .dropdown span {
+        .language-selector .dropdown span, .theme-selector .dropdown span {
             padding: 5px;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 5px;
             font-size: 12px;
+            color: white;
         }
 
-        .language-selector .dropdown span:hover { background: rgba(0, 0, 0, 0.1); }
+        .language-selector .dropdown span:hover, .theme-selector .dropdown span:hover {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .language-selector .dropdown span.selected, .theme-selector .dropdown span.selected {
+            color: #b8860b;
+        }
 
         .language-option img { width: 16px; height: 16px; }
 
@@ -240,224 +367,388 @@
             text-decoration: none;
             text-align: center;
             cursor: pointer;
-            transition: background 0.3s ease;
+            transition: background 0.3s ease, color 0.5s ease, border-color 0.5s ease;
         }
 
         .glass-button:hover { background: rgba(255, 255, 255, 0.2); }
 
-        /* مدیا کوئری برای تبلت */
+        footer {
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            font-family: 'Vazir', sans-serif;
+            font-size: 10px;
+            color: white;
+            text-align: center;
+            padding: 5px 15px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
+            pointer-events: none;
+            transition: background 0.5s ease, color 0.5s ease;
+        }
+
+        .color-flow {
+            display: inline-block;
+            background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet, red);
+            background-size: 200% 100%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: colorFlow 4s linear infinite;
+        }
+
+        @keyframes colorFlow {
+            0% { background-position: 200% 0; }
+            100% { background-position: 0 0; }
+        }
+
         @media (max-width: 768px) {
             .header { height: 80px; }
             .header h1 { font-size: 24px; }
-            .header-nav { gap: 10px; }
+            .header-nav { gap: 10px; padding: 0 10px; }
             .header-nav a { font-size: 14px; }
             .slides-container { margin-top: 80px; height: calc(100vh - 80px); }
             .content-box { max-width: 85%; font-size: 16px; top: 10%; }
             .timer-circle { width: 35px; height: 35px; font-size: 14px; }
-            .nav-dots { left: 5px; }
+            .matrix-char { font-size: 2vw; }
+            .circle { width: 150px; height: 150px; }
+            footer { font-size: 8px; padding: 5px 10px; }
+            .theme-selector { right: 80px; }
         }
 
-        /* مدیا کوئری برای موبایل */
         @media (max-width: 480px) {
-            .header { height: 60px; padding: 5px; }
+            .header { height: 70px; padding: 5px; }
             .header h1 { font-size: 20px; }
-            .header-nav { 
-                flex-direction: column; 
-                gap: 5px; 
-                margin-top: 2px; 
-            }
-            .header-nav a { font-size: 12px; }
-            .slides-container { margin-top: 60px; height: calc(100vh - 60px); }
-            .content-box { 
-                max-width: 90%; 
-                font-size: 14px; 
-                top: 5%; 
-                padding: 10px; 
-            }
-            .nav-dots { left: 5px; gap: 6px; }
-            .nav-dot { width: 5px; height: 5px; }
-            .timer-circle { 
-                width: 30px; 
-                height: 30px; 
-                font-size: 12px; 
-                bottom: 5px; 
-                left: 5px; 
-            }
-            .language-selector .lang-btn { font-size: 12px; padding: 4px 8px; }
-            .language-selector .dropdown span { font-size: 10px; }
+            .header-nav { gap: 8px; margin-top: 2px; padding: 0 5px; flex-direction: row; justify-content: center; }
+            .header-nav a { font-size: 12px; padding: 2px 5px; }
+            .slides-container { margin-top: 70px; height: calc(100vh - 70px); }
+            .content-box { max-width: 90%; font-size: 14px; top: 5%; padding: 10px; }
+            .timer-circle { width: 30px; height: 30px; font-size: 12px; bottom: 5px; left: 5px; }
+            .language-selector .lang-btn, .theme-selector .theme-btn { font-size: 12px; padding: 4px 8px; }
+            .language-selector .dropdown span, .theme-selector .dropdown span { font-size: 10px; }
             .glass-button { font-size: 14px; padding: 6px 12px; }
+            .matrix-char { font-size: 3vw; }
+            .circle { width: 120px; height: 120px; }
+            footer { font-size: 6px; padding: 4px 8px; }
+            .theme-selector { right: 70px; }
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="dna-structure">
-            <div class="dna-strand"></div>
-            <div class="dna-strand"></div>
-            <div class="dna-strand"></div>
-            <div class="dna-strand"></div>
-        </div>
-        <h1 id="header-text">وب سایت آزادنت</h1>
-        <div class="header-nav">
-            <a href="/">خانه</a>
-            <a href="https://t.me/AzadNet" target="_blank">تلگرام</a>
-            <a href="https://github.com/AzadNetCH" target="_blank">گیت‌هاب</a>
-            <a href="mailto:iranfreesurf@gmail.com">ایمیل</a>
-            <a href="https://hpip.blogspot.com/" target="_blank">وبلاگ</a>
+    <div class="intro-container">
+        <div class="matrix" aria-hidden="true"></div>
+        <div class="circle" onclick="startAnimation()">
+            <img src="logo.png" alt="Logo" style="max-width: 80%; max-height: 80%;">
         </div>
     </div>
 
-    <div class="slides-container">
-        <section>
-            <video autoplay muted loop playsinline preload="auto">
-                <source src="vid.mp4" type="video/mp4">
-            </video>
-            <div class="content-box" data-lang="fa">
-                <span class="slide-text"></span>
-                <a href="https://hpip.blogspot.com/" class="glass-button" id="blog-button">وبلاگ آزادنت</a>
+    <div class="main-page">
+        <div class="header">
+            <div class="dna-structure">
+                <div class="dna-strand"></div>
+                <div class="dna-strand"></div>
+                <div class="dna-strand"></div>
+                <div class="dna-strand"></div>
+                <div class="dna-strand"></div>
+                <div class="dna-strand"></div>
+                <div class="dna-strand"></div>
+                <div class="dna-strand"></div>
+                <div class="dna-strand"></div>
+                <div class="dna-strand"></div>
+                <div class="dna-strand"></div>
+                <div class="dna-strand"></div>
             </div>
-        </section>
-        <section><div class="content-box" data-lang="fa"></div></section>
-        <section><div class="content-box" data-lang="fa"></div></section>
-        <section><div class="content-box" data-lang="fa"></div></section>
-        <section><div class="content-box" data-lang="fa"></div></section>
-        <section><div class="content-box" data-lang="fa"></div></section>
-        <section><div class="content-box" data-lang="fa"></div></section>
-        <section>
-            <div class="content-box" data-lang="fa">
-                <span class="slide-text"></span>
-                <a href="https://t.me/AzadNet/16134" class="glass-button" id="bots-button">ربات‌ها</a>
+            <h1 id="header-text">وب سایت آزادنت</h1>
+            <div class="header-nav">
+                <a data-slide="0">خانه</a>
+                <a data-slide="1">تلگرام</a>
+                <a data-slide="2">گیت‌هاب</a>
+                <a data-slide="3">ایمیل</a>
+                <a data-slide="4">وبلاگ</a>
             </div>
-        </section>
-    </div>
-
-    <div class="nav-dots">
-        <div class="nav-dot active" data-slide="0"></div>
-        <div class="nav-dot" data-slide="1"></div>
-        <div class="nav-dot" data-slide="2"></div>
-        <div class="nav-dot" data-slide="3"></div>
-        <div class="nav-dot" data-slide="4"></div>
-        <div class="nav-dot" data-slide="5"></div>
-        <div class="nav-dot" data-slide="6"></div>
-        <div class="nav-dot" data-slide="7"></div>
-    </div>
-
-    <div class="timer-circle" id="timer">15</div>
-
-    <div class="language-selector">
-        <div class="lang-btn">تغییر زبان</div>
-        <div class="dropdown">
-            <span onclick="changeLanguage('fa')"><img src="https://flagcdn.com/16x12/ir.png" alt="پرچم ایران" loading="lazy"> فارسی</span>
-            <span onclick="changeLanguage('en')"><img src="https://flagcdn.com/16x12/gb.png" alt="پرچم انگلیس" loading="lazy"> English</span>
-            <span onclick="changeLanguage('ar')"><img src="https://flagcdn.com/16x12/sa.png" alt="پرچم عربستان" loading="lazy"> العربية</span>
-            <span onclick="changeLanguage('zh')"><img src="https://flagcdn.com/16x12/cn.png" alt="پرچم چین" loading="lazy"> 中文</span>
-            <span onclick="changeLanguage('ru')"><img src="https://flagcdn.com/16x12/ru.png" alt="پرچم روسیه" loading="lazy"> Русский</span>
         </div>
+
+        <div class="slides-container">
+            <section>
+                <video autoplay muted loop playsinline preload="auto">
+                    <source src="vid.mp4" type="video/mp4">
+                </video>
+                <div class="content-box" data-lang="fa">
+                    <span class="slide-text"></span>
+                </div>
+            </section>
+            <section class="pattern-slide"><div class="content-box" data-lang="fa"></div></section>
+            <section class="pattern-slide"><div class="content-box" data-lang="fa"></div></section>
+            <section class="pattern-slide"><div class="content-box" data-lang="fa"></div></section>
+            <section class="pattern-slide"><div class="content-box" data-lang="fa"></div></section>
+        </div>
+
+        <div class="timer-circle" id="timer">30</div>
+
+        <div class="language-selector">
+            <div class="lang-btn">تغییر زبان</div>
+            <div class="dropdown">
+                <span onclick="changeLanguage('fa')"><img src="https://flagcdn.com/16x12/ir.png" alt="پرچم ایران" loading="lazy"> فارسی</span>
+                <span onclick="changeLanguage('en')"><img src="https://flagcdn.com/16x12/gb.png" alt="پرچم انگلیس" loading="lazy"> English</span>
+                <span onclick="changeLanguage('ar')"><img src="https://flagcdn.com/16x12/sa.png" alt="پرچم عربستان" loading="lazy"> العربية</span>
+                <span onclick="changeLanguage('zh')"><img src="https://flagcdn.com/16x12/cn.png" alt="پرچم چین" loading="lazy"> 中文</span>
+                <span onclick="changeLanguage('ru')"><img src="https://flagcdn.com/16x12/ru.png" alt="پرچم روسیه" loading="lazy"> Русский</span>
+            </div>
+        </div>
+
+        <div class="theme-selector">
+            <div class="theme-btn">انتخاب تم</div>
+            <div class="dropdown">
+                <span onclick="changeTheme('default')">پیش‌فرض</span>
+                <span onclick="changeTheme('palette1')">پالت ۱</span>
+                <span onclick="changeTheme('palette2')">پالت ۲</span>
+                <span onclick="changeTheme('palette3')">پالت ۳</span>
+            </div>
+        </div>
+
+        <footer>
+            <span class="color-flow">This website was designed and built for the (AZADNET)</span>
+        </footer>
     </div>
 
     <script>
+        const matrix = document.querySelector('.matrix');
+        const width = window.innerWidth;
+        const charCount = Math.floor(width / 10);
+
+        function createChar() {
+            const char = document.createElement('span');
+            char.classList.add('matrix-char');
+            char.textContent = String.fromCharCode(33 + Math.floor(Math.random() * 94));
+            char.style.left = `${Math.random() * 100}%`;
+            char.style.animationDuration = `${Math.random() * 3 + 2}s`;
+            char.style.opacity = Math.random() * 0.8 + 0.2;
+            matrix.appendChild(char);
+
+            char.addEventListener('animationend', () => {
+                char.remove();
+                createChar();
+            });
+        }
+
+        for (let i = 0; i < charCount; i++) {
+            setTimeout(createChar, Math.random() * 1000);
+        }
+
+        function startAnimation() {
+            const circle = document.querySelector('.circle');
+            const introContainer = document.querySelector('.intro-container');
+            const mainPage = document.querySelector('.main-page');
+
+            circle.classList.add('spin');
+            setTimeout(() => {
+                introContainer.style.display = 'none';
+                mainPage.classList.add('visible');
+                showSlide(0);
+                startSlideTimer();
+                startBlogUpdate();
+                changeLanguage('fa');
+            }, 500);
+        }
+
         'use strict';
         const sections = document.querySelectorAll('section');
-        const navDots = document.querySelectorAll('.nav-dot');
+        const navLinks = document.querySelectorAll('.header-nav a');
         const timerElement = document.getElementById('timer');
         let currentSlide = 0;
         let slideInterval, timerInterval;
-        let timeLeft = 15;
+        let timeLeft = 30;
+        let currentPosts = [];
 
         const translations = {
             header: { fa: "آزادنت", en: "Azadnet", ar: "آزادنت", zh: "自由网", ru: "Азаднет" },
-            blogButton: { fa: "وبلاگ آزادنت", en: "Azadnet Blog", ar: "مدونة آزادنت", zh: "自由网博客", ru: "Блог Азаднет" },
-            botsButton: { fa: "ربات‌ها", en: "Bots", ar: "الروبوتات", zh: "机器人", ru: "Боты" },
             langBtn: { fa: "تغییر زبان", en: "Change Language", ar: "تغيير اللغة", zh: "更改语言", ru: "Сменить язык" },
+            themeBtn: { fa: "انتخاب تم", en: "Select Theme", ar: "اختر السمة", zh: "选择主题", ru: "Выбрать тему" },
             home: { fa: "خانه", en: "Home", ar: "الصفحة الرئيسية", zh: "主页", ru: "Главная" },
             telegram: { fa: "تلگرام", en: "Telegram", ar: "تليجرام", zh: "Telegram", ru: "Telegram" },
             github: { fa: "گیت‌هاب", en: "GitHub", ar: "جيت هاب", zh: "GitHub", ru: "GitHub" },
             email: { fa: "ایمیل", en: "Email", ar: "البريد الإلكتروني", zh: "电子邮件", ru: "Электронная почта" },
             blog: { fa: "وبلاگ", en: "Blog", ar: "مدونة", zh: "博客", ru: "Блог" },
             slides: [
-                {
-                    fa: "ما جمعی هستیم که تحت نام \"آزادنت\" گرد هم آمده‌ایم، با هدفی والا و بی‌هیچ چشمداشتی مادی، تا خدماتی خالصانه و بی‌منت به مردمان سرزمین‌مان و فراتر از آن عرضه داریم. در این مسیر، خود را تابع قوانین ستمگرانه‌ی حاکمیت‌هایی چون جمهوری اسلامی، که ایران عزیز را در چنگال اشغال خویش گرفتار ساخته، نمی‌دانیم. ما تنها در اندیشه‌ی ارائه‌ی مجموعه‌ای از خدمات و محصولاتی هستیم که به یاری هم‌میهنان‌مان آید و در راستای آزادی و سربلندی گام بردارد. ما بر این باوریم که تمامی مردمان جهان شایسته‌ی دسترسی به اطلاعات آزاد و بدون محدودیت‌اند و از همین رو، هدف بزرگ‌مان مبارزه‌ای بی‌امان با سانسور و فیلترینگ در سراسر گیتی است. آزادنت، نهادی است مستقل، متکی بر همت جمعی و متعهد به آرمان‌های انسانی، که جز خدمت به مردم، پاسداشت حقیقت، و گشودن دروازه‌های دانش به روی همگان، مقصدی را دنبال نمی‌کند.",
-                    en: "We are a group gathered under the name \"Azadnet,\" with a noble goal and no material expectations, to provide sincere and selfless services to the people of our land and beyond. On this path, we do not consider ourselves subject to the oppressive laws of regimes like the Islamic Republic, which has ensnared our beloved Iran in its grip of occupation. Our sole aim is to offer a range of services and products that assist our compatriots and advance the cause of freedom and dignity. We believe that all people of the world deserve access to free and unrestricted information, and thus, our grand objective is an unrelenting fight against censorship and filtering worldwide. Azadnet is an independent entity, reliant on collective effort and committed to human ideals, pursuing no goal other than serving the people, upholding the truth, and opening the gates of knowledge to all.",
-                    ar: "نحن مجموعة تجمعت تحت اسم \"آزادنت\"، بهدف نبيل وبدون أي توقعات مادية، لتقديم خدمات مخلصة وغير متكلفة لشعب أرضنا وما وراء ذلك. في هذا المسار، لا نعتبر أنفسنا خاضعين لقوانين السلطات القمعية مثل الجمهورية الإسلامية، التي أسرت إيران الحبيبة في قبضة احتلالها. هدفنا الوحيد هو تقديم مجموعة من الخدمات والمنتجات التي تساعد مواطنينا وتدعم قضية الحرية والكرامة. نحن نؤمن بأن جميع شعوب العالم تستحق الوصول إلى المعلومات الحرة وغير المقيدة، ولهذا السبب، هدفنا الكبير هو مكافحة الرقابة والتصفية في جميع أنحاء العالم دون هوادة. آزادنت هي كيان مستقل، يعتمد على الجهد الجماعي وملتزم بالمثل الإنسانية، ولا يسعى إلى أي هدف سوى خدمة الناس، وحفظ الحقيقة، وفتح أبواب المعرفة للجميع.",
-                    zh: "我们是一群以“自由网”之名聚集在一起的人，怀着崇高的目标，不求任何物质回报，为我们的祖国人民乃至更广泛的群体提供真诚无私的服务。在这条道路上，我们不认为自己受制于像伊斯兰共和国这样压迫性政权的法律，它们将我们深爱的伊朗困于占领的魔爪之中。我们的唯一目标是提供一系列服务和产品，帮助我们的同胞，推动自由与尊严的事业。我们相信，世界上所有人都有权获得自由且不受限制的信息，因此，我们的宏大目标是在全球范围内与审查和过滤作不懈斗争。自由网是一个独立的实体，依靠集体努力，致力于人类理想，除了服务人民、捍卫真理、为所有人打开知识之门外，别无他求。",
-                    ru: "Мы - группа, собравшаяся под названием \"Азаднет\", с благородной целью и без материальных ожиданий, чтобы предоставлять искренние и бескорыстные услуги народу нашей земли и за её пределами. На этом пути мы не считаем себя подчинёнными репрессивным законам режимов, таких как Исламская Республика, которая держит нашу любимую Иран в тисках оккупации. Наша единственная цель - предложить ряд услуг и продуктов, которые помогут нашим соотечественникам и будут способствовать делу свободы и достоинства. Мы верим, что все люди мира заслуживают доступа к свободной и неограниченной информации, и поэтому наша великая цель - неустанная борьба с цензурой и фильтрацией по всему миру. Азаднет - это независимая организация, опирающаяся на коллективные усилия и приверженная человеческим идеалам, не преследующая иных целей, кроме служения людям, сохранения правды и открытия врат знаний для всех."
-                },
-                {
-                    fa: "ما مفتخریم که برترین و امن‌ترین ابزارها و برنامه‌های رایگان برای عبور از محدودیت‌های اینترنتی را به شما معرفی نماییم. این ابزارها به شما امکان می‌دهند تا به جهانی آزاد و بی‌حدومرز از اطلاعات دست یابید و در عین حال، حریم خصوصی خویش را حفظ کنید. با بهره‌گیری از این برنامه‌ها، می‌توانید بدون دغدغه و نگرانی به محتوای دلخواه خود دسترسی داشته باشید.",
-                    en: "We are proud to introduce you to the best and most secure free tools and applications for bypassing internet restrictions. These tools allow you to access a free and boundless world of information while preserving your privacy. By using these applications, you can access your desired content without any worries or concerns.",
-                    ar: "نحن فخورون بتقديم أفضل وأأمن الأدوات والتطبيقات المجانية لتجاوز القيود الإنترنتية لكم. تتيح لكم هذه الأدوات الوصول إلى عالم حر وغير محدود من المعلومات مع الحفاظ على خصوصيتكم. باستخدام هذه التطبيقات، يمكنكم الوصول إلى المحتوى المطلوب دون أي قلق أو مخاوف.",
-                    zh: "我们很荣幸为您介绍最好、最安全的免费工具和应用程序，以绕过互联网限制。这些工具让您能够进入一个自由无界的资讯世界，同时保护您的隐私。通过使用这些应用程序，您可以无忧无虑地访问您想要的内容。",
-                    ru: "Мы гордимся тем, что представляем вам лучшие и самые безопасные бесплатные инструменты и приложения для обхода интернет-ограничений. Эти инструменты позволяют вам получить доступ к свободному и безграничному миру информации, сохраняя при этом вашу конфиденциальность. Используя эти приложения, вы можете без забот и тревог получать доступ к желаемому контенту."
-                },
-                {
-                    fa: "ما با ارتقا و بهینه‌سازی ابزارها و برنامه‌های نیمه‌ رایگان، شرایطی را فراهم آورده‌ایم تا شما بتوانید به‌صورت کامل و بدون هزینه از تمامی قابلیت‌های آن‌ها بهره‌مند شوید. این خدمت، فرصتی استثنایی در اختیارتان قرار می‌دهد تا بدون صرف هزینه‌های اضافی، از حداکثر امکانات و خدمات این ابزارها استفاده کنید.",
-                    en: "By upgrading and optimizing semi-free tools and applications, we have created conditions for you to fully utilize all their features at no cost. This service provides you with an exceptional opportunity to benefit from the maximum capabilities and services of these tools without incurring additional expenses.",
-                    ar: "من خلال ترقية وتحسين الأدوات والتطبيقات شبه المجانية، وفرنا الظروف التي تمكنكم من الاستفادة الكاملة من جميع ميزاتها دون تكلفة. هذه الخدمة توفر لكم فرصة استثنائية للاستفادة من أقصى قدرات وخدمات هذه الأدوات دون تكبد تكاليف إضافية.",
-                    zh: "通过升级和优化半免费工具和应用程序，我们为您创造了条件，使您能够完全免费使用其所有功能。这项服务为您提供了一个独特的机会，让您无需额外费用即可充分利用这些工具的最大能力和服务。",
-                    ru: "Обновляя и оптимизируя полу-бесплатные инструменты и приложения, мы создали условия, чтобы вы могли полностью использовать все их возможности бесплатно. Эта услуга предоставляет вам уникальную возможность пользоваться максимальными функциями и услугами этих инструментов без дополнительных затрат."
-                },
-                {
-                    fa: "ما مجموعه‌ای از وب‌گاه‌های مفید و کارآمد را به شما معرفی می‌کنیم که در انجام امور روزمره و گوناگون یاری‌گر شما خواهند بود. این وب‌گاه‌ها شامل منابع آموزشی، ابزارهای برخط (آنلاین)، و خدماتی متنوع هستند که در دسترسی به دانش و انجام وظایف به شما کمک شایانی می‌کنند.",
-                    en: "We introduce you to a collection of useful and efficient websites that will assist you in various daily tasks. These websites include educational resources, online tools, and diverse services that greatly aid in accessing knowledge and performing duties.",
-                    ar: "نقدم لكم مجموعة من المواقع الإلكترونية المفيدة والفعالة التي ستساعدكم في أداء المهام اليومية المتنوعة. تشمل هذه المواقع موارد تعليمية، وأدوات عبر الإنترنت، وخدمات متنوعة تساعدكم بشكل كبير في الوصول إلى المعرفة وأداء الواجبات.",
-                    zh: "我们向您介绍一系列实用且高效的网站，这些网站将帮助您完成各种日常任务。这些网站包括教育资源、在线工具和多样化的服务，在获取知识和执行任务方面为您提供巨大帮助。",
-                    ru: "Мы представляем вам набор полезных и эффективных веб-сайтов, которые помогут вам в выполнении различных повседневных задач. Эти сайты включают образовательные ресурсы, онлайн-инструменты и разнообразные услуги, которые значительно облегчают доступ к знаниям и выполнение обязанностей."
-                },
-                {
-                    fa: "اسلاید 5.",
-                    en: "With pride, we design and introduce you to useful and efficient bots that will accompany and assist you in various activities. These bots are equipped with features such as task management, information retrieval, and simplifying daily affairs, contributing to enhancing your quality of life.",
-                    ar: "بفخر نصمم ونقدم لكم روبوتات مفيدة وفعالة ستكون رفيقة ومساعدة لكم في أنشطة متنوعة. هذه الروبوتات مزودة بميزات مثل إدارة المهام، واسترجاع المعلومات، وتسهيل الشؤون اليومية، مما يساهم في تحسين جودة حياتكم.",
-                    zh: "我们自豪地设计并向您介绍实用且高效的机器人，它们将在各种活动中陪伴并协助您。这些机器人配备了任务管理、信息检索和简化日常事务等功能，有助于提升您的生活质量。",
-                    ru: "С гордостью мы разрабатываем и представляем вам полезных и эффективных ботов, которые будут сопровождать и помогать вам в различных видах деятельности. Эти боты оснащены такими функциями, как управление задачами, поиск информации и упрощение повседневных дел, способствуя улучшению качества вашей жизни."
-                },
-                {
-                    fa: "ما با ارائه آموزش‌هایی جامع و دقیق، شما را در مسیر استفاده بهینه از ابزارهای عبور از محدودیت، وب‌گاه‌ها و برنامه‌های گوناگون راهنمایی می‌کنیم. این راهنمایی‌ها، مشتمل بر دستورالعمل‌های گام‌به‌گام و نکات ارزشمندی است که شما را قادر می‌سازد تا با سهولت و بدون هرگونه دشواری، از این ابزارها بهره‌مند شوید.",
-                    en: "With comprehensive and precise tutorials, we guide you toward the optimal use of tools for bypassing restrictions, websites, and various applications. These guides include step-by-step instructions and valuable tips that enable you to utilize these tools easily and without any difficulty.",
-                    ar: "من خلال تقديم دروس تعليمية شاملة ودقيقة، نوجهكم نحو الاستخدام الأمثل لأدوات تجاوز القيود، والمواقع الإلكترونية، والتطبيقات المتنوعة. تشمل هذه الإرشادات تعليمات خطوة بخطوة ونصائح قيمة تمكنكم من استخدام هذه الأدوات بسهولة ودون أي صعوبة.",
-                    zh: "通过提供全面且精确的教程，我们指导您优化使用绕过限制的工具、网站和各种应用程序。这些指南包括逐步说明和宝贵建议，使您能够轻松且毫无困难地使用这些工具。",
-                    ru: "С помощью всесторонних и точных руководств мы направляем вас к оптимальному использованию инструментов для обхода ограничений, веб-сайтов и различных приложений. Эти инструкции включают пошаговые указания и ценные советы, которые позволяют вам легко и без каких-либо трудностей использовать эти инструменты."
-                },
-                {
-                    fa: "صفحه‌ی گیت‌هاب تیم آزادنت منبعی بی‌نظیر و جامع است که بزرگ‌ترین ساب‌لینک‌ را در فضای اینترنت ارائه می‌دهد. این پایگاه با گردآوری پیوندهای گوناگون، راهی به سوی جهانی آزاد و بدون محدودیت از اطلاعات باز کرده است، جایی که دانش و دسترسی به داده‌ها به‌صورت آسان و فراگیر در اختیار همه قرار دارد.",
-                    en: "The Azadnet team's GitHub page is an unparalleled and comprehensive resource that provides the largest sub-link on the internet. This platform, by collecting various links, has opened a path to a free and unrestricted world of information, where knowledge and access to data are easily and universally available to all.",
-                    ar: "صفحة فريق آزادنت على GitHub هي مورد لا مثيل له وشامل يقدم أكبر رابط فرعي على الإنترنت. هذه المنصة، من خلال جمع الروابط المتنوعة، فتحت طريقًا نحو عالم حر وغير مقيد من المعلومات، حيث تكون المعرفة والوصول إلى البيانات متاحين بسهولة وبشكل شامل للجميع.",
-                    zh: "自由网团队的GitHub页面是一个无与伦比且全面的资源，提供了互联网上最大的子链接。该平台通过收集各种链接，为自由且无限制的信息世界开辟了一条道路，在那里知识和数据访问对所有人来说都简单且普遍可用。",
-                    ru: "Страница команды Азаднет на GitHub - это уникальный и всеобъемлющий ресурс, предоставляющий крупнейшую подсказку в интернете. Эта платформа, собирая разнообразные ссылки, открыла путь к свободному и неограниченному миру информации, где знания и доступ к данным легко и повсеместно доступны всем."
-                },
-                {
-                    fa: "تیم آزادنت، مجموعه‌ای پیشرو در طراحی و توسعه ربات‌های کاربردی، با هدف صرفه‌جویی در زمان کاربران و افزایش بهره‌وری فعالیت‌های روزمره آن‌ها فعالیت می‌کند. این تیم ربات‌هایی متنوع و کارآمد خلق کرده است که هر یک به‌منظور رفع نیازی مشخص طراحی شده‌اند. برای نمونه، ربات «مخزن لینک ساب» را می‌توان نام برد که بیش از ۹۰ درصد لینک‌های اشتراکی مرتبط با کلاینت‌های مختلف (نظیر V2rayng، Hiddify، Npvtunnel، Clashmeta، Nekobox، Singbox، Mahsang، Nikang و همچنین کلاینت‌های سازگار با سیستم‌عامل‌های ویندوز، مکینتاش و آیفون) را در خود گردآوری کرده است. این ربات به کاربران امکان می‌دهد بدون نیاز به جست‌وجوی زمان‌بر در فضای اینترنت، به‌سرعت و سهولت به لینک‌های مورد نیاز خود دسترسی پیدا کنند. نمونه دیگر، ربات اختصاصی «لایسنس‌های رایگان» است که در هر ساعت از شبانه‌روز آماده تولید و ارائه انواع لایسنس‌های رایگان (برای ابزارهایی مانند فیلترشکن‌ها و آنتی‌ویروس‌ها) به کاربران بوده و خدماتی بی‌وقفه و کارآمد را تضمین می‌کند. تیم آزادنت با این ابتکارات، تجربه‌ای ساده، سریع و قابل اعتماد را برای کاربران خود به ارمغان می‌آورد.",
-                    en: "The Azadnet team, a pioneering group in designing and developing practical bots, operates with the goal of saving users' time and enhancing the productivity of their daily activities. This team has created a variety of efficient bots, each designed to address a specific need. For example, the \"Sub-Link Repository\" bot, which houses over 90% of subscription links related to various clients (such as V2rayng, Hiddify, Npvtunnel, Clashmeta, Nekobox, Singbox, Mahsang, Nikang, as well as clients compatible with Windows, macOS, and iPhone), allows users to quickly and easily access the links they need without time-consuming internet searches. Another example is the dedicated \"Free Licenses\" bot, which is available 24/7 to generate and provide various free licenses (for tools like VPNs and antivirus software), ensuring uninterrupted and efficient services. With these innovations, the Azadnet team delivers a simple, fast, and reliable experience for its users.",
-                    ar: "فريق آزادنت، مجموعة رائدة في تصميم وتطوير الروبوتات العملية، يعمل بهدف توفير وقت المستخدمين وتعزيز إنتاجية أنشطتهم اليومية. لقد أنشأ هذا الفريق مجموعة متنوعة من الروبوتات الفعالة، كل منها مصمم لتلبية حاجة محددة. على سبيل المثال، روبوت \"مستودع الروابط الفرعية\"، الذي يضم أكثر من 90% من روابط الاشتراك المتعلقة بالعملاء المختلفين (مثل V2rayng، Hiddify، Npvtunnel، Clashmeta، Nekobox، Singbox، Mahsang، Nikang، بالإضافة إلى العملاء المتوافقين مع أنظمة ويندوز، ماك، وآيفون)، يتيح للمستخدمين الوصول بسرعة وسهولة إلى الروابط التي يحتاجونها دون الحاجة إلى عمليات بحث طويلة على الإنترنت. مثال آخر هو روبوت \"التراخيص المجانية\" المخصص، الذي يتوفر على مدار الساعة لتوليد وتقديم تراخيص مجانية متنوعة (لأدوات مثل VPN وبرامج مكافحة الفيروسات)، مما يضمن خدمات متواصلة وفعالة. مع هذه الابتكارات، يقدم فريق آزادنت تجربة بسيطة وسريعة وموثوقة لمستخدميه.",
-                    zh: "自由网团队是设计和开发实用机器人的先驱团队，其目标是节省用户时间并提升其日常活动的生产力。该团队创造了许多高效的机器人，每个机器人都是为了满足特定需求而设计。例如，“子链接仓库”机器人容纳了超过90%的与各种客户端相关的订阅链接（例如V2rayng、Hiddify、Npvtunnel、Clashmeta、Nekobox、Singbox、Mahsang、Nikang，以及与Windows、macOS和iPhone兼容的客户端），使用户无需在互联网上耗时搜索即可快速轻松地获取所需链接。另一个例子是专用的“免费许可证”机器人，该机器人在一天中的任何时间都可生成并提供各种免费许可证（用于VPN和防病毒软件等工具），确保不间断且高效的服务。凭借这些创新，自由网团队为其用户带来了简单、快速且可靠的体验。",
-                    ru: "Команда Азаднет - это новаторская группа в области разработки и создания практичных ботов, целью которой является экономия времени пользователей и повышение продуктивности их повседневной деятельности. Эта команда создала множество эффективных ботов, каждый из которых разработан для удовлетворения конкретной потребности. Например, бот «Хранилище суб-ссылок», который содержит более 90% подписных ссылок, связанных с различными клиентами (такими как V2rayng, Hiddify, Npvtunnel, Clashmeta, Nekobox, Singbox, Mahsang, Nikang, а также клиенты, совместимые с Windows, macOS и iPhone), позволяет пользователям быстро и легко получать доступ к нужным ссылкам без долгих поисков в интернете. Другой пример - специализированный бот «Бесплатные лицензии», который круглосуточно готов генерировать и предоставлять различные бесплатные лицензии (для таких инструментов, как VPN и антивирусное ПО), обеспечивая бесперебойное и эффективное обслуживание. Благодаря этим инновациям команда Азаднет предлагает своим пользователям простой, быстрый и надежный опыт."
-                }
+                { fa: "ما جمعی هستیم که تحت نام \"آزادنت\" گرد هم آمده‌ایم، با هدف ارائه خدمات رایگان و بدون محدودیت برای دسترسی به اطلاعات آزاد. ما خود را تابع قوانین ستمگرانه نمی‌دانیم و در راستای آزادی و سربلندی گام برمی‌داریم.", 
+                  en: "We are a group gathered under the name \"Azadnet\" to provide free and unrestricted access to information. We do not follow oppressive laws and strive for freedom and dignity.", 
+                  ar: "نحن مجموعة تجمعت تحت اسم \"آزادنت\" لتقديم خدمات مجانية وبلا قيود للوصول إلى المعلومات الحرة. لا نتبع القوانين الظالمة ونسعى للحرية والكرامة.", 
+                  zh: "我们是一群以“自由网”之名聚集在一起的人，旨在提供免费且无限制的信息访问服务。我们不遵循压迫性法律，致力于自由与尊严。", 
+                  ru: "Мы - группа, собравшаяся под названием \"Азаднет\", чтобы предоставить бесплатный и неограниченный доступ к информации. Мы не подчиняемся угнетающим законам и стремимся к свободе и достоинству." },
+                { fa: "ما مفتخریم که برترین و امن‌ترین ابزارها و برنامه‌های رایگان برای عبور از محدودیت‌های اینترنتی را به شما معرفی می‌کنیم.", 
+                  en: "We are proud to introduce you to the best and most secure free tools for bypassing internet restrictions.", 
+                  ar: "نحن فخورون بتقديم أفضل وأأمن الأدوات المجانية لتجاوز القيود الإنترنتية.", 
+                  zh: "我们很荣幸为您介绍最好、最安全的免费工具，以绕过互联网限制。", 
+                  ru: "Мы гордимся тем, что представляем вам лучшие и самые безопасные бесплатные инструменты для обхода интернет-ограничений." },
+                { fa: "ما با ارتقا و بهینه‌سازی ابزارها و برنامه‌های نیمه‌ رایگان، تجربه‌ای بهتر و کامل‌تر را برای شما فراهم می‌کنیم.", 
+                  en: "By upgrading and optimizing semi-free tools, we provide you with a better and more complete experience.", 
+                  ar: "من خلال ترقية وتحسين الأدوات شبه المجانية، نوفر لكم تجربة أفضل وأكمل.", 
+                  zh: "通过升级和优化半免费工具，我们为您提供更好、更完整的体验。", 
+                  ru: "Обновляя и оптимизируя полу-бесплатные инструменты, мы предоставляем вам лучший и более полный опыт." },
+                { fa: "ما مجموعه‌ای از وب‌گاه‌های مفید و کارآمد را به شما معرفی می‌کنیم که در امور روزمره به شما کمک می‌کنند.", 
+                  en: "We introduce you to a collection of useful and efficient websites that assist you in daily tasks.", 
+                  ar: "نقدم لكم مجموعة من المواقع الإلكترونية المفيدة والفعالة التي تساعدكم في المهام اليومية.", 
+                  zh: "我们向您介绍一系列实用且高效的网站，帮助您完成日常任务。", 
+                  ru: "Мы представляем вам набор полезных и эффективных веб-сайтов, которые помогают в повседневных задачах." }
             ]
         };
 
+        async function fetchBlogPosts() {
+            try {
+                const proxyUrl = 'https://api.allorigins.win/get?url=';
+                const blogFeedUrl = 'https://hpip.blogspot.com/feeds/posts/default';
+                const response = await fetch(`${proxyUrl}${encodeURIComponent(blogFeedUrl)}`);
+                const data = await response.json();
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(data.contents, 'text/xml');
+                
+                const items = Array.from(xmlDoc.getElementsByTagName('entry'));
+                const newPosts = items.map(item => {
+                    const title = item.getElementsByTagName('title')[0].textContent;
+                    const content = item.getElementsByTagName('content')[0].textContent;
+                    const link = Array.from(item.getElementsByTagName('link')).find(l => l.getAttribute('rel') === 'alternate').getAttribute('href');
+                    const date = new Date(item.getElementsByTagName('published')[0].textContent);
+                    const categories = Array.from(item.getElementsByTagName('category')).map(cat => cat.getAttribute('term'));
+                    const hashtags = content.match(/#\w+/g) || [];
+                    return { title, content: content.substring(0, 200) + '...', link, date, categories, hashtags };
+                });
+
+                // به‌روزرسانی لیست پست‌ها
+                if (currentPosts.length === 0) {
+                    currentPosts = newPosts.slice(0, 10); // بارگذاری اولیه ۱۰ پست
+                } else {
+                    const newEntries = newPosts.filter(np => !currentPosts.some(cp => cp.link === np.link));
+                    currentPosts = [...newEntries, ...currentPosts].slice(0, 10); // اضافه کردن پست‌های جدید و حذف قدیمی‌ها
+                }
+
+                displayBlogPosts(currentPosts);
+                populateFilters(newPosts);
+            } catch (error) {
+                console.error('خطا در دریافت پست‌های وبلاگ:', error);
+                const blogSlide = document.querySelectorAll('section')[4];
+                const contentBox = blogSlide.querySelector('.content-box');
+                contentBox.textContent = 'خطا در بارگذاری پست‌های وبلاگ';
+            }
+        }
+
+        function displayBlogPosts(posts) {
+            const blogSlide = document.querySelectorAll('section')[4];
+            const contentBox = blogSlide.querySelector('.content-box');
+            contentBox.innerHTML = `
+                <div class="blog-filter">
+                    <select id="sort-time" onchange="sortPostsByTime(this.value)">
+                        <option value="desc">جدید به قدیم</option>
+                        <option value="asc">قدیم به جدید</option>
+                    </select>
+                    <select id="filter-hashtag" onchange="filterPostsByHashtag(this.value)">
+                        <option value="">همه هشتگ‌ها</option>
+                    </select>
+                    <select id="filter-category" onchange="filterPostsByCategory(this.value)">
+                        <option value="">همه دسته‌بندی‌ها</option>
+                    </select>
+                </div>
+            `;
+
+            const postsContainer = document.createElement('div');
+            posts.forEach(post => {
+                const postElement = document.createElement('div');
+                postElement.classList.add('blog-post');
+                postElement.innerHTML = `
+                    <h3 style="color: gold;">${post.title}</h3>
+                    <p>${post.content}</p>
+                    <p style="font-size: 12px; color: #ccc;">تاریخ: ${post.date.toLocaleDateString('fa-IR')}</p>
+                    <p style="font-size: 12px; color: #ccc;">هشتگ‌ها: ${post.hashtags.join(', ') || 'بدون هشتگ'}</p>
+                    <p style="font-size: 12px; color: #ccc;">دسته‌بندی: ${post.categories.join(', ') || 'بدون دسته‌بندی'}</p>
+                    <a href="${post.link}" target="_blank" class="glass-button">ادامه مطلب</a>
+                `;
+                postsContainer.appendChild(postElement);
+            });
+            contentBox.appendChild(postsContainer);
+        }
+
+        function populateFilters(posts) {
+            const hashtagSelect = document.getElementById('filter-hashtag');
+            const categorySelect = document.getElementById('filter-category');
+
+            const allHashtags = [...new Set(posts.flatMap(post => post.hashtags))];
+            const allCategories = [...new Set(posts.flatMap(post => post.categories))];
+
+            allHashtags.forEach(hashtag => {
+                const option = document.createElement('option');
+                option.value = hashtag;
+                option.textContent = hashtag;
+                hashtagSelect.appendChild(option);
+            });
+
+            allCategories.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category;
+                option.textContent = category;
+                categorySelect.appendChild(option);
+            });
+        }
+
+        function sortPostsByTime(order) {
+            const sortedPosts = [...currentPosts];
+            sortedPosts.sort((a, b) => order === 'desc' ? b.date - a.date : a.date - b.date);
+            displayBlogPosts(sortedPosts);
+        }
+
+        function filterPostsByHashtag(hashtag) {
+            if (!hashtag) {
+                displayBlogPosts(currentPosts);
+            } else {
+                const filteredPosts = currentPosts.filter(post => post.hashtags.includes(hashtag));
+                displayBlogPosts(filteredPosts);
+            }
+        }
+
+        function filterPostsByCategory(category) {
+            if (!category) {
+                displayBlogPosts(currentPosts);
+            } else {
+                const filteredPosts = currentPosts.filter(post => post.categories.includes(category));
+                displayBlogPosts(filteredPosts);
+            }
+        }
+
         function showSlide(slideIndex) {
             sections[currentSlide].classList.remove('active');
-            navDots[currentSlide].classList.remove('active');
+            if (navLinks[currentSlide]) {
+                navLinks[currentSlide].classList.remove('active');
+            }
             currentSlide = slideIndex;
             sections[currentSlide].classList.add('active');
-            navDots[currentSlide].classList.add('active');
+            if (navLinks[currentSlide]) {
+                navLinks[currentSlide].classList.add('active');
+            }
             resetTimer();
+
+            if (slideIndex === 4) {
+                fetchBlogPosts();
+            }
         }
 
         function startSlideTimer() {
             clearInterval(slideInterval);
             slideInterval = setInterval(() => {
-                showSlide((currentSlide + 1) % sections.length);
-            }, 15000);
+                let nextSlide = (currentSlide + 1) % sections.length;
+                showSlide(nextSlide);
+            }, 30000);
         }
 
         function startCountdown() {
             clearInterval(timerInterval);
-            timeLeft = 15;
+            timeLeft = 30;
             timerElement.textContent = timeLeft;
             timerInterval = setInterval(() => {
                 timeLeft--;
                 timerElement.textContent = timeLeft < 10 ? '0' + timeLeft : timeLeft;
-                if (timeLeft <= 0) clearInterval(timerInterval);
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                }
             }, 1000);
         }
 
@@ -465,26 +756,130 @@
             startCountdown();
         }
 
+        function startBlogUpdate() {
+            fetchBlogPosts(); // بارگذاری اولیه ۱۰ پست
+            setInterval(() => {
+                if (currentSlide === 4) {
+                    fetchBlogPosts(); // به‌روزرسانی پست‌ها وقتی اسلاید وبلاگ فعاله
+                }
+            }, 300000); // به‌روزرسانی هر ۵ دقیقه
+        }
+
         function changeLanguage(lang) {
             document.documentElement.lang = lang;
             document.getElementById('header-text').textContent = translations.header[lang];
-            document.getElementById('blog-button').textContent = translations.blogButton[lang];
-            document.getElementById('bots-button').textContent = translations.botsButton[lang];
             document.querySelector('.lang-btn').textContent = translations.langBtn[lang];
+            document.querySelector('.theme-btn').textContent = translations.themeBtn[lang];
             document.querySelectorAll('.header-nav a').forEach((a, index) => {
                 a.textContent = translations[['home', 'telegram', 'github', 'email', 'blog'][index]][lang];
             });
             document.querySelectorAll('.content-box').forEach((box, index) => {
                 const slideText = box.querySelector('.slide-text');
-                if (slideText) {
+                if (slideText && index < translations.slides.length) {
                     slideText.textContent = translations.slides[index][lang];
-                } else {
+                } else if (index < translations.slides.length) {
                     box.textContent = translations.slides[index][lang];
                 }
                 box.setAttribute('data-lang', lang);
             });
             document.body.style.direction = (lang === 'ar' || lang === 'fa') ? 'rtl' : 'ltr';
             document.getElementById('header-text').style.direction = (lang === 'ar' || lang === 'fa') ? 'rtl' : 'ltr';
+
+            document.querySelectorAll('.language-selector .dropdown span').forEach(span => {
+                span.classList.remove('selected');
+            });
+            const selectedLangSpan = Array.from(document.querySelectorAll('.language-selector .dropdown span'))
+                .find(span => span.onclick.toString().includes(`'${lang}'`));
+            if (selectedLangSpan) {
+                selectedLangSpan.classList.add('selected');
+            }
+        }
+
+        const colorPalettes = [
+            { bg: '#2D1B3F', text: '#F4E7D3', accent: '#D9A7B0' },
+            { bg: '#1A3C34', text: '#E8F1F2', accent: '#F4A261' },
+            { bg: '#0A1828', text: '#BFAFA6', accent: '#178CA4' },
+            { bg: '#3C2F2F', text: '#FFF4E6', accent: '#BE9B7B' },
+            { bg: '#14213D', text: '#FCA311', accent: '#E5E5E5' }
+        ];
+
+        function getDailyPalettes() {
+            const today = new Date().toISOString().slice(0, 10);
+            const seed = today.split('-').reduce((acc, val) => acc + parseInt(val), 0);
+            const shuffled = [...colorPalettes].sort(() => 0.5 - Math.random(seed));
+            return shuffled.slice(0, 3);
+        }
+
+        const dailyPalettes = getDailyPalettes();
+
+        function changeTheme(theme) {
+            const body = document.body;
+            const header = document.querySelector('.header');
+            const contentBoxes = document.querySelectorAll('.content-box');
+            const glassButtons = document.querySelectorAll('.glass-button');
+            const dnaStrands = document.querySelectorAll('.dna-strand');
+            const footer = document.querySelector('footer');
+            const patternSlides = document.querySelectorAll('.pattern-slide');
+
+            if (theme === 'default') {
+                body.style.background = '';
+                body.style.color = '';
+                header.style.background = '';
+                header.style.borderBottom = '1px solid rgba(255, 255, 255, 0.2)';
+                contentBoxes.forEach(box => {
+                    box.style.background = 'rgba(0, 0, 0, 0.5)';
+                    box.style.color = 'white';
+                });
+                glassButtons.forEach(btn => {
+                    btn.style.background = 'rgba(255, 255, 255, 0.1)';
+                    btn.style.border = '1px solid rgba(255, 255, 255, 0.2)';
+                    btn.style.color = 'gold';
+                });
+                dnaStrands.forEach(strand => strand.style.background = 'rgba(255, 215, 0, 0.7)');
+                footer.style.background = 'rgba(0, 0, 0, 0.5)';
+                footer.style.color = 'white';
+                patternSlides.forEach(slide => {
+                    slide.style.setProperty('--slide-bg-color', 'transparent');
+                });
+            } else {
+                const palette = dailyPalettes[parseInt(theme.replace('palette', '')) - 1];
+                body.style.background = palette.bg;
+                body.style.color = palette.text;
+                header.style.background = `rgba(${hexToRgb(palette.bg)}, 0.1)`;
+                header.style.borderBottom = `1px solid ${palette.accent}`;
+                contentBoxes.forEach(box => {
+                    box.style.background = `rgba(${hexToRgb(palette.bg)}, 0.5)`;
+                    box.style.color = palette.text;
+                });
+                glassButtons.forEach(btn => {
+                    btn.style.background = `rgba(${hexToRgb(palette.text)}, 0.1)`;
+                    btn.style.border = `1px solid ${palette.accent}`;
+                    btn.style.color = palette.accent;
+                });
+                dnaStrands.forEach(strand => strand.style.background = palette.accent);
+                footer.style.background = `rgba(${hexToRgb(palette.bg)}, 0.5)`;
+                footer.style.color = palette.text;
+                patternSlides.forEach(slide => {
+                    slide.style.setProperty('--slide-bg-color', palette.bg);
+                });
+            }
+
+            document.querySelectorAll('.theme-selector .dropdown span').forEach(span => {
+                span.classList.remove('selected');
+            });
+            const selectedThemeSpan = Array.from(document.querySelectorAll('.theme-selector .dropdown span'))
+                .find(span => span.onclick.toString().includes(`'${theme}'`));
+            if (selectedThemeSpan) {
+                selectedThemeSpan.classList.add('selected');
+            }
+        }
+
+        function hexToRgb(hex) {
+            const bigint = parseInt(hex.slice(1), 16);
+            const r = (bigint >> 16) & 255;
+            const g = (bigint >> 8) & 255;
+            const b = bigint & 255;
+            return `${r}, ${g}, ${b}`;
         }
 
         const header = document.querySelector('.header');
@@ -496,8 +891,8 @@
             const mouseY = e.clientY - rect.top;
 
             dnaStrands.forEach((strand, index) => {
-                const baseX = rect.width * [0.2, 0.4, 0.6, 0.8][index];
-                const baseY = rect.height * [0.1, 0.3, 0.5, 0.7][index];
+                const baseX = rect.width * [0.1, 0.3, 0.5, 0.7, 0.1, 0.3, 0.5, 0.7, 0.1, 0.3, 0.5, 0.7][index];
+                const baseY = rect.height * [0.1, 0.1, 0.1, 0.1, 0.3, 0.3, 0.3, 0.3, 0.5, 0.5, 0.5, 0.5][index];
                 const moveX = (mouseX - baseX) / 20;
                 const moveY = (mouseY - baseY) / 20;
                 strand.style.transform = `translate(${moveX}px, ${moveY}px) rotate(${moveX * 2}deg)`;
@@ -510,20 +905,13 @@
             });
         });
 
-        window.addEventListener('DOMContentLoaded', () => {
-            showSlide(currentSlide);
-            startSlideTimer();
-            startCountdown();
-            changeLanguage('fa');
-
-            navDots.forEach(dot => {
-                dot.addEventListener('click', () => {
-                    const slideIndex = parseInt(dot.getAttribute('data-slide'));
-                    if (slideIndex !== currentSlide) {
-                        showSlide(slideIndex);
-                        startSlideTimer();
-                    }
-                });
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                const slideIndex = parseInt(link.getAttribute('data-slide'));
+                if (slideIndex !== currentSlide) {
+                    showSlide(slideIndex);
+                    startSlideTimer();
+                }
             });
         });
     </script>
