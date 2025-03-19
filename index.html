@@ -432,6 +432,10 @@
             }
 
             .accordion-content {
+                max-height: 0; /* تنظیم پیش‌فرض */
+            }
+
+            .accordion.active .accordion-content {
                 max-height: 200px; /* ارتفاع کمتر برای موبایل */
             }
         }
@@ -496,7 +500,7 @@
                         <span lang="ar" style="display:none"><strong>باقة الإنقاذ</strong>: محتوى باقة الإنقاذ قيد التحضير. يرجى العودة لاحقًا.</span>
                         <span lang="zh" style="display:none"><strong>救援包</strong>: 救援包内容正在准备中。请稍后再回来查看。</span>
                         <span lang="ru" style="display:none"><strong>Пакет спасения</strong>: Содержимое спасательного пакета находится в стадии подготовки. Пожалуйста, зайдите позже.</span>
-                        <span lang="tr" style="display:none"><strong>Kurtarma Paketi</strong>: Kurtarma Paketi'nin içeriği hazırlanmaktadır. Lütfen daha sonra tekrar kontrol edin.</span>
+                        <span lang="tr" style="display:none"><strong>Kurtarma Paketi</strong>: Kurtarma Paketi'nin içeriği hazırlanmaktadır. Lütfen daha sonra tekrar kontrol edin。</span>
                     </p>
                     <!-- کادرهای کشویی -->
                     <div class="accordion-container">
@@ -788,16 +792,12 @@
 
             // بستن همه کادرها
             document.querySelectorAll('.accordion').forEach(acc => {
-                if (acc !== accordion) {
-                    acc.classList.remove('active');
-                }
+                acc.classList.remove('active');
             });
 
             // اگر کادر کلیک‌شده بسته بود، بازش کن
             if (!isActive) {
                 accordion.classList.add('active');
-            } else {
-                accordion.classList.remove('active');
             }
         }
 
