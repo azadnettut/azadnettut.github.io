@@ -322,8 +322,18 @@
             font-size: 14px;
         }
 
+        .accordion-content li a {
+            color: var(--link-color);
+            text-decoration: none;
+        }
+
+        .accordion-content li a:hover {
+            text-decoration: underline;
+        }
+
         .accordion.active .accordion-content {
             max-height: 300px; /* حداکثر ارتفاع باز شدن، قابل تنظیم */
+            overflow-y: auto; /* اضافه شده برای نسخه موبایل */
         }
 
         @media (max-width: 768px) {
@@ -420,6 +430,10 @@
                 flex-direction: column;
                 gap: 5px;
             }
+
+            .accordion-content {
+                max-height: 200px; /* ارتفاع کمتر برای موبایل */
+            }
         }
 
         @media (min-width: 769px) {
@@ -482,7 +496,7 @@
                         <span lang="ar" style="display:none"><strong>باقة الإنقاذ</strong>: محتوى باقة الإنقاذ قيد التحضير. يرجى العودة لاحقًا.</span>
                         <span lang="zh" style="display:none"><strong>救援包</strong>: 救援包内容正在准备中。请稍后再回来查看。</span>
                         <span lang="ru" style="display:none"><strong>Пакет спасения</strong>: Содержимое спасательного пакета находится в стадии подготовки. Пожалуйста, зайдите позже.</span>
-                        <span lang="tr" style="display:none"><strong>Kurtarma Paketi</strong>: Kurtarma Paketi'nin içeriği hazırlanmaktadır. Lütfen daha sonra tekrar kontrol edin。</span>
+                        <span lang="tr" style="display:none"><strong>Kurtarma Paketi</strong>: Kurtarma Paketi'nin içeriği hazırlanmaktadır. Lütfen daha sonra tekrar kontrol edin.</span>
                     </p>
                     <!-- کادرهای کشویی -->
                     <div class="accordion-container">
@@ -490,16 +504,11 @@
                             <div class="accordion-header" onclick="toggleAccordion(this)">اندروید</div>
                             <div class="accordion-content">
                                 <ul>
-                                    <li>گزینه ۱</li>
-                                    <li>گزینه ۲</li>
-                                    <li>گزینه ۳</li>
-                                    <li>گزینه ۴</li>
-                                    <li>گزینه ۵</li>
-                                    <li>گزینه ۶</li>
-                                    <li>گزینه ۷</li>
-                                    <li>گزینه ۸</li>
-                                    <li>گزینه ۹</li>
-                                    <li>گزینه ۱۰</li>
+                                    <li><a href="https://example.com/android1" target="_blank">گزینه ۱</a></li>
+                                    <li><a href="https://example.com/android2" target="_blank">گزینه ۲</a></li>
+                                    <li><a href="https://example.com/android3" target="_blank">گزینه ۳</a></li>
+                                    <li><a href="https://example.com/android4" target="_blank">گزینه ۴</a></li>
+                                    <li><a href="https://example.com/android5" target="_blank">گزینه ۵</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -507,16 +516,11 @@
                             <div class="accordion-header" onclick="toggleAccordion(this)">ویندوز</div>
                             <div class="accordion-content">
                                 <ul>
-                                    <li>گزینه ۱</li>
-                                    <li>گزینه ۲</li>
-                                    <li>گزینه ۳</li>
-                                    <li>گزینه ۴</li>
-                                    <li>گزینه ۵</li>
-                                    <li>گزینه ۶</li>
-                                    <li>گزینه ۷</li>
-                                    <li>گزینه ۸</li>
-                                    <li>گزینه ۹</li>
-                                    <li>گزینه ۱۰</li>
+                                    <li><a href="https://example.com/windows1" target="_blank">گزینه ۱</a></li>
+                                    <li><a href="https://example.com/windows2" target="_blank">گزینه ۲</a></li>
+                                    <li><a href="https://example.com/windows3" target="_blank">گزینه ۳</a></li>
+                                    <li><a href="https://example.com/windows4" target="_blank">گزینه ۴</a></li>
+                                    <li><a href="https://example.com/windows5" target="_blank">گزینه ۵</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -524,16 +528,11 @@
                             <div class="accordion-header" onclick="toggleAccordion(this)">آیفون</div>
                             <div class="accordion-content">
                                 <ul>
-                                    <li>گزینه ۱</li>
-                                    <li>گزینه ۲</li>
-                                    <li>گزینه ۳</li>
-                                    <li>گزینه ۴</li>
-                                    <li>گزینه ۵</li>
-                                    <li>گزینه ۶</li>
-                                    <li>گزینه ۷</li>
-                                    <li>گزینه ۸</li>
-                                    <li>گزینه ۹</li>
-                                    <li>گزینه ۱۰</li>
+                                    <li><a href="https://example.com/iphone1" target="_blank">گزینه ۱</a></li>
+                                    <li><a href="https://example.com/iphone2" target="_blank">گزینه ۲</a></li>
+                                    <li><a href="https://example.com/iphone3" target="_blank">گزینه ۳</a></li>
+                                    <li><a href="https://example.com/iphone4" target="_blank">گزینه ۴</a></li>
+                                    <li><a href="https://example.com/iphone5" target="_blank">گزینه ۵</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -541,16 +540,11 @@
                             <div class="accordion-header" onclick="toggleAccordion(this)">اکستنشن‌های مرورگر</div>
                             <div class="accordion-content">
                                 <ul>
-                                    <li>گزینه ۱</li>
-                                    <li>گزینه ۲</li>
-                                    <li>گزینه ۳</li>
-                                    <li>گزینه ۴</li>
-                                    <li>گزینه ۵</li>
-                                    <li>گزینه ۶</li>
-                                    <li>گزینه ۷</li>
-                                    <li>گزینه ۸</li>
-                                    <li>گزینه ۹</li>
-                                    <li>گزینه ۱۰</li>
+                                    <li><a href="https://example.com/extension1" target="_blank">گزینه ۱</a></li>
+                                    <li><a href="https://example.com/extension2" target="_blank">گزینه ۲</a></li>
+                                    <li><a href="https://example.com/extension3" target="_blank">گزینه ۳</a></li>
+                                    <li><a href="https://example.com/extension4" target="_blank">گزینه ۴</a></li>
+                                    <li><a href="https://example.com/extension5" target="_blank">گزینه ۵</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -794,12 +788,16 @@
 
             // بستن همه کادرها
             document.querySelectorAll('.accordion').forEach(acc => {
-                acc.classList.remove('active');
+                if (acc !== accordion) {
+                    acc.classList.remove('active');
+                }
             });
 
             // اگر کادر کلیک‌شده بسته بود، بازش کن
             if (!isActive) {
                 accordion.classList.add('active');
+            } else {
+                accordion.classList.remove('active');
             }
         }
 
