@@ -790,16 +790,27 @@
             const accordion = header.parentElement;
             const isActive = accordion.classList.contains('active');
 
-            // بستن همه کادرها
-            document.querySelectorAll('.accordion').forEach(acc => {
-                acc.classList.remove('active');
-            });
-
-            // اگر کادر کلیک‌شده بسته بود، بازش کن
-            if (!isActive) {
-                accordion.classList.add('active');
+            if (window.innerWidth > 768) { // فقط برای دسکتاپ (بزرگ‌تر از 768px)
+                // اگر کادر فعلی باز است، فقط آن را ببند
+                if (isActive) {
+                    accordion.classList.remove('active');
+                } else {
+                    // بستن همه کادرها و باز کردن کادر کلیک‌شده
+                    document.querySelectorAll('.accordion').forEach(acc => {
+                        acc.classList.remove('active');
+                    });
+                    accordion.classList.add('active');
+                }
+            } else { // برای موبایل (کوچک‌تر یا برابر با 768px)
+                // بستن همه کادرها
+                document.querySelectorAll('.accordion').forEach(acc => {
+                    acc.classList.remove('active');
+                });
+                // اگر کادر کلیک‌شده بسته بود، بازش کن
+                if (!isActive) {
+                    accordion.classList.add('active');
+                }
             }
-            // اگر کادر باز بود، با کلیک دوباره بسته می‌شود (چون همه کادرها قبلاً بسته شده‌اند)
         }
 
         window.onload = function() {
