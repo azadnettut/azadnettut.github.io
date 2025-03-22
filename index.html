@@ -22,21 +22,18 @@
             font-family: 'Estedad';
             src: url('/Estedad-FD-ExtraBold.woff2') format('woff2');
         }
-
         @font-face {
             font-family: 'Estedad';
             src: url('/Estedad-Thin.woff2') format('woff2');
             font-weight: 300;
             font-style: normal;
         }
-
         @font-face {
             font-family: 'Estedad';
             src: url('/Estedad-Bold.woff2') format('woff2');
             font-weight: 700;
             font-style: normal;
         }
-
         body {
             margin: 0;
             padding: 0;
@@ -48,29 +45,24 @@
             background-color: var(--bg-color, #ffffff);
             color: var(--text-color, #333);
         }
-
         [lang="en"] body, [lang="zh"] body, [lang="ru"] body, [lang="tr"] body {
             direction: ltr;
         }
-
         [lang="ar"] body {
             direction: rtl;
         }
-
         :root {
             --bg-color: #ffffff;
             --text-color: #333;
             --nav-bg: #d3d3d3;
             --link-color: #007bff;
         }
-
         .container {
             display: flex;
             min-height: 100vh;
             position: relative;
             flex-direction: row;
         }
-
         .nav-menu {
             width: 200px;
             padding: 20px;
@@ -85,21 +77,17 @@
             right: 0;
             z-index: 1000;
         }
-
         [lang="en"] .nav-menu, [lang="zh"] .nav-menu, [lang="ru"] .nav-menu, [lang="tr"] .nav-menu {
             right: auto;
             left: 0;
             direction: ltr;
         }
-
         .nav-menu.hidden {
             right: -200px;
         }
-
         [lang="en"] .nav-menu.hidden, [lang="zh"] .nav-menu.hidden, [lang="ru"] .nav-menu.hidden, [lang="tr"] .nav-menu.hidden {
             left: -200px;
         }
-
         .nav-menu .site-logo {
             display: block;
             width: 100px;
@@ -107,14 +95,14 @@
             margin: 20px auto;
             user-select: none;
             will-change: transform;
-            animation: dizzyAnimation 5s linear infinite;
         }
-
+        .nav-menu .site-logo:hover {
+            animation: dizzyAnimation 1.67s linear 1;
+        }
         @keyframes dizzyAnimation {
             0% { transform: rotateY(0deg); }
             100% { transform: rotateY(360deg); }
         }
-
         .nav-menu ul {
             list-style: none;
             padding: 0;
@@ -122,11 +110,9 @@
             display: flex;
             flex-direction: column;
         }
-
         .nav-menu ul li {
             margin: 15px 0;
         }
-
         .nav-menu ul li a {
             text-decoration: none;
             color: var(--text-color);
@@ -135,11 +121,9 @@
             font-weight: 700;
             cursor: pointer;
         }
-
         .nav-menu ul li a:hover {
             color: var(--link-color);
         }
-
         .language-menu, .theme-menu {
             background: rgba(255, 255, 255, 0.2);
             border-radius: 10px;
@@ -148,7 +132,6 @@
             margin-top: 10px;
             backdrop-filter: blur(10px);
         }
-
         .language-menu select, .theme-menu select {
             width: 100%;
             padding: 8px;
@@ -160,23 +143,19 @@
             color: var(--text-color);
             cursor: pointer;
         }
-
         .content-wrapper {
             flex-grow: 1;
             margin-right: 200px;
             transition: margin 0.3s ease;
         }
-
         [lang="en"] .content-wrapper, [lang="zh"] .content-wrapper, [lang="ru"] .content-wrapper, [lang="tr"] .content-wrapper {
             margin-right: 0;
             margin-left: 200px;
         }
-
         .content-wrapper.expanded {
             margin-right: 0;
             margin-left: 0;
         }
-
         .content {
             flex-grow: 1;
             padding: 20px;
@@ -187,15 +166,12 @@
             overflow-y: auto;
             max-height: 100vh;
         }
-
         .content.active {
             display: flex;
         }
-
         #blog.content.active {
             padding-top: 80px;
         }
-
         .text-section {
             padding: 20px;
             max-width: 600px;
@@ -206,22 +182,18 @@
             align-items: center;
             flex-direction: column;
         }
-
         .text-content span {
             font-family: 'Estedad', Arial, sans-serif;
             font-weight: 300;
         }
-
         .text-content strong {
             font-weight: 700;
         }
-
         #blog-posts {
             width: 100%;
             max-width: 600px;
             padding: 20px;
         }
-
         .blog-post {
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.3);
@@ -230,27 +202,22 @@
             margin-bottom: 20px;
             text-align: justify;
         }
-
         .blog-post h2 {
             font-size: 20px;
             margin-bottom: 10px;
             color: var(--link-color);
         }
-
         .blog-post p {
             font-size: 16px;
             line-height: 1.6;
         }
-
         .blog-post a {
             color: var(--link-color);
             text-decoration: none;
         }
-
         .blog-post a:hover {
             text-decoration: underline;
         }
-
         footer {
             text-align: center;
             padding: 10px;
@@ -261,7 +228,6 @@
             right: 0;
             z-index: 999;
         }
-
         .hamburger {
             display: block;
             position: fixed;
@@ -275,25 +241,21 @@
             z-index: 1002;
             transition: all 0.3s ease;
         }
-
-        /* استایل‌های کادرهای کشویی در صفحه پکیج نجات */
         .accordion-container {
             display: flex;
-            flex-direction: row;
-            justify-content: center;
+            flex-direction: column;
             width: 100%;
             max-width: 800px;
             margin-top: 20px;
             gap: 10px;
+            margin-left: auto;
+            margin-right: auto;
         }
-
         .accordion {
-            flex: 1;
             background-color: var(--nav-bg);
             border-radius: 10px;
             overflow: hidden;
         }
-
         .accordion-header {
             padding: 10px;
             background-color: rgba(255, 255, 255, 0.2);
@@ -303,45 +265,37 @@
             text-align: center;
             border-bottom: 1px solid rgba(255, 255, 255, 0.3);
         }
-
         .accordion-content {
             max-height: 0;
             overflow: hidden;
             transition: max-height 0.3s ease;
             background-color: rgba(255, 255, 255, 0.1);
         }
-
         .accordion-content ul {
             list-style: none;
             padding: 10px;
             margin: 0;
         }
-
         .accordion-content li {
             padding: 5px 0;
             font-size: 14px;
         }
-
         .accordion-content li a {
             color: var(--link-color);
             text-decoration: none;
         }
-
         .accordion-content li a:hover {
             text-decoration: underline;
         }
-
         .accordion.active .accordion-content {
-            max-height: 300px; /* حداکثر ارتفاع باز شدن، قابل تنظیم */
-            overflow-y: auto; /* اضافه شده برای نسخه موبایل */
+            max-height: 300px;
+            overflow-y: auto;
         }
-
         @media (max-width: 768px) {
             .container {
                 flex-direction: column;
                 min-height: auto;
             }
-
             .nav-menu {
                 width: 100%;
                 padding: 10px;
@@ -352,94 +306,67 @@
                 transition: right 0.3s ease;
                 justify-content: flex-start;
             }
-
             .nav-menu.active {
                 right: 0;
             }
-
             [lang="en"] .nav-menu, [lang="zh"] .nav-menu, [lang="ru"] .nav-menu, [lang="tr"] .nav-menu {
                 right: -100%;
                 left: auto;
             }
-
             [lang="en"] .nav-menu.active, [lang="zh"] .nav-menu.active, [lang="ru"] .nav-menu.active, [lang="tr"] .nav-menu.active {
                 right: 0;
                 left: auto;
             }
-
             .nav-menu .site-logo {
                 width: 80px;
                 margin: 20px auto;
             }
-
             .nav-menu ul {
                 flex-direction: column;
                 justify-content: flex-start;
                 margin-top: 60px;
                 margin-bottom: 0;
             }
-
             .nav-menu ul li {
                 margin: 10px 0;
             }
-
             .language-menu, .theme-menu {
                 margin-top: 10px;
                 padding: 6px;
             }
-
             .language-menu select, .theme-menu select {
                 font-size: 12px;
                 padding: 4px;
             }
-
             .content-wrapper {
                 margin: 0;
             }
-
             .content {
                 padding: 10px;
                 max-height: none;
                 margin-top: 60px;
             }
-
             #blog.content.active {
                 padding-top: 60px;
             }
-
             .text-section {
                 padding: 10px;
             }
-
             #blog-posts {
                 padding: 10px;
             }
-
             .hamburger {
                 right: 10px;
                 left: auto;
             }
-
             [lang="en"] .hamburger, [lang="zh"] .hamburger, [lang="ru"] .hamburger, [lang="tr"] .hamburger {
                 right: 10px;
                 left: auto;
             }
-
-            /* تنظیم کادرهای کشویی در موبایل */
-            .accordion-container {
-                flex-direction: column;
-                gap: 5px;
-            }
-
-            .accordion-content {
-                max-height: 0; /* تنظیم پیش‌فرض */
-            }
-
             .accordion.active .accordion-content {
-                max-height: 200px; /* ارتفاع کمتر برای موبایل */
+                max-height: 200px;
             }
         }
-
         @media (min-width: 769px) {
             .text-section {
                 height: 50vh;
@@ -452,18 +379,18 @@
         <nav class="nav-menu">
             <img src="logo.png" alt="آزادنت لوگو" class="site-logo">
             <ul>
-                <li><a href="#home" onclick="showSection('home'); return false;" data-lang-fa="خانه" data-lang-en="Home" data-lang-ar="الرئيسية" data-lang-zh="首页" data-lang-ru="Главная" data-lang-tr="Ana Sayfa">خانه</a></li>
-                <li><a href="#rescue" onclick="showSection('rescue'); return false;" data-lang-fa="پکیج نجات" data-lang-en="Rescue Package" data-lang-ar="باقة الإنقاذ" data-lang-zh="救援包" data-lang-ru="Пакет спасения" data-lang-tr="Kurtarma Paketi">پکیج نجات</a></li>
-                <li><a href="#blog" onclick="showSection('blog'); loadBlogPosts(); return false;" data-lang-fa="وبلاگ" data-lang-en="Blog" data-lang-ar="مدونة" data-lang-zh="博客" data-lang-ru="Блог" data-lang-tr="Blog">وبلاگ</a></li>
+                <li><a href="#home" onclick="showSection('home'); return false;" data-lang-fa="خانه" data-lang-en="Home" data-lang-ar="الرئيسية" data-lang-zh="首页" data-lang-ru="Главная" data-lang-tr="Ana Sayfa"><span lang="fa">خانه</span><span lang="en" style="display:none">Home</span><span lang="ar" style="display:none">الرئيسية</span><span lang="zh" style="display:none">首页</span><span lang="ru" style="display:none">Главная</span><span lang="tr" style="display:none">Ana Sayfa</span></a></li>
+                <li><a href="#rescue" onclick="showSection('rescue'); return false;" data-lang-fa="پکیج نجات" data-lang-en="Rescue Package" data-lang-ar="باقة الإنقاذ" data-lang-zh="救援包" data-lang-ru="Пакет спасения" data-lang-tr="Kurtarma Paketi"><span lang="fa">پکیج نجات</span><span lang="en" style="display:none">Rescue Package</span><span lang="ar" style="display:none">باقة الإنقاذ</span><span lang="zh" style="display:none">救援包</span><span lang="ru" style="display:none">Пакет спасения</span><span lang="tr" style="display:none">Kurtarma Paketi</span></a></li>
+                <li><a href="#blog" onclick="showSection('blog'); loadBlogPosts(); return false;" data-lang-fa="وبلاگ" data-lang-en="Blog" data-lang-ar="مدونة" data-lang-zh="博客" data-lang-ru="Блог" data-lang-tr="Blog"><span lang="fa">وبلاگ</span><span lang="en" style="display:none">Blog</span><span lang="ar" style="display:none">مدونة</span><span lang="zh" style="display:none">博客</span><span lang="ru" style="display:none">Блог</span><span lang="tr" style="display:none">Blog</span></a></li>
             </ul>
             <div class="language-menu">
                 <select onchange="changeLanguage(this.value)" aria-label="انتخاب زبان">
-                    <option value="fa" selected>فارسی</option>
-                    <option value="en">English</option>
-                    <option value="ar">العربية</option>
-                    <option value="zh">中文</option>
-                    <option value="ru">Русский</option>
-                    <option value="tr">Turkish</option>
+                    <option value="fa" selected><span lang="fa">فارسی</span></option>
+                    <option value="en"><span lang="en">English</span></option>
+                    <option value="ar"><span lang="ar">العربية</span></option>
+                    <option value="zh"><span lang="zh">中文</span></option>
+                    <option value="ru"><span lang="ru">Русский</span></option>
+                    <option value="tr"><span lang="tr">Turkish</span></option>
                 </select>
             </div>
             <div class="theme-menu">
@@ -476,11 +403,11 @@
                 </select>
             </div>
         </nav>
-        <button class="hamburger" onclick="toggleMenu()">☰</button>
+        <button class="hamburger" onclick="toggleMenu()" aria-label="باز کردن منو">☰</button>
         <div class="content-wrapper">
             <div id="home" class="content active">
                 <div class="text-section">
-                    <h1 id="welcome-text">خوش آمدید</h1>
+                    <h1 id="welcome-text"><span lang="fa">خوش آمدید</span><span lang="en" style="display:none">Welcome</span><span lang="ar" style="display:none">مرحبًا</span><span lang="zh" style="display:none">欢迎</span><span lang="ru" style="display:none">Добро пожаловать</span><span lang="tr" style="display:none">Hoş Geldiniz</span></h1>
                     <p class="text-content">
                         <span lang="fa">ما جمعی هستیم که تحت نام "آزادنت" گرد هم آمده‌ایم، با هدف ارائه خدمات رایگان و بدون محدودیت برای دسترسی به اطلاعات آزاد. ما خود را تابع قوانین ستمگرانه نمی‌دانیم و در راستای آزادی و سربلندی گام برمی‌داریم.</span>
                         <span lang="en" style="display:none">We are a group gathered under the name "Azadnet" to provide free and unrestricted access to information. We do not follow oppressive laws and strive for freedom and dignity.</span>
@@ -493,7 +420,7 @@
             </div>
             <div id="rescue" class="content">
                 <div class="text-section">
-                    <h1 id="rescue-text">پکیج نجات</h1>
+                    <h1 id="rescue-text"><span lang="fa">پکیج نجات</span><span lang="en" style="display:none">Rescue Package</span><span lang="ar" style="display:none">باقة الإنقاذ</span><span lang="zh" style="display:none">救援包</span><span lang="ru" style="display:none">Пакет спасения</span><span lang="tr" style="display:none">Kurtarma Paketi</span></h1>
                     <p class="text-content">
                         <span lang="fa"><strong>پکیج نجات</strong>: محتوای پکیج نجات در حال آماده‌سازی است. لطفاً بعداً مراجعه کنید.</span>
                         <span lang="en" style="display:none"><strong>Rescue Package</strong>: The content of the Rescue Package is under preparation. Please check back later.</span>
@@ -502,53 +429,52 @@
                         <span lang="ru" style="display:none"><strong>Пакет спасения</strong>: Содержимое спасательного пакета находится в стадии подготовки. Пожалуйста, зайдите позже.</span>
                         <span lang="tr" style="display:none"><strong>Kurtarma Paketi</strong>: Kurtarma Paketi'nin içeriği hazırlanmaktadır. Lütfen daha sonra tekrar kontrol edin。</span>
                     </p>
-                    <!-- کادرهای کشویی -->
                     <div class="accordion-container">
                         <div class="accordion">
-                            <div class="accordion-header" onclick="toggleAccordion(this)">اندروید</div>
+                            <div class="accordion-header" onclick="toggleAccordion(this)"><span lang="fa">اندروید</span><span lang="en" style="display:none">Android</span><span lang="ar" style="display:none">أندرويد</span><span lang="zh" style="display:none">安卓</span><span lang="ru" style="display:none">Android</span><span lang="tr" style="display:none">Android</span></div>
                             <div class="accordion-content">
                                 <ul>
-                                    <li><a href="https://example.com/android1" target="_blank">گزینه ۱</a></li>
-                                    <li><a href="https://example.com/android2" target="_blank">گزینه ۲</a></li>
-                                    <li><a href="https://example.com/android3" target="_blank">گزینه ۳</a></li>
-                                    <li><a href="https://example.com/android4" target="_blank">گزینه ۴</a></li>
-                                    <li><a href="https://example.com/android5" target="_blank">گزینه ۵</a></li>
+                                    <li><a href="https://example.com/android1" target="_blank"><span lang="fa">گزینه ۱</span><span lang="en" style="display:none">Option 1</span><span lang="ar" style="display:none">الخيار 1</span><span lang="zh" style="display:none">选项 1</span><span lang="ru" style="display:none">Вариант 1</span><span lang="tr" style="display:none">Seçenek 1</span></a></li>
+                                    <li><a href="https://example.com/android2" target="_blank"><span lang="fa">گزینه ۲</span><span lang="en" style="display:none">Option 2</span><span lang="ar" style="display:none">الخيار 2</span><span lang="zh" style="display:none">选项 2</span><span lang="ru" style="display:none">Вариант 2</span><span lang="tr" style="display:none">Seçenek 2</span></a></li>
+                                    <li><a href="https://example.com/android3" target="_blank"><span lang="fa">گزینه ۳</span><span lang="en" style="display:none">Option 3</span><span lang="ar" style="display:none">الخيار 3</span><span lang="zh" style="display:none">选项 3</span><span lang="ru" style="display:none">Вариант 3</span><span lang="tr" style="display:none">Seçenek 3</span></a></li>
+                                    <li><a href="https://example.com/android4" target="_blank"><span lang="fa">گزینه ۴</span><span lang="en" style="display:none">Option 4</span><span lang="ar" style="display:none">الخيار 4</span><span lang="zh" style="display:none">选项 4</span><span lang="ru" style="display:none">Вариант 4</span><span lang="tr" style="display:none">Seçenek 4</span></a></li>
+                                    <li><a href="https://example.com/android5" target="_blank"><span lang="fa">گزینه ۵</span><span lang="en" style="display:none">Option 5</span><span lang="ar" style="display:none">الخيار 5</span><span lang="zh" style="display:none">选项 5</span><span lang="ru" style="display:none">Вариант 5</span><span lang="tr" style="display:none">Seçenek 5</span></a></li>
                                 </ul>
                             </div>
                         </div>
                         <div class="accordion">
-                            <div class="accordion-header" onclick="toggleAccordion(this)">ویندوز</div>
+                            <div class="accordion-header" onclick="toggleAccordion(this)"><span lang="fa">ویندوز</span><span lang="en" style="display:none">Windows</span><span lang="ar" style="display:none">ويندوز</span><span lang="zh" style="display:none">Windows</span><span lang="ru" style="display:none">Windows</span><span lang="tr" style="display:none">Windows</span></div>
                             <div class="accordion-content">
                                 <ul>
-                                    <li><a href="https://example.com/windows1" target="_blank">گزینه ۱</a></li>
-                                    <li><a href="https://example.com/windows2" target="_blank">گزینه ۲</a></li>
-                                    <li><a href="https://example.com/windows3" target="_blank">گزینه ۳</a></li>
-                                    <li><a href="https://example.com/windows4" target="_blank">گزینه ۴</a></li>
-                                    <li><a href="https://example.com/windows5" target="_blank">گزینه ۵</a></li>
+                                    <li><a href="https://example.com/windows1" target="_blank"><span lang="fa">گزینه ۱</span><span lang="en" style="display:none">Option 1</span><span lang="ar" style="display:none">الخيار 1</span><span lang="zh" style="display:none">选项 1</span><span lang="ru" style="display:none">Вариант 1</span><span lang="tr" style="display:none">Seçenek 1</span></a></li>
+                                    <li><a href="https://example.com/windows2" target="_blank"><span lang="fa">گزینه ۲</span><span lang="en" style="display:none">Option 2</span><span lang="ar" style="display:none">الخيار 2</span><span lang="zh" style="display:none">选项 2</span><span lang="ru" style="display:none">Вариант 2</span><span lang="tr" style="display:none">Seçenek 2</span></a></li>
+                                    <li><a href="https://example.com/windows3" target="_blank"><span lang="fa">گزینه ۳</span><span lang="en" style="display:none">Option 3</span><span lang="ar" style="display:none">الخيار 3</span><span lang="zh" style="display:none">选项 3</span><span lang="ru" style="display:none">Вариант 3</span><span lang="tr" style="display:none">Seçenek 3</span></a></li>
+                                    <li><a href="https://example.com/windows4" target="_blank"><span lang="fa">گزینه ۴</span><span lang="en" style="display:none">Option 4</span><span lang="ar" style="display:none">الخيار 4</span><span lang="zh" style="display:none">选项 4</span><span lang="ru" style="display:none">Вариант 4</span><span lang="tr" style="display:none">Seçenek 4</span></a></li>
+                                    <li><a href="https://example.com/windows5" target="_blank"><span lang="fa">گزینه ۵</span><span lang="en" style="display:none">Option 5</span><span lang="ar" style="display:none">الخيار 5</span><span lang="zh" style="display:none">选项 5</span><span lang="ru" style="display:none">Вариант 5</span><span lang="tr" style="display:none">Seçenek 5</span></a></li>
                                 </ul>
                             </div>
                         </div>
                         <div class="accordion">
-                            <div class="accordion-header" onclick="toggleAccordion(this)">آیفون</div>
+                            <div class="accordion-header" onclick="toggleAccordion(this)"><span lang="fa">آیفون</span><span lang="en" style="display:none">iPhone</span><span lang="ar" style="display:none">آيفون</span><span lang="zh" style="display:none">iPhone</span><span lang="ru" style="display:none">iPhone</span><span lang="tr" style="display:none">iPhone</span></div>
                             <div class="accordion-content">
                                 <ul>
-                                    <li><a href="https://example.com/iphone1" target="_blank">گزینه ۱</a></li>
-                                    <li><a href="https://example.com/iphone2" target="_blank">گزینه ۲</a></li>
-                                    <li><a href="https://example.com/iphone3" target="_blank">گزینه ۳</a></li>
-                                    <li><a href="https://example.com/iphone4" target="_blank">گزینه ۴</a></li>
-                                    <li><a href="https://example.com/iphone5" target="_blank">گزینه ۵</a></li>
+                                    <li><a href="https://example.com/iphone1" target="_blank"><span lang="fa">گزینه ۱</span><span lang="en" style="display:none">Option 1</span><span lang="ar" style="display:none">الخيار 1</span><span lang="zh" style="display:none">选项 1</span><span lang="ru" style="display:none">Вариант 1</span><span lang="tr" style="display:none">Seçenek 1</span></a></li>
+                                    <li><a href="https://example.com/iphone2" target="_blank"><span lang="fa">گزینه ۲</span><span lang="en" style="display:none">Option 2</span><span lang="ar" style="display:none">الخيار 2</span><span lang="zh" style="display:none">选项 2</span><span lang="ru" style="display:none">Вариант 2</span><span lang="tr" style="display:none">Seçenek 2</span></a></li>
+                                    <li><a href="https://example.com/iphone3" target="_blank"><span lang="fa">گزینه ۳</span><span lang="en" style="display:none">Option 3</span><span lang="ar" style="display:none">الخيار 3</span><span lang="zh" style="display:none">选项 3</span><span lang="ru" style="display:none">Вариант 3</span><span lang="tr" style="display:none">Seçenek 3</span></a></li>
+                                    <li><a href="https://example.com/iphone4" target="_blank"><span lang="fa">گزینه ۴</span><span lang="en" style="display:none">Option 4</span><span lang="ar" style="display:none">الخيار 4</span><span lang="zh" style="display:none">选项 4</span><span lang="ru" style="display:none">Вариант 4</span><span lang="tr" style="display:none">Seçenek 4</span></a></li>
+                                    <li><a href="https://example.com/iphone5" target="_blank"><span lang="fa">گزینه ۵</span><span lang="en" style="display:none">Option 5</span><span lang="ar" style="display:none">الخيار 5</span><span lang="zh" style="display:none">选项 5</span><span lang="ru" style="display:none">Вариант 5</span><span lang="tr" style="display:none">Seçenek 5</span></a></li>
                                 </ul>
                             </div>
                         </div>
                         <div class="accordion">
-                            <div class="accordion-header" onclick="toggleAccordion(this)">اکستنشن‌های مرورگر</div>
+                            <div class="accordion-header" onclick="toggleAccordion(this)"><span lang="fa">اکستنشن‌های مرورگر</span><span lang="en" style="display:none">Browser Extensions</span><span lang="ar" style="display:none">إضافات المتصفح</span><span lang="unnieszh" style="display:none">浏览器扩展</span><span lang="ru" style="display:none">Расширения браузера</span><span lang="tr" style="display:none">Tarayıcı Uzantıları</span></div>
                             <div class="accordion-content">
                                 <ul>
-                                    <li><a href="https://example.com/extension1" target="_blank">گزینه ۱</a></li>
-                                    <li><a href="https://example.com/extension2" target="_blank">گزینه ۲</a></li>
-                                    <li><a href="https://example.com/extension3" target="_blank">گزینه ۳</a></li>
-                                    <li><a href="https://example.com/extension4" target="_blank">گزینه ۴</a></li>
-                                    <li><a href="https://example.com/extension5" target="_blank">گزینه ۵</a></li>
+                                    <li><a href="https://example.com/extension1" target="_blank"><span lang="fa">گزینه ۱</span><span lang="en" style="display:none">Option 1</span><span lang="ar" style="display:none">الخيار 1</span><span lang="zh" style="display:none">选项 1</span><span lang="ru" style="display:none">Вариант 1</span><span lang="tr" style="display:none">Seçenek 1</span></a></li>
+                                    <li><a href="https://example.com/extension2" target="_blank"><span lang="fa">گزینه ۲</span><span lang="en" style="display:none">Option 2</span><span lang="ar" style="display:none">الخيار 2</span><span lang="zh" style="display:none">选项 2</span><span lang="ru" style="display:none">Вариант 2</span><span lang="tr" style="display:none">Seçenek 2</span></a></li>
+                                    <li><a href="https://example.com/extension3" target="_blank"><span lang="fa">گزینه ۳</span><span lang="en" style="display:none">Option 3</span><span lang="ar" style="display:none">الخيار 3</span><span lang="zh" style="display:none">选项 3</span><span lang="ru" style="display:none">Вариант 3</span><span lang="tr" style="display:none">Seçenek 3</span></a></li>
+                                    <li><a href="https://example.com/extension4" target="_blank"><span lang="fa">گزینه ۴</span><span lang="en" style="display:none">Option 4</span><span lang="ar" style="display:none">الخيار 4</span><span lang="zh" style="display:none">选项 4</span><span lang="ru" style="display:none">Вариант 4</span><span lang="tr" style="display:none">Seçenek 4</span></a></li>
+                                    <li><a href="https://example.com/extension5" target="_blank"><span lang="fa">گزینه ۵</span><span lang="en" style="display:none">Option 5</span><span lang="ar" style="display:none">الخيار 5</span><span lang="zh" style="display:none">选项 5</span><span lang="ru" style="display:none">Вариант 5</span><span lang="tr" style="display:none">Seçenek 5</span></a></li>
                                 </ul>
                             </div>
                         </div>
@@ -557,17 +483,17 @@
             </div>
             <div id="blog" class="content">
                 <div id="blog-posts">
-                    <p>در حال بارگذاری پست‌ها...</p>
+                    <p><span lang="fa">در حال بارگذاری پست‌ها...</span><span lang="en" style="display:none">Loading posts...</span><span lang="ar" style="display:none">جارٍ تحميل المنشورات...</span><span lang="zh" style="display:none">正在加载帖子...</span><span lang="ru" style="display:none">Загрузка постов...</span><span lang="tr" style="display:none">Gönderiler yükleniyor...</span></p>
                 </div>
             </div>
         </div>
     </div>
     <footer>
-        <p>تماس با ما: t.me/azadnet | © 1404 </p>
+        <p><span lang="fa">تماس با ما: t.me/azadnet | © 1404</span><span lang="en" style="display:none">Contact us: t.me/azadnet | © 2025</span><span lang="ar" style="display:none">اتصل بنا: t.me/azadnet | © 1404</span><span lang="zh" style="display:none">联系我们: t.me/azadnet | © 1404</span><span lang="ru" style="display:none">Свяжитесь с нами: t.me/azadnet | © 1404</span><span lang="tr" style="display:none">Bize ulaşın: t.me/azadnet | © 1404</span></p>
     </footer>
     <script>
         const contents = document.querySelectorAll('.content'),
-              spans = document.querySelectorAll('.text-content span'),
+              spans = document.querySelectorAll('span[lang]'),
               links = document.querySelectorAll('.nav-menu a');
         let blogPostsCache = null;
 
@@ -583,12 +509,8 @@
             const activeLink = document.querySelector(`a[href="#${id}"]`);
             activeLink.setAttribute('aria-current', 'page');
             window.location.hash = id;
+            localStorage.setItem('activeSection', id);
             updateContent();
-
-            if (window.innerWidth <= 768) {
-                const navMenu = document.querySelector('.nav-menu');
-                navMenu.classList.remove('active');
-            }
         }
 
         async function changeLanguage(lang) {
@@ -596,7 +518,6 @@
             localStorage.setItem('selectedLanguage', lang);
             updateContent();
             updateNavMenu(lang);
-            await updateSectionTitles(lang);
             if (document.getElementById('blog').classList.contains('active')) {
                 loadBlogPosts();
             }
@@ -605,47 +526,17 @@
         function updateNavMenu(lang) {
             links.forEach(link => {
                 const text = link.getAttribute(`data-lang-${lang}`);
-                if (text) link.textContent = text;
+                if (text) {
+                    link.querySelector(`span[lang="${lang}"]`).textContent = text;
+                }
             });
         }
 
         function updateContent() {
-            const currentLang = document.documentElement.lang;
+            const currentLang = document.documentElement.lang || 'fa';
             spans.forEach(span => {
-                span.style.display = span.lang === currentLang ? 'block' : 'none';
+                span.style.display = span.lang === currentLang ? 'inline' : 'none';
             });
-        }
-
-        async function updateSectionTitles(lang) {
-            const translations = {
-                'welcome': {
-                    'fa': 'خوش آمدید',
-                    'en': 'Welcome',
-                    'ar': 'مرحبًا',
-                    'zh': '欢迎',
-                    'ru': 'Добро пожаловать',
-                    'tr': 'Hoş Geldiniz'
-                },
-                'rescue': {
-                    'fa': 'پکیج نجات',
-                    'en': 'Rescue Package',
-                    'ar': 'باقة الإنقاذ',
-                    'zh': '救援包',
-                    'ru': 'Пакет спасения',
-                    'tr': 'Kurtarma Paketi'
-                }
-            };
-
-            const welcomeText = document.getElementById('welcome-text');
-            const rescueText = document.getElementById('rescue-text');
-
-            if (lang !== 'fa') {
-                welcomeText.textContent = await translateText(translations['welcome']['fa'], 'fa', lang) || translations['welcome'][lang];
-                rescueText.textContent = await translateText(translations['rescue']['fa'], 'fa', lang) || translations['rescue'][lang];
-            } else {
-                welcomeText.textContent = translations['welcome']['fa'];
-                rescueText.textContent = translations['rescue']['fa'];
-            }
         }
 
         function toggleMenu() {
@@ -665,6 +556,15 @@
             if (hash && validSections.includes(hash)) {
                 showSection(hash);
                 if (hash === 'blog') loadBlogPosts();
+            }
+        }
+
+        function loadSavedSection() {
+            const savedSection = localStorage.getItem('activeSection') || 'home';
+            const validSections = ['home', 'rescue', 'blog'];
+            if (validSections.includes(savedSection)) {
+                showSection(savedSection);
+                if (savedSection === 'blog') loadBlogPosts();
             } else {
                 showSection('home');
             }
@@ -673,13 +573,11 @@
         async function loadBlogPosts() {
             const blogPostsContainer = document.getElementById('blog-posts');
             const currentLang = document.documentElement.lang || 'fa';
-            blogPostsContainer.innerHTML = '<p>در حال بارگذاری پست‌ها...</p>';
-
+            blogPostsContainer.innerHTML = `<p><span lang="fa">در حال بارگذاری پست‌ها...</span><span lang="en" style="display:none">Loading posts...</span><span lang="ar" style="display:none">جارٍ تحميل المنشورات...</span><span lang="zh" style="display:none">正在加载帖子...</span><span lang="ru" style="display:none">Загрузка постов...</span><span lang="tr" style="display:none">Gönderiler yükleniyor...</span></p>`;
             if (blogPostsCache && currentLang === 'fa') {
                 blogPostsContainer.innerHTML = blogPostsCache;
                 return;
             }
-
             const feedUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent('https://hpip.blogspot.com/feeds/posts/default');
             try {
                 const controller = new AbortController();
@@ -690,7 +588,10 @@
                 const parser = new DOMParser();
                 const xmlDoc = parser.parseFromString(data, 'text/xml');
                 const entries = xmlDoc.getElementsByTagName('entry');
-
+                if (entries.length === 0) {
+                    blogPostsContainer.innerHTML = '<p><span lang="fa">پستی برای نمایش وجود ندارد.</span><span lang="en" style="display:none">No posts to display.</span><span lang="ar" style="display:none">لا توجد منشورات للعرض.</span><span lang="zh" style="display:none">没有帖子可显示。</span><span lang="ru" style="display:none">Нет постов для отображения.</span><span lang="tr" style="display:none">Gösterilecek gönderi yok.</span></p>';
+                    return;
+                }
                 blogPostsContainer.innerHTML = '';
                 for (let i = 0; i < entries.length; i++) {
                     const entry = entries[i];
@@ -698,28 +599,28 @@
                     const content = entry.getElementsByTagName('content')[0].textContent.replace(/<[^>]+>/g, '');
                     const link = Array.from(entry.getElementsByTagName('link'))
                         .find(link => link.getAttribute('rel') === 'alternate')
-                        ?.getAttribute('href') || 'https://hpip.blogspot.com';
-
+                        ?.getAttribute('href') || 'https://tigo.freeamoozesh63.workers.dev';
                     let translatedTitle = title;
                     let translatedContent = content;
+                    let continueText = 'ادامه مطلب';
                     if (currentLang !== 'fa') {
                         translatedTitle = await translateText(title, 'fa', currentLang);
                         translatedContent = await translateText(content, 'fa', currentLang);
+                        continueText = await translateText('ادامه مطلب', 'fa', currentLang);
                     }
-
                     const postDiv = document.createElement('div');
                     postDiv.className = 'blog-post';
                     postDiv.innerHTML = `
                         <h2><a href="${link}" target="_blank">${translatedTitle}</a></h2>
-                        <p>${translatedContent.substring(0, 200)}... <a href="${link}" target="_blank">ادامه مطلب</a></p>
+                        <p>${translatedContent.substring(0, 200)}... <a href="${link}" target="_blank">${continueText}</a></p>
                     `;
                     blogPostsContainer.appendChild(postDiv);
                 }
-
                 if (currentLang === 'fa') blogPostsCache = blogPostsContainer.innerHTML;
             } catch (error) {
                 console.error('خطا در دریافت فید: ', error);
-                blogPostsContainer.innerHTML = '<p>خطا در بارگذاری. بعداً تلاش کنید.</p>';
+                const errorMsg = await translateText('فکر کنم اینترنتت اختلال داره نتونست محتوا رو بارگیری کنه، صفحه رو رفرش کن', 'fa', currentLang);
+                blogPostsContainer.innerHTML = `<p>${errorMsg}</p>`;
             }
         }
 
@@ -785,38 +686,21 @@
             changeLanguage(savedLanguage);
         }
 
-        // تابع برای باز و بسته کردن کادرهای کشویی
         function toggleAccordion(header) {
             const accordion = header.parentElement;
             const isActive = accordion.classList.contains('active');
-
-            if (window.innerWidth > 768) { // فقط برای دسکتاپ (بزرگ‌تر از 768px)
-                // اگر کادر فعلی باز است، فقط آن را ببند
-                if (isActive) {
-                    accordion.classList.remove('active');
-                } else {
-                    // بستن همه کادرها و باز کردن کادر کلیک‌شده
-                    document.querySelectorAll('.accordion').forEach(acc => {
-                        acc.classList.remove('active');
-                    });
-                    accordion.classList.add('active');
-                }
-            } else { // برای موبایل (کوچک‌تر یا برابر با 768px)
-                // بستن همه کادرها
-                document.querySelectorAll('.accordion').forEach(acc => {
-                    acc.classList.remove('active');
-                });
-                // اگر کادر کلیک‌شده بسته بود، بازش کن
-                if (!isActive) {
-                    accordion.classList.add('active');
-                }
+            document.querySelectorAll('.accordion').forEach(acc => {
+                acc.classList.remove('active');
+            });
+            if (!isActive) {
+                accordion.classList.add('active');
             }
         }
 
         window.onload = function() {
             loadSavedTheme();
             loadSavedLanguage();
-            loadSectionFromHash();
+            loadSavedSection();
         };
 
         window.onhashchange = loadSectionFromHash;
