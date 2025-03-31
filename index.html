@@ -163,6 +163,12 @@
         .content.active {
             display: flex;
         }
+        #home .text-section {
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
         #blog.content.active, #technology.content.active {
             padding-top: 80px;
         }
@@ -301,6 +307,87 @@
             max-height: 300px;
             overflow-y: auto;
         }
+        .icons-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .icons-container a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-color);
+        }
+        .icons-container a img {
+            width: 50px;
+            height: 50px;
+            transition: transform 0.3s ease;
+        }
+        .icons-container a img:hover {
+            transform: scale(1.1);
+        }
+        .icons-container a span {
+            margin-top: 5px;
+            font-size: 14px;
+            font-weight: 700;
+        }
+        .slot-machine-container {
+            margin-top: 30px;
+            text-align: center;
+            background-color: #f0f8ff;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #e0e0e0;
+        }
+        .slot-machine {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .slot-column {
+            width: 80px;
+            height: 80px;
+            background: rgb(255 255 255 / .1);
+            border: 1px solid rgb(255 255 255 / .3);
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+        }
+        .spin-button {
+            padding: 10px 20px;
+            background-color: var(--link-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Estedad', Arial, sans-serif;
+            font-weight: 700;
+        }
+        .spin-button:hover {
+            background-color: #0056b3;
+        }
+        .spin-button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        .reward-message {
+            margin-top: 20px;
+            padding: 10px;
+            background: rgb(255 255 255 / .1);
+            border: 1px solid rgb(255 255 255 / .3);
+            border-radius: 5px;
+            display: none;
+        }
+        .about-image {
+            margin-top: 20px;
+            max-width: 100%;
+            height: auto;
+        }
         @media (min-width: 769px) {
             .container {
                 flex-direction: row;
@@ -331,6 +418,29 @@
             }
             .hamburger {
                 display: block;
+            }
+            #about .text-section {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: flex-start;
+                max-width: 1200px;
+            }
+            #about .text-section h1,
+            #about .text-section .text-content {
+                flex: 1;
+                margin-left: 20px;
+            }
+            #about .text-section .about-image {
+                flex: 1;
+                max-width: 50%;
+                margin-top: 0;
+            }
+            .icons-container a img {
+                width: 70px;
+                height: 70px;
+            }
+            .icons-container a span {
+                font-size: 16px;
             }
         }
         @media (max-width: 768px) {
@@ -411,10 +521,11 @@
         <nav class="nav-menu">
             <img src="logo.png" alt="آزادنت لوگو" class="site-logo">
             <ul>
-                <li><a href="#home" onclick="showSection('home'); return false;" data-lang-fa="خانه" data-lang-en="Home" data-lang-ar="الرئيسية" data-lang-zh="首页" data-lang-ru="Главная" data-lang-tr="Ana Sayfa"><span lang="fa">خانه</span><span lang="en" style="display:none">Home</span><span lang="ar" style="display:none">الرئيسية</span><span lang="zh" style="display:none">首页</span><span lang="ru" style="display:none">Главная</span><span lang="tr" style="display:none">Ana Sayfa</span></a></li>
-                <li><a href="#rescue" onclick="showSection('rescue'); return false;" data-lang-fa="پکیج نجات" data-lang-en="Rescue Package" data-lang-ar="باقة الإنقاذ" data-lang-zh="救援包" data-lang-ru="Пакет спасения" data-lang-tr="Kurtarma Paketi"><span lang="fa">پکیج نجات</span><span lang="en" style="display:none">Rescue Package</span><span lang="ar" style="display:none">باقة الإنقاذ</span><span lang="zh" style="display:none">救援包</span><span lang="ru" style="display:none">Пакет спасения</span><span lang="tr" style="display:none">Kurtarma Paketi</span></a></li>
-                <li><a href="#blog" onclick="showSection('blog'); loadBlogPosts(); return false;" data-lang-fa="وبلاگ" data-lang-en="Blog" data-lang-ar="مدونة" data-lang-zh="博客" data-lang-ru="Блог" data-lang-tr="Blog"><span lang="fa">وبلاگ</span><span lang="en" style="display:none">Blog</span><span lang="ar" style="display:none">مدونة</span><span lang="zh" style="display:none">博客</span><span lang="ru" style="display:none">Блог</span><span lang="tr" style="display:none">Blog</span></a></li>
-                <li><a href="#technology" onclick="showSection('technology'); loadTechNews(); return false;" data-lang-fa="تکنولوژی" data-lang-en="Technology" data-lang-ar="تكنولوجيا" data-lang-zh="技术" data-lang-ru="Технологии" data-lang-tr="Teknoloji"><span lang="fa">تکنولوژی</span><span lang="en" style="display:none">Technology</span><span lang="ar" style="display:none">تكنولوجيا</span><span lang="zh" style="display:none">技术</span><span lang="ru" style="display:none">Технологии</span><span lang="tr" style="display:none">Teknoloji</span></a></li>
+                <li><a href="#home" data-lang-fa="خانه" data-lang-en="Home" data-lang-ar="الرئيسية" data-lang-zh="首页" data-lang-ru="Главная" data-lang-tr="Ana Sayfa"><span lang="fa">خانه</span><span lang="en" style="display:none">Home</span><span lang="ar" style="display:none">الرئيسية</span><span lang="zh" style="display:none">首页</span><span lang="ru" style="display:none">Главная</span><span lang="tr" style="display:none">Ana Sayfa</span></a></li>
+                <li><a href="#rescue" data-lang-fa="پکیج نجات" data-lang-en="Rescue Package" data-lang-ar="باقة الإنقاذ" data-lang-zh="救援包" data-lang-ru="Пакет спасения" data-lang-tr="Kurtarma Paketi"><span lang="fa">پکیج نجات</span><span lang="en" style="display:none">Rescue Package</span><span lang="ar" style="display:none">باقة الإنقاذ</span><span lang="zh" style="display:none">救援包</span><span lang="ru" style="display:none">Пакет спасения</span><span lang="tr" style="display:none">Kurtarma Paketi</span></a></li>
+                <li><a href="#blog" data-lang-fa="وبلاگ" data-lang-en="Blog" data-lang-ar="مدونة" data-lang-zh="博客" data-lang-ru="Блог" data-lang-tr="Blog"><span lang="fa">وبلاگ</span><span lang="en" style="display:none">Blog</span><span lang="ar" style="display:none">مدونة</span><span lang="zh" style="display:none">博客</span><span lang="ru" style="display:none">Блог</span><span lang="tr" style="display:none">Blog</span></a></li>
+                <li><a href="#technology" data-lang-fa="تکنولوژی" data-lang-en="Technology" data-lang-ar="تكنولوجيا" data-lang-zh="技术" data-lang-ru="Технологии" data-lang-tr="Teknoloji"><span lang="fa">تکنولوژی</span><span lang="en" style="display:none">Technology</span><span lang="ar" style="display:none">تكنولوجيا</span><span lang="zh" style="display:none">技术</span><span lang="ru" style="display:none">Технологии</span><span lang="tr" style="display:none">Teknoloji</span></a></li>
+                <li><a href="#about" data-lang-fa="درباره ما" data-lang-en="About Us" data-lang-ar="معلومات عنا" data-lang-zh="关于我们" data-lang-ru="О нас" data-lang-tr="Hakkımızda"><span lang="fa">درباره ما</span><span lang="en" style="display:none">About Us</span><span lang="ar" style="display:none">معلومات عنا</span><span lang="zh" style="display:none">关于我们</span><span lang="ru" style="display:none">О нас</span><span lang="tr" style="display:none">Hakkımızda</span></a></li>
             </ul>
             <div class="language-menu">
                 <select onchange="changeLanguage(this.value)" aria-label="انتخاب زبان">
@@ -441,16 +552,46 @@
             <div id="home" class="content active">
                 <div class="text-section">
                     <h1 id="welcome-text"><span lang="fa">خوش آمدید</span><span lang="en" style="display:none">Welcome</span><span lang="ar" style="display:none">مرحبًا</span><span lang="zh" style="display:none">欢迎</span><span lang="ru" style="display:none">Добро пожаловать</span><span lang="tr" style="display:none">Hoş Geldiniz</span></h1>
-                    <p class="text-content"><span lang="fa">ما جمعی هستیم که تحت نام "آزادنت" گرد هم آمده‌ایم، با هدف ارائه خدمات رایگان و بدون محدودیت برای دسترسی به اطلاعات آزاد. ما خود را تابع قوانین ستمگرانه نمی‌دانیم و در راستای آزادی و سربلندی گام برمی‌داریم.</span><span lang="en" style="display:none">We are a group gathered under the name "Azadnet" to provide free and unrestricted access to information. We do not follow oppressive laws and strive for freedom and dignity.</span><span lang="ar" style="display:none">نحن مجموعة تجمعت تحت اسم "آزادنت" لتقديم خدمات مجانية وبلا قيود للوصول إلى المعلومات الحرة. لا نتبع القوانين الظالمة ونسعى للحرية والكرامة.</span><span lang="zh" style="display:none">我们是一群以“自由网”之名聚集在一起的人，旨在提供免费且无限制的信息访问服务。我们不遵循压迫性法律，致力于自由与尊严。</span><span lang="ru" style="display:none">Мы - группа, собравшаяся под названием "Азаднет", чтобы предоставить бесплатный и неограниченный доступ к информации. Мы не подчиняемся угнетающим законам и стремимся к свободе и достоинству.</span><span lang="tr" style="display:none">Biz, "Azadnet" adı altında toplanmış bir grup olarak, bilgiye ücretsiz ve kısıtlamasız erişim sağlamak amacıyla bir araya geldik. Baskıcı yasalara uymuyor, özgürlük ve onur için çabalıyoruz.</span></p>
+                    <div class="icons-container">
+                        <a href="#rescue" onclick="showSection('rescue'); return false;">
+                            <img src="rescue.png" alt="پکیج نجات">
+                            <span lang="fa">پکیج نجات</span><span lang="en" style="display:none">Rescue Package</span><span lang="ar" style="display:none">باقة الإنقاذ</span><span lang="zh" style="display:none">救援包</span><span lang="ru" style="display:none">Пакет спасения</span><span lang="tr" style="display:none">Kurtarma Paketi</span>
+                        </a>
+                        <a href="#blog" onclick="showSection('blog'); loadBlogPosts(); return false;">
+                            <img src="Blog.png" alt="وبلاگ">
+                            <span lang="fa">وبلاگ</span><span lang="en" style="display:none">Blog</span><span lang="ar" style="display:none">مدونة</span><span lang="zh" style="display:none">博客</span><span lang="ru" style="display:none">Блог</span><span lang="tr" style="display:none">Blog</span>
+                        </a>
+                        <a href="#technology" onclick="showSection('technology'); loadTechNews(); return false;">
+                            <img src="tech.png" alt="تکنولوژی">
+                            <span lang="fa">تکنولوژی</span><span lang="en" style="display:none">Technology</span><span lang="ar" style="display:none">تكنولوجيا</span><span lang="zh" style="display:none">技术</span><span lang="ru" style="display:none">Технологии</span><span lang="tr" style="display:none">Teknoloji</span>
+                        </a>
+                        <a href="#about" onclick="showSection('about'); return false;">
+                            <img src="About.png" alt="درباره ما">
+                            <span lang="fa">درباره ما</span><span lang="en" style="display:none">About Us</span><span lang="ar" style="display:none">معلومات عنا</span><span lang="zh" style="display:none">关于我们</span><span lang="ru" style="display:none">О нас</span><span lang="tr" style="display:none">Hakkımızda</span>
+                        </a>
+                    </div>
+                    <div class="slot-machine-container">
+                        <h2><span lang="fa">شانست امتحان کن</span><span lang="en" style="display:none">Slot Machine</span><span lang="ar" style="display:none">آلة القمار</span><span lang="zh" style="display:none">老虎机</span><span lang="ru" style="display:none">Игровой автомат</span><span lang="tr" style="display:none">Slot Makinesi</span></h2>
+                        <div class="slot-machine" id="slot-machine">
+                            <div class="slot-column" id="slot1"></div>
+                            <div class="slot-column" id="slot2"></div>
+                            <div class="slot-column" id="slot3"></div>
+                        </div>
+                        <button class="spin-button" id="spin-button">چرخاندن</button>
+                        <p id="spin-count-text"><span lang="fa">شانس باقی‌مانده در ۶ ساعت: ۳</span><span lang="en" style="display:none">Remaining spins in 6 hours: 3</span><span lang="ar" style="display:none">الفرص المتبقية في 6 ساعات: 3</span><span lang="zh" style="display:none">6小时内剩余次数：3</span><span lang="ru" style="display:none">Оставшиеся попытки за 6 часов: 3</span><span lang="tr" style="display:none">6 saat içindeki kalan şans: 3</span></p>
+                        <div class="reward-message" id="reward-message">
+                            <p><span lang="fa">تبریک! جایزه شما: </span><span lang="en" style="display:none">Congratulations! Your reward: </span><span lang="ar" style="display:none">تهانينا! جائزتك: </span><span lang="zh" style="display:none">恭喜！您的奖励： </span><span lang="ru" style="display:none">Поздравляем! Ваш приз: </span><span lang="tr" style="display:none">Tebrikler! Ödülünüz: </span><a href="https://suo.yt/72o3jJK" target="_blank">لینک جایزه</a></p>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div id="rescue" class="content">
                 <div class="text-section">
                     <h1 id="rescue-text"><span lang="fa">پکیج نجات</span><span lang="en" style="display:none">Rescue Package</span><span lang="ar" style="display:none">باقة الإنقاذ</span><span lang="zh" style="display:none">救援包</span><span lang="ru" style="display:none">Пакет спасения</span><span lang="tr" style="display:none">Kurtarma Paketi</span></h1>
-                    <p class="text-content"><span lang="fa"><strong>پکیج نجات</strong>: محتوای پکیج نجات در حال آماده‌سازی است. لطفاً بعداً مراجعه کنید.</span><span lang="en" style="display:none"><strong>Rescue Package</strong>: The content of the Rescue Package is under preparation. Please check back later.</span><span lang="ar" style="display:none"><strong>باقة الإنقاذ</strong>: محتوى باقة الإنقاذ قيد التحضير. يرجى العودة لاحقًا.</span><span lang="zh" style="display:none"><strong>救援包</strong>: 救援包内容正在准备中。请稍后再回来查看。</span><span lang="ru" style="display:none"><strong>Пакет спасения</strong>: Содержимое спасательного пакета находится в стадии подготовки. Пожалуйста, зайдите позже.</span><span lang="tr" style="display:none"><strong>Kurtarma Paketi</strong>: Kurtarma Paketi'nin içeriği hazırlanmaktadır. Lütfen daha sonra tekrar kontrol edin。</span></p>
+                    <p class="text-content"><span lang="fa">تمامی برنامه‌های معرفی شده در این صفحه فقط برای برقراری اتصال شما در هنگامیست که به هیچ فیلترشکنی دسترسی ندارید، پس از اتصال می‌توانید به انتخاب خود، فیلترشکن مورد علاقه خود را استفاده کنید.</span><span lang="en" style="display:none">All the programs introduced on this page are only for establishing your connection when you have no access to any VPN. After connecting, you can use your preferred VPN of choice.</span><span lang="ar" style="display:none">جميع البرامج المقدمة في هذه الصفحة هي فقط لتأسيس اتصالك عندما لا يمكنك الوصول إلى أي VPN، وبعد الاتصال يمكنك استخدام VPN المفضل لديك حسب اختيارك.</span><span lang="zh" style="display:none">此页面介绍的所有程序仅用于在您无法访问任何VPN时建立连接，连接后您可以根据自己的选择使用您喜欢的VPN。</span><span lang="ru" style="display:none">Все программы, представленные на этой странице, предназначены только для установления вашего соединения, когда у вас нет доступа к VPN. После подключения вы можете использовать предпочитаемый вами VPN по вашему выбору.</span><span lang="tr" style="display:none">Bu sayfada tanıtılan tüm programlar, herhangi bir VPN'e erişiminiz olmadığında bağlantınızı kurmak içindir. Bağlantı kurulduktan sonra, kendi seçiminize göre tercih ettiğiniz VPN'i kullanabilirsiniz.</span></p>
                     <div class="accordion-container">
                         <div class="accordion">
-                            <div class="accordion-header" onclick="toggleAccordion(this)"><span lang="fa">اندروید</span><span lang="en" style="display:none">Android</span><span lang="ar" style="display:none">أندرويد</span><span lang="zh" style="display:none">安卓</span><span lang="ru" style="display:none">Android</span><span lang="tr" style="display:none">Android</span></div>
+                            <div class="accordion-header"><span lang="fa">اندروید</span><span lang="en" style="display:none">Android</span><span lang="ar" style="display:none">أندرويد</span><span lang="zh" style="display:none">安卓</span><span lang="ru" style="display:none">Android</span><span lang="tr" style="display:none">Android</span></div>
                             <div class="accordion-content">
                                 <ul>
                                     <li><a href="https://github.com/ProtonVPN/android-app/releases/download/5.9.59.0/ProtonVPN-5.9.59.0.605095900.-production-vanilla-direct-release.apk" target="_blank"><span lang="fa">پروتون</span><span lang="en" style="display:none">Option 1</span><span lang="ar" style="display:none">الخيار 1</span><span lang="zh" style="display:none">选项 1</span><span lang="ru" style="display:none">Вариант 1</span><span lang="tr" style="display:none">Seçenek 1</span></a></li>
@@ -462,7 +603,7 @@
                             </div>
                         </div>
                         <div class="accordion">
-                            <div class="accordion-header" onclick="toggleAccordion(this)"><span lang="fa">ویندوز</span><span lang="en" style="display:none">Windows</span><span lang="ar" style="display:none">ويندوز</span><span lang="zh" style="display:none">Windows</span><span lang="ru" style="display:none">Windows</span><span lang="tr" style="display:none">Windows</span></div>
+                            <div class="accordion-header"><span lang="fa">ویندوز</span><span lang="en" style="display:none">Windows</span><span lang="ar" style="display:none">ويندوز</span><span lang="zh" style="display:none">Windows</span><span lang="ru" style="display:none">Windows</span><span lang="tr" style="display:none">Windows</span></div>
                             <div class="accordion-content">
                                 <ul>
                                     <li><a href="https://github.com/bepass-org/oblivion-desktop/releases/latest/download/oblivion-desktop-win-ia32.exe" target="_blank"><span lang="fa">اوبلیویون</span><span lang="en" style="display:none">Option 1</span><span lang="ar" style="display:none">الخيار 1</span><span lang="zh" style="display:none">选项 1</span><span lang="ru" style="display:none">Вариант 1</span><span lang="tr" style="display:none">Seçenek 1</span></a></li>
@@ -474,7 +615,7 @@
                             </div>
                         </div>
                         <div class="accordion">
-                            <div class="accordion-header" onclick="toggleAccordion(this)"><span lang="fa">آیفون</span><span lang="en" style="display:none">iPhone</span><span lang="ar" style="display:none">آيفون</span><span lang="zh" style="display:none">iPhone</span><span lang="ru" style="display:none">iPhone</span><span lang="tr" style="display:none">iPhone</span></div>
+                            <div class="accordion-header"><span lang="fa">آیفون</span><span lang="en" style="display:none">iPhone</span><span lang="ar" style="display:none">آيفون</span><span lang="zh" style="display:none">iPhone</span><span lang="ru" style="display:none">iPhone</span><span lang="tr" style="display:none">iPhone</span></div>
                             <div class="accordion-content">
                                 <ul>
                                     <li><a href="https://apps.apple.com/us/app/ostrich-vpn-proxy-master/id1532634346" target="_blank"><span lang="fa">ostrich</span><span lang="en" style="display:none">Option 1</span><span lang="ar" style="display:none">الخيار 1</span><span lang="zh" style="display:none">选项 1</span><span lang="ru" style="display:none">Вариант 1</span><span lang="tr" style="display:none">Seçenek 1</span></a></li>
@@ -486,7 +627,7 @@
                             </div>
                         </div>
                         <div class="accordion">
-                            <div class="accordion-header" onclick="toggleAccordion(this)"><span lang="fa">اکستنشن‌های مرورگر</span><span lang="en" style="display:none">Browser Extensions</span><span lang="ar" style="display:none">إضافات المتصفح</span><span lang="zh" style="display:none">浏览器扩展</span><span lang="ru" style="display:none">Расширения браузера</span><span lang="tr" style="display:none">Tarayıcı Uzantıları</span></div>
+                            <div class="accordion-header"><span lang="fa">اکستنشن‌های مرورگر</span><span lang="en" style="display:none">Browser Extensions</span><span lang="ar" style="display:none">إضافات المتصفح</span><span lang="zh" style="display:none">浏览器扩展</span><span lang="ru" style="display:none">Расширения браузера</span><span lang="tr" style="display:none">Tarayıcı Uzantıları</span></div>
                             <div class="accordion-content">
                                 <ul>
                                     <li><a href="https://windscribe.com/install/extension/chrome" target="_blank"><span lang="fa">windscribe</span><span lang="en" style="display:none">Option 1</span><span lang="ar" style="display:none">الخيار 1</span><span lang="zh" style="display:none">选项 1</span><span lang="ru" style="display:none">Вариант 1</span><span lang="tr" style="display:none">Seçenek 1</span></a></li>
@@ -510,336 +651,409 @@
                     <p><span lang="fa">در حال بارگذاری اخبار تکنولوژی...</span><span lang="en" style="display:none">Loading technology news...</span><span lang="ar" style="display:none">جارٍ تحميل أخبار التكنولوجيا...</span><span lang="zh" style="display:none">正在加载科技新闻...</span><span lang="ru" style="display:none">Загрузка новостей технологий...</span><span lang="tr" style="display:none">Teknoloji haberleri yükleniyor...</span></p>
                 </div>
             </div>
+            <div id="about" class="content">
+                <div class="text-section">
+                    <h1 id="about-text"><span lang="fa">درباره ما</span><span lang="en" style="display:none">About Us</span><span lang="ar" style="display:none">معلومات عنا</span><span lang="zh" style="display:none">关于我们</span><span lang="ru" style="display:none">О нас</span><span lang="tr" style="display:none">Hakkımızda</span></h1>
+                    <p class="text-content"><span lang="fa">ما جمعی هستیم که تحت نام "آزادنت" گرد هم آمده‌ایم، با هدف ارائه خدمات رایگان و بدون محدودیت برای دسترسی به اطلاعات آزاد. ما خود را تابع قوانین ستمگرانه نمی‌دانیم و در راستای آزادی و سربلندی گام برمی‌داریم. تنها راه ارتباط با تیم آزادنت عضویت در کانال آزادنت است.</span><span lang="en" style="display:none">We are a group gathered under the name "Azadnet" to provide free and unrestricted access to information. We do not follow oppressive laws and strive for freedom and dignity. The only way to contact the Azadnet team is by joining the Azadnet channel.</span><span lang="ar" style="display:none">نحن مجموعة تجمعت تحت اسم "آزادنت" لتقديم خدمات مجانية وبلا قيود للوصول إلى المعلومات الحرة. لا نتبع القوانين الظالمة ونسعى للحرية والكرامة. الطريقة الوحيدة للتواصل مع فريق آزادنت هي الانضمام إلى قناة آزادنت.</span><span lang="zh" style="display:none">我们是一群以“自由网”之名聚集在一起的人，旨在提供免费且无限制的信息访问服务。我们不遵循压迫性法律，致力于自由与尊严。联系自由网团队的唯一方式是加入自由网频道。</span><span lang="ru" style="display:none">Мы - группа, собравшаяся под названием "Азаднет", чтобы предоставить бесплатный и неограниченный доступ к информации. Мы не подчиняемся угнетающим законам и стремимся к свободе и достоинству. Единственный способ связаться с командой Азаднет - это加入频道 Азаднет.</span><span lang="tr" style="display:none">Biz, "Azadnet" adı altında toplanmış bir grup olarak, bilgiye ücretsiz ve kısıtlamasız erişim sağlamak amacıyla bir araya geldik. Baskıcı yasalara uymuyor, özgürlük ve onur için çabalıyoruz. Azadnet ekibiyle iletişime geçmenin tek yolu Azadnet kanalına katılmaktır.</span></p>
+                    <img src="abbout.png" alt="درباره ما" class="about-image">
+                </div>
+            </div>
         </div>
     </div>
     <footer>
         <p><span lang="fa">تماس با ما: t.me/azadnet | © 1404</span><span lang="en" style="display:none">Contact us: t.me/azadnet | © 2025</span><span lang="ar" style="display:none">اتصل بنا: t.me/azadnet | © 1404</span><span lang="zh" style="display:none">联系我们: t.me/azadnet | © 1404</span><span lang="ru" style="display:none">Свяжитесь с нами: t.me/azadnet | © 1404</span><span lang="tr" style="display:none">Bize ulaşın: t.me/azadnet | © 1404</span></p>
     </footer>
     <script>
-        const contents = document.querySelectorAll('.content');
-        const spans = document.querySelectorAll('span[lang]');
-        const links = document.querySelectorAll('.nav-menu a');
-        const navMenu = document.querySelector('.nav-menu');
-        const hamburger = document.querySelector('.hamburger');
-        let blogPostsCache = null;
-        let techNewsCache = null;
+        document.addEventListener('DOMContentLoaded', function() {
+            const navMenu = document.querySelector('.nav-menu');
+            const hamburger = document.querySelector('.hamburger');
+            const contents = document.querySelectorAll('.content');
+            const spans = document.querySelectorAll('span[lang]');
+            const links = document.querySelectorAll('.nav-menu a');
+            const accordionHeaders = document.querySelectorAll('.accordion-header');
+            let blogPostsCache = null;
+            let techNewsCache = null;
+            const slotItems = ['⭐', '💎', '🎁', '🍀', '🔔', '🍒', '⚡'];
 
-        function toggleMenu() {
-            navMenu.classList.toggle('active');
-            hamburger.classList.toggle('active');
-        }
-
-        hamburger.addEventListener('click', toggleMenu);
-
-        function showSection(id) {
-            const section = document.getElementById(id);
-            if (!section) {
-                console.warn(`بخش با شناسه ${id} پیدا نشد!`);
-                return;
+            // منوی همبرگر
+            function toggleMenu() {
+                navMenu.classList.toggle('active');
+                hamburger.classList.toggle('active');
+                console.log('منو تغییر وضعیت داد');
             }
-            contents.forEach(content => content.classList.remove('active'));
-            section.classList.add('active');
-            links.forEach(link => link.removeAttribute('aria-current'));
-            const activeLink = document.querySelector(`a[href="#${id}"]`);
-            activeLink.setAttribute('aria-current', 'page');
-            window.location.hash = id;
-            localStorage.setItem('activeSection', id);
-            updateContent();
-            if (id === 'blog') loadBlogPosts();
-            if (id === 'technology') loadTechNews();
-            navMenu.classList.remove('active');
-            hamburger.classList.remove('active');
-        }
+            hamburger.addEventListener('click', toggleMenu);
 
-        async function changeLanguage(lang) {
-            document.documentElement.lang = lang;
-            localStorage.setItem('selectedLanguage', lang);
-            updateContent();
-            updateNavMenu(lang);
-            if (document.getElementById('blog').classList.contains('active')) {
-                loadBlogPosts();
+            // نمایش بخش‌ها
+            function showSection(id) {
+                const section = document.getElementById(id);
+                if (!section) {
+                    console.warn(`بخش با شناسه ${id} پیدا نشد!`);
+                    return;
+                }
+                contents.forEach(content => content.classList.remove('active'));
+                section.classList.add('active');
+                links.forEach(link => link.removeAttribute('aria-current'));
+                const activeLink = document.querySelector(`a[href="#${id}"]`);
+                if (activeLink) activeLink.setAttribute('aria-current', 'page');
+                window.location.hash = id;
+                localStorage.setItem('activeSection', id);
+                updateContent();
+                if (id === 'blog') loadBlogPosts();
+                if (id === 'technology') loadTechNews();
+                navMenu.classList.remove('active');
+                hamburger.classList.remove('active');
+                console.log(`بخش ${id} فعال شد`);
             }
-            if (document.getElementById('technology').classList.contains('active')) {
-                loadTechNews();
-            }
-        }
 
-        function updateNavMenu(lang) {
+            // اتصال رویداد به لینک‌ها
             links.forEach(link => {
-                const text = link.getAttribute(`data-lang-${lang}`);
-                if (text) {
-                    link.querySelector(`span[lang="${lang}"]`).textContent = text;
-                }
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const sectionId = this.getAttribute('href').substring(1);
+                    showSection(sectionId);
+                    if (sectionId === 'blog') loadBlogPosts();
+                    if (sectionId === 'technology') loadTechNews();
+                });
             });
-        }
 
-        function updateContent() {
-            const currentLang = document.documentElement.lang || 'fa';
-            spans.forEach(span => {
-                span.style.display = span.lang === currentLang ? 'inline' : 'none';
-            });
-        }
-
-        function loadSectionFromHash() {
-            const hash = window.location.hash.substring(1);
-            const validSections = ['home', 'rescue', 'blog', 'technology'];
-            if (hash && validSections.includes(hash)) {
-                showSection(hash);
-                if (hash === 'blog') loadBlogPosts();
-                if (hash === 'technology') loadTechNews();
-            }
-        }
-
-        function loadSavedSection() {
-            const savedSection = localStorage.getItem('activeSection') || 'home';
-            const validSections = ['home', 'rescue', 'blog', 'technology'];
-            if (validSections.includes(savedSection)) {
-                showSection(savedSection);
-                if (savedSection === 'blog') loadBlogPosts();
-                if (savedSection === 'technology') loadTechNews();
-            } else {
-                showSection('home');
-            }
-        }
-
-        async function loadBlogPosts() {
-            const blogPostsContainer = document.getElementById('blog-posts');
-            const currentLang = document.documentElement.lang || 'fa';
-            blogPostsContainer.innerHTML = `<p><span lang="fa">در حال بارگذاری پست‌ها...</span><span lang="en" style="display:none">Loading posts...</span><span lang="ar" style="display:none">جارٍ تحميل المنشورات...</span><span lang="zh" style="display:none">正在加载帖子...</span><span lang="ru" style="display:none">Загрузка постов...</span><span lang="tr" style="display:none">Gönderiler yükleniyor...</span></p>`;
-            
-            if (blogPostsCache && currentLang === 'fa') {
-                blogPostsContainer.innerHTML = blogPostsCache;
-                return;
+            // تغییر زبان
+            async function changeLanguage(lang) {
+                document.documentElement.lang = lang;
+                localStorage.setItem('selectedLanguage', lang);
+                updateContent();
+                updateNavMenu(lang);
+                if (document.getElementById('blog').classList.contains('active')) loadBlogPosts();
+                if (document.getElementById('technology').classList.contains('active')) loadTechNews();
+                updateSpinCountText();
             }
 
-            const feedUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent('https://hpip.blogspot.com/feeds/posts/default');
-            try {
-                const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 10000);
-                const response = await fetch(feedUrl, { signal: controller.signal });
-                clearTimeout(timeoutId);
+            function updateNavMenu(lang) {
+                links.forEach(link => {
+                    const text = link.getAttribute(`data-lang-${lang}`);
+                    if (text) link.querySelector(`span[lang="${lang}"]`).textContent = text;
+                });
+            }
+
+            function updateContent() {
+                const currentLang = document.documentElement.lang || 'fa';
+                spans.forEach(span => {
+                    span.style.display = span.lang === currentLang ? 'inline' : 'none';
+                });
+            }
+
+            function loadSectionFromHash() {
+                const hash = window.location.hash.substring(1);
+                const validSections = ['home', 'rescue', 'blog', 'technology', 'about'];
+                if (hash && validSections.includes(hash)) showSection(hash);
+            }
+
+            function loadSavedSection() {
+                const savedSection = localStorage.getItem('activeSection') || 'home';
+                const validSections = ['home', 'rescue', 'blog', 'technology', 'about'];
+                if (validSections.includes(savedSection)) showSection(savedSection);
+                else showSection('home');
+            }
+
+            async function loadBlogPosts() {
+                const blogPostsContainer = document.getElementById('blog-posts');
+                const currentLang = document.documentElement.lang || 'fa';
+                blogPostsContainer.innerHTML = `<p><span lang="fa">در حال بارگذاری پست‌ها...</span><span lang="en" style="display:none">Loading posts...</span><span lang="ar" style="display:none">جارٍ تحميل المنشورات...</span><span lang="zh" style="display:none">正在加载帖子...</span><span lang="ru" style="display:none">Загрузка постов...</span><span lang="tr" style="display:none">Gönderiler yükleniyor...</span></p>`;
                 
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-
-                const data = await response.text();
-                const parser = new DOMParser();
-                const xmlDoc = parser.parseFromString(data, 'text/xml');
-                const entries = xmlDoc.getElementsByTagName('entry');
-                
-                if (entries.length === 0) {
-                    blogPostsContainer.innerHTML = '<p><span lang="fa">پستی برای نمایش وجود ندارد.</span><span lang="en" style="display:none">No posts to display.</span><span lang="ar" style="display:none">لا توجد منشورات للعرض.</span><span lang="zh" style="display:none">没有帖子可显示。</span><span lang="ru" style="display:none">Нет постов для отображения.</span><span lang="tr" style="display:none">Gösterilecek gönderi yok。</span></p>';
+                if (blogPostsCache && currentLang === 'fa') {
+                    blogPostsContainer.innerHTML = blogPostsCache;
                     return;
                 }
 
-                blogPostsContainer.innerHTML = '';
-                for (let i = 0; i < Math.min(entries.length, 3); i++) {
-                    const entry = entries[i];
-                    const title = entry.getElementsByTagName('title')[0].textContent;
-                    const content = entry.getElementsByTagName('content')[0]?.textContent.replace(/<[^>]+>/g, '') || 'توضیحات موجود نیست';
-                    const link = entry.getElementsByTagName('link')[0].getAttribute('href');
-
-                    let translatedTitle = title;
-                    let translatedContent = content;
-                    let continueText = 'ادامه مطلب';
-                    if (currentLang !== 'fa') {
-                        translatedTitle = await translateText(title, 'fa', currentLang);
-                        translatedContent = await translateText(content, 'fa', currentLang);
-                        continueText = await translateText('ادامه مطلب', 'fa', currentLang);
-                    }
-
-                    const postDiv = document.createElement('div');
-                    postDiv.className = 'blog-post';
-                    postDiv.innerHTML = `
-                        <h2><a href="${link}" target="_blank">${translatedTitle}</a></h2>
-                        <p>${translatedContent.substring(0, 200)}... <a href="${link}" target="_blank">${continueText}</a></p>
-                    `;
-                    blogPostsContainer.appendChild(postDiv);
-                }
-                if (currentLang === 'fa') blogPostsCache = blogPostsContainer.innerHTML;
-            } catch (error) {
-                console.error('خطا در دریافت فید وبلاگ:', error.message, error.stack);
-                const errorMessages = {
-                    fa: 'خطا در بارگذاری پست‌ها. لطفاً اینترنت خود را بررسی کرده و صفحه را رفرش کنید.',
-                    en: 'Error loading posts. Please check your internet connection and refresh the page.',
-                    ar: 'خطأ في تحميل المنشورات. يرجى التحقق من اتصالك بالإنترنت وتحديث الصفحة.',
-                    zh: '加载帖子时出错。请检查您的网络连接并刷新页面。',
-                    ru: 'Ошибка при загрузке постов. Пожалуйста, проверьте интернет-соединение и обновите страницу.',
-                    tr: 'Gönderiler yüklenirken hata oluştu. Lütfen internet bağlantınızı kontrol edin ve sayfayı yenileyin.'
-                };
-                const errorMsg = errorMessages[currentLang] || errorMessages['fa'];
-                blogPostsContainer.innerHTML = `<p>${errorMsg}</p>`;
-            }
-        }
-
-        async function loadTechNews() {
-            const techNewsContainer = document.getElementById('tech-news');
-            const currentLang = document.documentElement.lang || 'fa';
-            techNewsContainer.innerHTML = `<p><span lang="fa">در حال بارگذاری اخبار تکنولوژی...</span><span lang="en" style="display:none">Loading technology news...</span><span lang="ar" style="display:none">جارٍ تحميل أخبار التكنولوجيا...</span><span lang="zh" style="display:none">正在加载科技新闻...</span><span lang="ru" style="display:none">Загрузка новостей технологий...</span><span lang="tr" style="display:none">Teknoloji haberleri yükleniyor...</span></p>`;
-
-            if (techNewsCache && currentLang === 'fa') {
-                techNewsContainer.innerHTML = techNewsCache;
-                return;
-            }
-
-            const rssFeeds = [
-                'https://api.allorigins.win/raw?url=' + encodeURIComponent('https://www.zoomit.ir/feed/'),
-                'https://api.allorigins.win/raw?url=' + encodeURIComponent('https://digiato.com/feed')
-            ];
-
-            let allEntries = [];
-            for (const feedUrl of rssFeeds) {
+                const feedUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent('https://hpip.blogspot.com/feeds/posts/default');
                 try {
                     const controller = new AbortController();
                     const timeoutId = setTimeout(() => controller.abort(), 10000);
                     const response = await fetch(feedUrl, { signal: controller.signal });
                     clearTimeout(timeoutId);
-
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-
+                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
                     const data = await response.text();
                     const parser = new DOMParser();
                     const xmlDoc = parser.parseFromString(data, 'text/xml');
-                    const items = xmlDoc.getElementsByTagName('item');
-                    allEntries = allEntries.concat(Array.from(items));
+                    const entries = xmlDoc.getElementsByTagName('entry');
+                    
+                    if (entries.length === 0) {
+                        blogPostsContainer.innerHTML = '<p><span lang="fa">پستی برای نمایش وجود ندارد.</span><span lang="en" style="display:none">No posts to display.</span><span lang="ar" style="display:none">لا توجد منشورات للعرض.</span><span lang="zh" style="display:none">没有帖子可显示。</span><span lang="ru" style="display:none">Нет постов для отображения.</span><span lang="tr" style="display:none">Gösterilecek gönderi yok。</span></p>';
+                        return;
+                    }
+
+                    blogPostsContainer.innerHTML = '';
+                    for (let i = 0; i < Math.min(entries.length, 3); i++) {
+                        const entry = entries[i];
+                        const title = entry.getElementsByTagName('title')[0].textContent;
+                        const content = entry.getElementsByTagName('content')[0]?.textContent.replace(/<[^>]+>/g, '') || 'توضیحات موجود نیست';
+                        const link = entry.getElementsByTagName('link')[0].getAttribute('href');
+
+                        let translatedTitle = title;
+                        let translatedContent = content;
+                        let continueText = 'ادامه مطلب';
+                        if (currentLang !== 'fa') {
+                            translatedTitle = await translateText(title, 'fa', currentLang);
+                            translatedContent = await translateText(content, 'fa', currentLang);
+                            continueText = await translateText('ادامه مطلب', 'fa', currentLang);
+                        }
+
+                        const postDiv = document.createElement('div');
+                        postDiv.className = 'blog-post';
+                        postDiv.innerHTML = `<h2><a href="${link}" target="_blank">${translatedTitle}</a></h2><p>${translatedContent.substring(0, 200)}... <a href="${link}" target="_blank">${continueText}</a></p>`;
+                        blogPostsContainer.appendChild(postDiv);
+                    }
+                    if (currentLang === 'fa') blogPostsCache = blogPostsContainer.innerHTML;
                 } catch (error) {
-                    console.error('خطا در دریافت فید تکنولوژی از ' + feedUrl + ':', error.message, error.stack);
+                    console.error('خطا در دریافت فید وبلاگ:', error);
+                    blogPostsContainer.innerHTML = `<p>${errorMessages[currentLang] || errorMessages['fa']}</p>`;
                 }
             }
 
-            if (allEntries.length === 0) {
-                const errorMessages = {
-                    fa: 'خبری برای نمایش وجود ندارد. لطفاً اینترنت خود را بررسی کرده و صفحه را رفرش کنید.',
-                    en: 'No news to display. Please check your internet connection and refresh the page.',
-                    ar: 'لا توجد أخبار للعرض. يرجى التحقق من اتصالك بالإنترنت وتحديث الصفحة.',
-                    zh: '没有新闻可显示。请检查您的网络连接并刷新页面。',
-                    ru: 'Нет новостей для отображения. Пожалуйста, проверьте интернет-соединение и обновите страницу.',
-                    tr: 'Gösterilecek haber yok. Lütfen internet bağlantınızı kontrol edin ve sayfayı yenileyin.'
+            async function loadTechNews() {
+                const techNewsContainer = document.getElementById('tech-news');
+                const currentLang = document.documentElement.lang || 'fa';
+                techNewsContainer.innerHTML = `<p><span lang="fa">در حال بارگذاری اخبار تکنولوژی...</span><span lang="en" style="display:none">Loading technology news...</span><span lang="ar" style="display:none">جارٍ تحميل أخبار التكنولوجيا...</span><span lang="zh" style="display:none">正在加载科技新闻...</span><span lang="ru" style="display:none">Загрузка новостей технологий...</span><span lang="tr" style="display:none">Teknoloji haberleri yükleniyor...</span></p>`;
+
+                if (techNewsCache && currentLang === 'fa') {
+                    techNewsContainer.innerHTML = techNewsCache;
+                    return;
+                }
+
+                const rssFeeds = [
+                    'https://api.allorigins.win/raw?url=' + encodeURIComponent('https://www.zoomit.ir/feed/'),
+                    'https://api.allorigins.win/raw?url=' + encodeURIComponent('https://digiato.com/feed')
+                ];
+
+                let allEntries = [];
+                for (const feedUrl of rssFeeds) {
+                    try {
+                        const controller = new AbortController();
+                        const timeoutId = setTimeout(() => controller.abort(), 10000);
+                        const response = await fetch(feedUrl, { signal: controller.signal });
+                        clearTimeout(timeoutId);
+                        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                        const data = await response.text();
+                        const parser = new DOMParser();
+                        const xmlDoc = parser.parseFromString(data, 'text/xml');
+                        const items = xmlDoc.getElementsByTagName('item');
+                        allEntries = allEntries.concat(Array.from(items));
+                    } catch (error) {
+                        console.error('خطا در دریافت فید تکنولوژی:', error);
+                    }
+                }
+
+                if (allEntries.length === 0) {
+                    techNewsContainer.innerHTML = `<p>${errorMessages[currentLang] || errorMessages['fa']}</p>`;
+                    return;
+                }
+
+                allEntries.sort((a, b) => {
+                    const dateA = new Date(a.getElementsByTagName('pubDate')[0]?.textContent || 0);
+                    const dateB = new Date(b.getElementsByTagName('pubDate')[0]?.textContent || 0);
+                    return dateB - dateA;
+                });
+
+                techNewsContainer.innerHTML = '';
+                for (let i = 0; i < Math.min(allEntries.length, 3); i++) {
+                    const entry = allEntries[i];
+                    const title = entry.getElementsByTagName('title')[0].textContent;
+                    const description = entry.getElementsByTagName('description')[0]?.textContent.replace(/<[^>]+>/g, '') || 'توضیحات موجود نیست';
+                    const link = entry.getElementsByTagName('link')[0].textContent;
+
+                    let translatedTitle = title;
+                    let translatedDescription = description;
+                    let continueText = 'ادامه مطلب';
+                    if (currentLang !== 'fa') {
+                        translatedTitle = await translateText(title, 'fa', currentLang);
+                        translatedDescription = await translateText(description, 'fa', currentLang);
+                        continueText = await translateText('ادامه مطلب', 'fa', currentLang);
+                    }
+
+                    const newsDiv = document.createElement('div');
+                    newsDiv.className = 'tech-post';
+                    newsDiv.innerHTML = `<h2><a href="${link}" target="_blank">${translatedTitle}</a></h2><p>${translatedDescription.substring(0, 200)}... <a href="${link}" target="_blank">${continueText}</a></p>`;
+                    techNewsContainer.appendChild(newsDiv);
+                }
+                if (currentLang === 'fa') techNewsCache = techNewsContainer.innerHTML;
+            }
+
+            async function translateText(text, fromLang, toLang) {
+                if (fromLang === toLang) return text;
+                try {
+                    const response = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=${fromLang}&tl=${toLang}&dt=t&q=${encodeURIComponent(text)}`);
+                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                    const data = await response.json();
+                    return data[0][0][0];
+                } catch (error) {
+                    console.error('خطا در ترجمه:', error);
+                    return text;
+                }
+            }
+
+            function changeTheme(theme) {
+                const root = document.documentElement;
+                switch(theme) {
+                    case 'default':
+                        root.style.setProperty('--bg-color', '#ffffff');
+                        root.style.setProperty('--text-color', '#333');
+                        root.style.setProperty('--nav-bg', '#d3d3d3');
+                        root.style.setProperty('--link-color', '#007bff');
+                        break;
+                    case 'theme1':
+                        root.style.setProperty('--bg-color', '#F4EDEA');
+                        root.style.setProperty('--text-color', '#5D576B');
+                        root.style.setProperty('--nav-bg', '#D8E2DC');
+                        root.style.setProperty('--link-color', '#5D576B');
+                        break;
+                    case 'theme2':
+                        root.style.setProperty('--bg-color', '#FFD7BA');
+                        root.style.setProperty('--text-color', '#5F0F40');
+                        root.style.setProperty('--nav-bg', '#FFB4A2');
+                        root.style.setProperty('--link-color', '#5F0F40');
+                        break;
+                    case 'theme3':
+                        root.style.setProperty('--bg-color', '#ECF4D6');
+                        root.style.setProperty('--text-color', '#265073');
+                        root.style.setProperty('--nav-bg', '#9AD0C2');
+                        root.style.setProperty('--link-color', '#265073');
+                        break;
+                    case 'theme4':
+                        root.style.setProperty('--bg-color', '#E0F2E9');
+                        root.style.setProperty('--text-color', '#1A3C34');
+                        root.style.setProperty('--nav-bg', '#A4C3B2');
+                        root.style.setProperty('--link-color', '#1A3C34');
+                        break;
+                }
+                localStorage.setItem('selectedTheme', theme);
+            }
+
+            function loadSavedTheme() {
+                const savedTheme = localStorage.getItem('selectedTheme') || 'default';
+                changeTheme(savedTheme);
+                document.getElementById('theme-select').value = savedTheme;
+            }
+
+            function loadSavedLanguage() {
+                const savedLanguage = localStorage.getItem('selectedLanguage') || 'fa';
+                document.documentElement.lang = savedLanguage;
+                document.querySelector('.language-menu select').value = savedLanguage;
+                changeLanguage(savedLanguage);
+            }
+
+            // مدیریت آکاردئون‌ها
+            accordionHeaders.forEach(header => {
+                header.addEventListener('click', function() {
+                    const accordion = this.parentElement;
+                    const isActive = accordion.classList.contains('active');
+                    document.querySelectorAll('.accordion').forEach(acc => acc.classList.remove('active'));
+                    if (!isActive) accordion.classList.add('active');
+                    console.log('آکاردئون کلیک شد:', this.textContent);
+                });
+            });
+
+            function getCurrentPeriodStart() {
+                const now = new Date();
+                const periodDuration = 6 * 60 * 60 * 1000;
+                return Math.floor(now.getTime() / periodDuration) * periodDuration;
+            }
+
+            function updateSpinCount() {
+                const currentPeriod = getCurrentPeriodStart();
+                const spinData = JSON.parse(localStorage.getItem('spinData')) || { periodStart: null, count: 0 };
+                if (spinData.periodStart !== currentPeriod) {
+                    spinData.periodStart = currentPeriod;
+                    spinData.count = 0;
+                }
+                const remainingSpins = 3 - spinData.count;
+                const spinButton = document.getElementById('spin-button');
+                const spinCountText = document.getElementById('spin-count-text');
+                const currentLang = document.documentElement.lang || 'fa';
+
+                const messages = {
+                    fa: `شانس باقی‌مانده در ۶ ساعت: ${remainingSpins}`,
+                    en: `Remaining spins in 6 hours: ${remainingSpins}`,
+                    ar: `الفرص المتبقية في 6 ساعات: ${remainingSpins}`,
+                    zh: `6小时内剩余次数：${remainingSpins}`,
+                    ru: `Оставшиеся попытки за 6 часов: ${remainingSpins}`,
+                    tr: `6 saat içindeki kalan şans: ${remainingSpins}`
                 };
-                const errorMsg = errorMessages[currentLang] || errorMessages['fa'];
-                techNewsContainer.innerHTML = `<p>${errorMsg}</p>`;
-                return;
+
+                spinCountText.innerHTML = `<span lang="fa">${messages.fa}</span><span lang="en" style="display:none">${messages.en}</span><span lang="ar" style="display:none">${messages.ar}</span><span lang="zh" style="display:none">${messages.zh}</span><span lang="ru" style="display:none">${messages.ru}</span><span lang="tr" style="display:none">${messages.tr}</span>`;
+                updateContent();
+
+                if (remainingSpins > 0) {
+                    spinButton.disabled = false;
+                    spinButton.textContent = currentLang === 'fa' ? 'چرخاندن' : 'Spin';
+                } else {
+                    spinButton.disabled = true;
+                    spinButton.textContent = currentLang === 'fa' ? 'شانس ۶ ساعته تمام شد' : '6-hour spins exhausted';
+                }
+                localStorage.setItem('spinData', JSON.stringify(spinData));
             }
 
-            allEntries.sort((a, b) => {
-                const dateA = new Date(a.getElementsByTagName('pubDate')[0]?.textContent || 0);
-                const dateB = new Date(b.getElementsByTagName('pubDate')[0]?.textContent || 0);
-                return dateB - dateA;
+            function spinSlot() {
+                const spinData = JSON.parse(localStorage.getItem('spinData')) || { periodStart: getCurrentPeriodStart(), count: 0 };
+                const currentPeriod = getCurrentPeriodStart();
+                if (spinData.periodStart !== currentPeriod) {
+                    spinData.periodStart = currentPeriod;
+                    spinData.count = 0;
+                }
+                if (spinData.count >= 3) return;
+
+                const slot1 = document.getElementById('slot1');
+                const slot2 = document.getElementById('slot2');
+                const slot3 = document.getElementById('slot3');
+                const rewardMessage = document.getElementById('reward-message');
+
+                rewardMessage.style.display = 'none';
+                const item1 = slotItems[Math.floor(Math.random() * slotItems.length)];
+                const item2 = slotItems[Math.floor(Math.random() * slotItems.length)];
+                const item3 = slotItems[Math.floor(Math.random() * slotItems.length)];
+
+                slot1.textContent = item1;
+                slot2.textContent = item2;
+                slot3.textContent = item3;
+
+                spinData.count++;
+                localStorage.setItem('spinData', JSON.stringify(spinData));
+                updateSpinCount();
+
+                if (item1 === item2 && item2 === item3) rewardMessage.style.display = 'block';
+            }
+
+            document.getElementById('spin-button').addEventListener('click', spinSlot);
+
+            function updateSpinCountText() {
+                updateSpinCount();
+            }
+
+            // غیرفعال کردن کلیک راست و کپی در صفحه اول
+            document.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+            });
+            document.querySelector('#home').addEventListener('keydown', function(e) {
+                if ((e.ctrlKey && e.key === 'c') || (e.metaKey && e.key === 'c')) {
+                    e.preventDefault();
+                }
             });
 
-            techNewsContainer.innerHTML = '';
-            for (let i = 0; i < Math.min(allEntries.length, 3); i++) {
-                const entry = allEntries[i];
-                const title = entry.getElementsByTagName('title')[0].textContent;
-                const description = entry.getElementsByTagName('description')[0]?.textContent.replace(/<[^>]+>/g, '') || 'توضیحات موجود نیست';
-                const link = entry.getElementsByTagName('link')[0].textContent;
+            // پیام‌های خطا
+            const errorMessages = {
+                fa: 'خطا در بارگذاری. لطفاً اینترنت خود را بررسی کرده و صفحه را رفرش کنید.',
+                en: 'Error loading. Please check your internet connection and refresh the page.',
+                ar: 'خطأ في التحميل. يرجى التحقق من اتصالك بالإنترنت وتحديث الصفحة.',
+                zh: '加载错误。请检查您的网络连接并刷新页面。',
+                ru: 'Ошибка загрузки. Проверьте интернет-соединение и обновите страницу.',
+                tr: 'Yükleme hatası. Lütfen internet bağlantınızı kontrol edin ve sayfayı yenileyin.'
+            };
 
-                let translatedTitle = title;
-                let translatedDescription = description;
-                let continueText = 'ادامه مطلب';
-                if (currentLang !== 'fa') {
-                    translatedTitle = await translateText(title, 'fa', currentLang);
-                    translatedDescription = await translateText(description, 'fa', currentLang);
-                    continueText = await translateText('ادامه مطلب', 'fa', currentLang);
-                }
-
-                const newsDiv = document.createElement('div');
-                newsDiv.className = 'tech-post';
-                newsDiv.innerHTML = `
-                    <h2><a href="${link}" target="_blank">${translatedTitle}</a></h2>
-                    <p>${translatedDescription.substring(0, 200)}... <a href="${link}" target="_blank">${continueText}</a></p>
-                `;
-                techNewsContainer.appendChild(newsDiv);
-            }
-
-            if (currentLang === 'fa') techNewsCache = techNewsContainer.innerHTML;
-        }
-
-        async function translateText(text, fromLang, toLang) {
-            if (fromLang === toLang) return text;
-            try {
-                const response = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=${fromLang}&tl=${toLang}&dt=t&q=${encodeURIComponent(text)}`);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const data = await response.json();
-                return data[0][0][0];
-            } catch (error) {
-                console.error('خطا در ترجمه:', error.message, error.stack);
-                return text;
-            }
-        }
-
-        function changeTheme(theme) {
-            const root = document.documentElement;
-            switch(theme) {
-                case 'default':
-                    root.style.setProperty('--bg-color', '#ffffff');
-                    root.style.setProperty('--text-color', '#333');
-                    root.style.setProperty('--nav-bg', '#d3d3d3');
-                    root.style.setProperty('--link-color', '#007bff');
-                    break;
-                case 'theme1':
-                    root.style.setProperty('--bg-color', '#F4EDEA');
-                    root.style.setProperty('--text-color', '#5D576B');
-                    root.style.setProperty('--nav-bg', '#D8E2DC');
-                    root.style.setProperty('--link-color', '#5D576B');
-                    break;
-                case 'theme2':
-                    root.style.setProperty('--bg-color', '#FFD7BA');
-                    root.style.setProperty('--text-color', '#5F0F40');
-                    root.style.setProperty('--nav-bg', '#FFB4A2');
-                    root.style.setProperty('--link-color', '#5F0F40');
-                    break;
-                case 'theme3':
-                    root.style.setProperty('--bg-color', '#ECF4D6');
-                    root.style.setProperty('--text-color', '#265073');
-                    root.style.setProperty('--nav-bg', '#9AD0C2');
-                    root.style.setProperty('--link-color', '#265073');
-                    break;
-                case 'theme4':
-                    root.style.setProperty('--bg-color', '#E0F2E9');
-                    root.style.setProperty('--text-color', '#1A3C34');
-                    root.style.setProperty('--nav-bg', '#A4C3B2');
-                    root.style.setProperty('--link-color', '#1A3C34');
-                    break;
-            }
-            localStorage.setItem('selectedTheme', theme);
-        }
-
-        function loadSavedTheme() {
-            const savedTheme = localStorage.getItem('selectedTheme') || 'default';
-            changeTheme(savedTheme);
-            document.getElementById('theme-select').value = savedTheme;
-        }
-
-        function loadSavedLanguage() {
-            const savedLanguage = localStorage.getItem('selectedLanguage') || 'fa';
-            document.documentElement.lang = savedLanguage;
-            document.querySelector('.language-menu select').value = savedLanguage;
-            changeLanguage(savedLanguage);
-        }
-
-        function toggleAccordion(header) {
-            const accordion = header.parentElement;
-            const isActive = accordion.classList.contains('active');
-            document.querySelectorAll('.accordion').forEach(acc => {
-                acc.classList.remove('active');
-            });
-            if (!isActive) {
-                accordion.classList.add('active');
-            }
-        }
-
-        window.onload = function() {
+            // بارگذاری اولیه
             loadSavedTheme();
             loadSavedLanguage();
             loadSavedSection();
-        };
-        window.onhashchange = loadSectionFromHash;
+            updateSpinCount();
+            window.onhashchange = loadSectionFromHash;
+        });
     </script>
 </body>
 </html>
