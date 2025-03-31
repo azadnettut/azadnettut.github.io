@@ -44,6 +44,10 @@
             overflow-x: hidden;
             background-color: var(--bg-color, #ffffff);
             color: var(--text-color, #333);
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
         }
         [lang="en"] body, [lang="zh"] body, [lang="ru"] body, [lang="tr"] body {
             direction: ltr;
@@ -92,7 +96,6 @@
             width: 100px;
             height: auto;
             margin: 20px auto;
-            user-select: none;
             will-change: transform;
         }
         .nav-menu .site-logo:hover {
@@ -162,12 +165,6 @@
         }
         .content.active {
             display: flex;
-        }
-        #home .text-section {
-            user-select: none;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
         }
         #blog.content.active, #technology.content.active {
             padding-top: 80px;
@@ -244,7 +241,6 @@
             transition: transform 0.3s ease;
         }
         .hamburger.active {
-            content: '✕';
             transform: rotate(90deg);
         }
         .hamburger::before {
@@ -385,7 +381,7 @@
         }
         .about-image {
             margin-top: 20px;
-            max-width: 100%;
+            max-width: 300px;
             height: auto;
         }
         @media (min-width: 769px) {
@@ -432,7 +428,7 @@
             }
             #about .text-section .about-image {
                 flex: 1;
-                max-width: 50%;
+                max-width: 300px;
                 margin-top: 0;
             }
             .icons-container a img {
@@ -528,13 +524,13 @@
                 <li><a href="#about" data-lang-fa="درباره ما" data-lang-en="About Us" data-lang-ar="معلومات عنا" data-lang-zh="关于我们" data-lang-ru="О нас" data-lang-tr="Hakkımızda"><span lang="fa">درباره ما</span><span lang="en" style="display:none">About Us</span><span lang="ar" style="display:none">معلومات عنا</span><span lang="zh" style="display:none">关于我们</span><span lang="ru" style="display:none">О нас</span><span lang="tr" style="display:none">Hakkımızda</span></a></li>
             </ul>
             <div class="language-menu">
-                <select onchange="changeLanguage(this.value)" aria-label="انتخاب زبان">
-                    <option value="fa" selected><span lang="fa">فارسی</span></option>
-                    <option value="en"><span lang="en">English</span></option>
-                    <option value="ar"><span lang="ar">العربية</span></option>
-                    <option value="zh"><span lang="zh">中文</span></option>
-                    <option value="ru"><span lang="ru">Русский</span></option>
-                    <option value="tr"><span lang="tr">Turkish</span></option>
+                <select id="language-select" onchange="changeLanguage(this.value)" aria-label="انتخاب زبان">
+                    <option value="fa" selected>فارسی</option>
+                    <option value="en">English</option>
+                    <option value="ar">العربية</option>
+                    <option value="zh">中文</option>
+                    <option value="ru">Русский</option>
+                    <option value="tr">Turkish</option>
                 </select>
             </div>
             <div class="theme-menu">
@@ -554,19 +550,19 @@
                     <h1 id="welcome-text"><span lang="fa">خوش آمدید</span><span lang="en" style="display:none">Welcome</span><span lang="ar" style="display:none">مرحبًا</span><span lang="zh" style="display:none">欢迎</span><span lang="ru" style="display:none">Добро пожаловать</span><span lang="tr" style="display:none">Hoş Geldiniz</span></h1>
                     <div class="icons-container">
                         <a href="#rescue" onclick="showSection('rescue'); return false;">
-                            <img src="rescue.png" alt="پکیج نجات">
+                            <img src="rescue.webp" alt="پکیج نجات">
                             <span lang="fa">پکیج نجات</span><span lang="en" style="display:none">Rescue Package</span><span lang="ar" style="display:none">باقة الإنقاذ</span><span lang="zh" style="display:none">救援包</span><span lang="ru" style="display:none">Пакет спасения</span><span lang="tr" style="display:none">Kurtarma Paketi</span>
                         </a>
                         <a href="#blog" onclick="showSection('blog'); loadBlogPosts(); return false;">
-                            <img src="Blog.png" alt="وبلاگ">
+                            <img src="Blog.webp" alt="وبلاگ">
                             <span lang="fa">وبلاگ</span><span lang="en" style="display:none">Blog</span><span lang="ar" style="display:none">مدونة</span><span lang="zh" style="display:none">博客</span><span lang="ru" style="display:none">Блог</span><span lang="tr" style="display:none">Blog</span>
                         </a>
                         <a href="#technology" onclick="showSection('technology'); loadTechNews(); return false;">
-                            <img src="tech.png" alt="تکنولوژی">
+                            <img src="tech.webp" alt="تکنولوژی">
                             <span lang="fa">تکنولوژی</span><span lang="en" style="display:none">Technology</span><span lang="ar" style="display:none">تكنولوجيا</span><span lang="zh" style="display:none">技术</span><span lang="ru" style="display:none">Технологии</span><span lang="tr" style="display:none">Teknoloji</span>
                         </a>
                         <a href="#about" onclick="showSection('about'); return false;">
-                            <img src="About.png" alt="درباره ما">
+                            <img src="About.webp" alt="درباره ما">
                             <span lang="fa">درباره ما</span><span lang="en" style="display:none">About Us</span><span lang="ar" style="display:none">معلومات عنا</span><span lang="zh" style="display:none">关于我们</span><span lang="ru" style="display:none">О нас</span><span lang="tr" style="display:none">Hakkımızda</span>
                         </a>
                     </div>
@@ -655,7 +651,7 @@
                 <div class="text-section">
                     <h1 id="about-text"><span lang="fa">درباره ما</span><span lang="en" style="display:none">About Us</span><span lang="ar" style="display:none">معلومات عنا</span><span lang="zh" style="display:none">关于我们</span><span lang="ru" style="display:none">О нас</span><span lang="tr" style="display:none">Hakkımızda</span></h1>
                     <p class="text-content"><span lang="fa">ما جمعی هستیم که تحت نام "آزادنت" گرد هم آمده‌ایم، با هدف ارائه خدمات رایگان و بدون محدودیت برای دسترسی به اطلاعات آزاد. ما خود را تابع قوانین ستمگرانه نمی‌دانیم و در راستای آزادی و سربلندی گام برمی‌داریم. تنها راه ارتباط با تیم آزادنت عضویت در کانال آزادنت است.</span><span lang="en" style="display:none">We are a group gathered under the name "Azadnet" to provide free and unrestricted access to information. We do not follow oppressive laws and strive for freedom and dignity. The only way to contact the Azadnet team is by joining the Azadnet channel.</span><span lang="ar" style="display:none">نحن مجموعة تجمعت تحت اسم "آزادنت" لتقديم خدمات مجانية وبلا قيود للوصول إلى المعلومات الحرة. لا نتبع القوانين الظالمة ونسعى للحرية والكرامة. الطريقة الوحيدة للتواصل مع فريق آزادنت هي الانضمام إلى قناة آزادنت.</span><span lang="zh" style="display:none">我们是一群以“自由网”之名聚集在一起的人，旨在提供免费且无限制的信息访问服务。我们不遵循压迫性法律，致力于自由与尊严。联系自由网团队的唯一方式是加入自由网频道。</span><span lang="ru" style="display:none">Мы - группа, собравшаяся под названием "Азаднет", чтобы предоставить бесплатный и неограниченный доступ к информации. Мы не подчиняемся угнетающим законам и стремимся к свободе и достоинству. Единственный способ связаться с командой Азаднет - это加入频道 Азаднет.</span><span lang="tr" style="display:none">Biz, "Azadnet" adı altında toplanmış bir grup olarak, bilgiye ücretsiz ve kısıtlamasız erişim sağlamak amacıyla bir araya geldik. Baskıcı yasalara uymuyor, özgürlük ve onur için çabalıyoruz. Azadnet ekibiyle iletişime geçmenin tek yolu Azadnet kanalına katılmaktır.</span></p>
-                    <img src="abbout.png" alt="درباره ما" class="about-image">
+                    <img src="abbout.webp" alt="درباره ما" class="about-image">
                 </div>
             </div>
         </div>
@@ -675,7 +671,15 @@
             let techNewsCache = null;
             const slotItems = ['⭐', '💎', '🎁', '🍀', '🔔', '🍒', '⚡'];
 
-            // منوی همبرگر
+            const languageOptions = {
+                fa: 'فارسی',
+                en: 'English',
+                ar: 'العربية',
+                zh: '中文',
+                ru: 'Русский',
+                tr: 'Turkish'
+            };
+
             function toggleMenu() {
                 navMenu.classList.toggle('active');
                 hamburger.classList.toggle('active');
@@ -683,7 +687,6 @@
             }
             hamburger.addEventListener('click', toggleMenu);
 
-            // نمایش بخش‌ها
             function showSection(id) {
                 const section = document.getElementById(id);
                 if (!section) {
@@ -705,7 +708,6 @@
                 console.log(`بخش ${id} فعال شد`);
             }
 
-            // اتصال رویداد به لینک‌ها
             links.forEach(link => {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
@@ -716,12 +718,12 @@
                 });
             });
 
-            // تغییر زبان
             async function changeLanguage(lang) {
                 document.documentElement.lang = lang;
                 localStorage.setItem('selectedLanguage', lang);
                 updateContent();
                 updateNavMenu(lang);
+                updateLanguageSelect();
                 if (document.getElementById('blog').classList.contains('active')) loadBlogPosts();
                 if (document.getElementById('technology').classList.contains('active')) loadTechNews();
                 updateSpinCountText();
@@ -739,6 +741,18 @@
                 spans.forEach(span => {
                     span.style.display = span.lang === currentLang ? 'inline' : 'none';
                 });
+            }
+
+            function updateLanguageSelect() {
+                const select = document.getElementById('language-select');
+                select.innerHTML = '';
+                for (const [key, value] of Object.entries(languageOptions)) {
+                    const option = document.createElement('option');
+                    option.value = key;
+                    option.textContent = value;
+                    if (key === document.documentElement.lang) option.selected = true;
+                    select.appendChild(option);
+                }
             }
 
             function loadSectionFromHash() {
@@ -936,11 +950,10 @@
             function loadSavedLanguage() {
                 const savedLanguage = localStorage.getItem('selectedLanguage') || 'fa';
                 document.documentElement.lang = savedLanguage;
-                document.querySelector('.language-menu select').value = savedLanguage;
+                document.getElementById('language-select').value = savedLanguage;
                 changeLanguage(savedLanguage);
             }
 
-            // مدیریت آکاردئون‌ها
             accordionHeaders.forEach(header => {
                 header.addEventListener('click', function() {
                     const accordion = this.parentElement;
@@ -1027,17 +1040,16 @@
                 updateSpinCount();
             }
 
-            // غیرفعال کردن کلیک راست و کپی در صفحه اول
+            // غیرفعال کردن کلیک راست و کپی در کل سایت
             document.addEventListener('contextmenu', function(e) {
                 e.preventDefault();
             });
-            document.querySelector('#home').addEventListener('keydown', function(e) {
+            document.addEventListener('keydown', function(e) {
                 if ((e.ctrlKey && e.key === 'c') || (e.metaKey && e.key === 'c')) {
                     e.preventDefault();
                 }
             });
 
-            // پیام‌های خطا
             const errorMessages = {
                 fa: 'خطا در بارگذاری. لطفاً اینترنت خود را بررسی کرده و صفحه را رفرش کنید.',
                 en: 'Error loading. Please check your internet connection and refresh the page.',
@@ -1047,7 +1059,6 @@
                 tr: 'Yükleme hatası. Lütfen internet bağlantınızı kontrol edin ve sayfayı yenileyin.'
             };
 
-            // بارگذاری اولیه
             loadSavedTheme();
             loadSavedLanguage();
             loadSavedSection();
