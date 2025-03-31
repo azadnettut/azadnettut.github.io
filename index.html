@@ -524,7 +524,7 @@
                 <li><a href="#about" data-lang-fa="درباره ما" data-lang-en="About Us" data-lang-ar="معلومات عنا" data-lang-zh="关于我们" data-lang-ru="О нас" data-lang-tr="Hakkımızda"><span lang="fa">درباره ما</span><span lang="en" style="display:none">About Us</span><span lang="ar" style="display:none">معلومات عنا</span><span lang="zh" style="display:none">关于我们</span><span lang="ru" style="display:none">О нас</span><span lang="tr" style="display:none">Hakkımızda</span></a></li>
             </ul>
             <div class="language-menu">
-                <select id="language-select" onchange="changeLanguage(this.value)" aria-label="انتخاب زبان">
+                <select id="language-select" aria-label="انتخاب زبان">
                     <option value="fa" selected>فارسی</option>
                     <option value="en">English</option>
                     <option value="ar">العربية</option>
@@ -534,7 +534,7 @@
                 </select>
             </div>
             <div class="theme-menu">
-                <select id="theme-select" onchange="changeTheme(this.value)" aria-label="انتخاب تم">
+                <select id="theme-select" aria-label="انتخاب تم">
                     <option value="default">Default</option>
                     <option value="theme1">Theme 1</option>
                     <option value="theme2">Theme 2</option>
@@ -661,12 +661,15 @@
     </footer>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM کامل بارگذاری شد');
             const navMenu = document.querySelector('.nav-menu');
             const hamburger = document.querySelector('.hamburger');
             const contents = document.querySelectorAll('.content');
             const spans = document.querySelectorAll('span[lang]');
             const links = document.querySelectorAll('.nav-menu a');
             const accordionHeaders = document.querySelectorAll('.accordion-header');
+            const languageSelect = document.getElementById('language-select');
+            const themeSelect = document.getElementById('theme-select');
             let blogPostsCache = null;
             let techNewsCache = null;
             const slotItems = ['⭐', '💎', '🎁', '🍀', '🔔', '🍒', '⚡'];
@@ -679,6 +682,21 @@
                 ru: 'Русский',
                 tr: 'Turkish'
             };
+
+            // بررسی وجود المان‌ها
+            if (!languageSelect) console.error('المان language-select پیدا نشد');
+            if (!themeSelect) console.error('المان theme-select پیدا نشد');
+
+            // اتصال رویدادها به صورت دینامیک
+            languageSelect.addEventListener('change', function() {
+                console.log('زبان انتخاب شد:', this.value);
+                changeLanguage(this.value);
+            });
+
+            themeSelect.addEventListener('change', function() {
+                console.log('تم انتخاب شد:', this.value);
+                changeTheme(this.value);
+            });
 
             function toggleMenu() {
                 navMenu.classList.toggle('active');
@@ -699,7 +717,11 @@
                 const activeLink = document.querySelector(`a[href="#${id}"]`);
                 if (activeLink) activeLink.setAttribute('aria-current', 'page');
                 window.location.hash = id;
-                localStorage.setItem('activeSection', id);
+                try {
+                    localStorage.setItem('activeSection', id);
+                } catch (e) {
+                    console.error('خطا در ذخیره‌سازی بخش فعال:', e);
+                }
                 updateContent();
                 if (id === 'blog') loadBlogPosts();
                 if (id === 'technology') loadTechNews();
@@ -719,14 +741,20 @@
             });
 
             async function changeLanguage(lang) {
+                console.log('تغییر زبان به:', lang);
                 document.documentElement.lang = lang;
-                localStorage.setItem('selectedLanguage', lang);
+                try {
+                    localStorage.setItem('selectedLanguage', lang);
+                } catch (e) {
+                    console.error('خطا در ذخیره‌سازی زبان:', e);
+                }
                 updateContent();
                 updateNavMenu(lang);
                 updateLanguageSelect();
                 if (document.getElementById('blog').classList.contains('active')) loadBlogPosts();
                 if (document.getElementById('technology').classList.contains('active')) loadTechNews();
                 updateSpinCountText();
+                console.log('تغییر زبان انجام شد');
             }
 
             function updateNavMenu(lang) {
@@ -905,6 +933,7 @@
             }
 
             function changeTheme(theme) {
+                console.log('تغییر تم به:', theme);
                 const root = document.documentElement;
                 switch(theme) {
                     case 'default':
@@ -938,7 +967,12 @@
                         root.style.setProperty('--link-color', '#1A3C34');
                         break;
                 }
-                localStorage.setItem('selectedTheme', theme);
+                try {
+                    localStorage.setItem('selectedTheme', theme);
+                } catch (e) {
+                    console.error('خطا در ذخیره‌سازی تم:', e);
+                }
+                console.log('تم اعمال شد');
             }
 
             function loadSavedTheme() {
