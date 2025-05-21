@@ -734,8 +734,12 @@
 
             links.forEach(link => {
                 link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const sectionId = this.getAttribute('href').substring(1);
+                    const href = this.getAttribute('href');
+                    if (href.startsWith('http')) {
+                        return; // لینک خارجی اجازه عبور دارد
+                    }
+                    e.preventDefault(); // جلوگیری فقط برای لینک‌های داخلی
+                    const sectionId = href.substring(1);
                     showSection(sectionId);
                     if (sectionId === 'blog') loadBlogPosts();
                     if (sectionId === 'technology') loadTechNews();
